@@ -1,0 +1,3903 @@
+This file is a merged representation of a subset of the codebase, containing files not matching ignore patterns, combined into a single document by Repomix.
+
+================================================================
+File Summary
+================================================================
+
+Purpose:
+--------
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+
+File Format:
+------------
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Multiple file entries, each consisting of:
+  a. A separator line (================)
+  b. The file path (File: path/to/file)
+  c. Another separator line
+  d. The full contents of the file
+  e. A blank line
+
+Usage Guidelines:
+-----------------
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+
+Notes:
+------
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching these patterns are excluded: **/*.log, public/, node_modules/, src/styles/, readme.md, .editorconfig, .gitignore, .gitlab-ci.yml, .jshintrc, .markdownlint.json, .prettierrc, LICENSE, vercel-build.sh, vercel.json, netlify.toml, amplify.yml, go.mod, theme.toml, _redirects, themes/hugoplate/assets/, hugo_stats.json
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+
+Additional Info:
+----------------
+
+================================================================
+Directory Structure
+================================================================
+.devcontainer/
+  devcontainer.json
+  Dockerfile
+.github/
+  ISSUE_TEMPLATE/
+    bug_report.yml
+  workflows/
+    main.yml
+assets/
+  css/
+    custom.css
+config/
+  _default/
+    languages.toml
+    menus.en.toml
+    module.toml
+    params.toml
+  development/
+    server.toml
+content/
+  english/
+    about/
+      _index.md
+    authors/
+      _index.md
+      john-doe.md
+      sam-wilson.md
+      william-jacob.md
+    blog/
+      _index.md
+      post-1.md
+      post-2.md
+      post-3.md
+      post-4.md
+    contact/
+      _index.md
+    pages/
+      elements.md
+      privacy-policy.md
+    sections/
+      call-to-action.md
+      testimonial.md
+    _index.md
+data/
+  social.json
+  theme.json
+i18n/
+  en.yaml
+scripts/
+  clearModules.js
+  projectSetup.js
+  removeDarkmode.js
+  themeSetup.js
+  themeUpdate.js
+tailwind-plugin/
+  tw-bs-grid.js
+  tw-theme.js
+themes/
+  hugoplate/
+    layouts/
+      _default/
+        baseof.html
+        list.html
+        single.html
+        taxonomy.html
+        terms.html
+      about/
+        list.html
+      authors/
+        list.html
+        single.html
+      blog/
+        list.html
+        single.html
+      contact/
+        list.html
+      partials/
+        components/
+          author-card.html
+          blog-card.html
+          breadcrumb.html
+          language-switcher.html
+          pagination.html
+          theme-switcher.html
+          tw-size-indicator.html
+        essentials/
+          footer.html
+          head.html
+          header.html
+          script.html
+          style.html
+        widgets/
+          categories.html
+          tags.html
+          widget-wrapper.html
+        call-to-action.html
+        page-header.html
+      404.en.html
+      index.html
+hugo.toml
+package.json
+
+================================================================
+Files
+================================================================
+
+================
+File: .devcontainer/devcontainer.json
+================
+{
+	"name": "Hugo",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {
+			"GO_VERSION": "1.24.0",
+			"HUGO_VERSION": "0.144.2"
+		}
+	},
+	"customizations": {
+		"vscode": {
+			"settings": {},
+			"extensions": [
+				"bradlc.vscode-tailwindcss",
+				"budparr.language-hugo-vscode",
+				"tamasfe.even-better-toml"
+			]
+		}
+	},
+	"remoteUser": "node",
+	"postCreateCommand": "npm run project-setup && npm install && npm run dev",
+	"forwardPorts": [1313]
+}
+
+================
+File: .devcontainer/Dockerfile
+================
+# Use an official node image as a parent image
+FROM node:23
+
+# Set environment variables for versions
+ARG HUGO_VERSION=0.144.2
+ARG GO_VERSION=1.24.0
+
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y ca-certificates openssl git curl wget build-essential && \
+    rm -rf /var/lib/apt/lists/*
+
+# Determine architecture
+RUN ARCH=$(uname -m) && \
+    if [ "$ARCH" = "aarch64" ]; then ARCH=arm64; else ARCH=amd64; fi && \
+    echo "Architecture: $ARCH"
+
+# Download and install Hugo Extended
+RUN ARCH=$(uname -m) && \
+    if [ "$ARCH" = "aarch64" ]; then ARCH=arm64; else ARCH=amd64; fi && \
+    wget -O hugo_extended_${HUGO_VERSION}.tar.gz https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-${ARCH}.tar.gz && \
+    tar xf hugo_extended_${HUGO_VERSION}.tar.gz && \
+    mv hugo /usr/bin/hugo && \
+    rm hugo_extended_${HUGO_VERSION}.tar.gz && \
+    echo "Hugo installed"
+
+# Download and install Go
+RUN ARCH=$(uname -m) && \
+    if [ "$ARCH" = "aarch64" ]; then ARCH=arm64; else ARCH=amd64; fi && \
+    wget -O go${GO_VERSION}.linux-${ARCH}.tar.gz https://dl.google.com/go/go${GO_VERSION}.linux-${ARCH}.tar.gz && \
+    tar -C /usr/local -xzf go${GO_VERSION}.linux-${ARCH}.tar.gz && \
+    rm go${GO_VERSION}.linux-${ARCH}.tar.gz && \
+    echo "Go installed"
+
+# Export Go path
+ENV PATH=$PATH:/usr/local/go/bin
+
+# Verify versions
+RUN git --version && \
+    hugo version && \
+    go version
+
+# Default shell
+CMD ["/bin/bash"]
+
+================
+File: .github/ISSUE_TEMPLATE/bug_report.yml
+================
+name: 🐛 Bug Report
+description: Report any issues you encounter to make hugoplate even more efficient.
+
+body:
+  - type: input
+    id: hugo-version
+    attributes:
+      label: What is your Hugo Extended Version
+      description: Check the [README](https://github.com/zeon-studio/hugoplate?tab=readme-ov-file#user-content-️-prerequisites) for the required version. Use "hugo version" in your terminal to see your Hugo version.
+    validations:
+      required: true
+
+  - type: input
+    id: go-version
+    attributes:
+      label: What is your Go Version
+      description: Check the [README](https://github.com/zeon-studio/hugoplate?tab=readme-ov-file#user-content-️-prerequisites) for the required version. Use "go version" in your terminal to see your Go version.
+    validations:
+      required: true
+
+  - type: input
+    id: node-version
+    attributes:
+      label: What is your Node.js Version
+      description: Check the [README](https://github.com/zeon-studio/hugoplate?tab=readme-ov-file#user-content-️-prerequisites) for the required version. Use "node -v" in your terminal to see your Node.js version.
+    validations:
+      required: true
+
+  - type: input
+    id: operating-system
+    attributes:
+      label: What is your Operating System
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: make-sure
+    attributes:
+      label: Check for Existing Issues
+      description: |
+        Before reporting a problem, please confirm that you've searched thoroughly for any existing reports on the same issue. If no relevant issues are found, proceed with the report.
+      options:
+        - label: I have searched and found no relevant issues.
+          required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: A clear description of what you expected to happen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: |
+        Please explain the steps required to duplicate this issue. Include detailed commands and expected outcomes.
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: input
+    id: reproduction-url
+    attributes:
+      label: Code Reproduction URL
+      description: Please reproduce this issue and provide a link to the repository.
+      placeholder: github.com/yourusername/repo
+
+  - type: textarea
+    id: additional-information
+    attributes:
+      label: Additional Information
+      description: |
+        List any other information that is relevant to your issue. You can use Markdown for formatting, including code blocks, links, etc.
+
+================
+File: .github/workflows/main.yml
+================
+# workflow for building and deploying to GitHub Pages
+name: Deploy Hugo site to Pages
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Default to bash
+defaults:
+  run:
+    shell: bash
+
+# Environment variables available to all jobs and steps in this workflow
+env:
+  HUGO_ENV: production
+  HUGO_VERSION: "0.141.0"
+  GO_VERSION: "1.23.3"
+  TINA_CLIENT_ID: ${{ secrets.TINA_CLIENT_ID }}
+  TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
+  TINA_SEARCH_TOKEN: ${{ secrets.TINA_SEARCH_TOKEN }}
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Install Hugo
+        run: |
+          wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-arm64.deb \
+          && sudo dpkg -i ${{ runner.temp }}/hugo.deb
+
+      - name: Install Go
+        run: |
+          wget -O ${{ runner.temp }}/go.deb https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz \
+          && sudo tar -C /usr/local -xzf ${{ runner.temp }}/go.deb
+
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Setup Project
+        run: npm run project-setup
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Build site
+        run: npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3.0.1
+        with:
+          path: ./public
+
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-24.04-arm
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4.0.5
+
+================
+File: assets/css/custom.css
+================
+/* Add your own custom styles here */
+
+================
+File: config/_default/languages.toml
+================
+################ English language ##################
+[en]
+languageName = "En"
+languageCode = "en-us"
+contentDir = "content/english"
+weight = 1
+
+================
+File: config/_default/menus.en.toml
+================
+############# English navigation ##############
+
+# main menu
+[[main]]
+name = "Home"
+url = "/"
+weight = 1
+
+[[main]]
+name = "About"
+url = "/about"
+weight = 2
+
+[[main]]
+name = "Elements"
+url = "/elements"
+weight = 3
+
+[[main]]
+weight = 4
+name = "Pages"
+
+[[main]]
+parent = "Pages"
+name = "Blog"
+url = "/blog"
+
+[[main]]
+parent = "Pages"
+name = "Contact"
+url = "/contact"
+
+[[main]]
+parent = "Pages"
+name = "Authors"
+url = "/authors"
+
+[[main]]
+parent = "Pages"
+name = "Categories"
+url = "/categories"
+
+[[main]]
+parent = "Pages"
+name = "404 Page"
+url = "/404"
+
+
+# footer menu
+[[footer]]
+name = "About"
+url = "/about"
+weight = 1
+
+[[footer]]
+name = "Elements"
+url = "/elements"
+weight = 2
+
+[[footer]]
+name = "Privacy Policy"
+url = "/privacy-policy"
+weight = 3
+
+================
+File: config/_default/module.toml
+================
+[hugoVersion]
+extended = true
+min = "0.141.0"
+
+# [[imports]]
+# path = "github.com/zeon-studio/hugoplate"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/search"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/pwa"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/images"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/videos"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/icons/font-awesome"
+
+# [[imports]]
+# path = "github.com/gethugothemes/hugo-modules/icons/themify-icons"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/gzip-caching"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/adsense"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/accordion"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/table-of-contents"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/tab"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/modal"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/gallery-slider"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/components/preloader"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/components/social-share"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/components/cookie-consent"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/components/announcement"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/components/custom-script"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/components/render-link"
+
+# [[imports]]
+# path = "github.com/gethugothemes/hugo-modules/components/valine-comment"
+
+# [[imports]]
+# path = "github.com/gethugothemes/hugo-modules/components/crisp-chat"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/shortcodes/button"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/shortcodes/notice"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/seo-tools/basic-seo"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/seo-tools/site-verifications"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/seo-tools/google-tag-manager"
+
+# [[imports]]
+# path = "github.com/gethugothemes/hugo-modules/seo-tools/baidu-analytics"
+
+# [[imports]]
+# path = "github.com/gethugothemes/hugo-modules/seo-tools/matomo-analytics"
+
+# [[imports]]
+# path = "github.com/gethugothemes/hugo-modules/seo-tools/plausible-analytics"
+
+# [[imports]]
+# path = "github.com/gethugothemes/hugo-modules/seo-tools/counter-analytics"
+
+[[imports]]
+path = "github.com/hugomods/mermaid"
+
+================
+File: config/_default/params.toml
+================
+#################### default parameters ############################
+# favicon module: https://github.com/gethugothemes/hugo-modules/tree/master/images#favicon-implementation
+favicon = "images/favicon.png"
+# logo module: https://github.com/gethugothemes/hugo-modules/tree/master/images#logo-implementation
+logo = "images/logo.png"
+logo_darkmode = "images/logo-darkmode.png"
+# use `px` or `x` with logo_width, example: "100px".
+# Note: logo_width is not work with .svg file
+logo_width = "160px"
+logo_height = "32px"
+# if logo_webp set false, will not generate WEBP version of logo | default is true
+logo_webp = true
+# logo text will only show when logo is missing.
+logo_text = "Hugoplate"
+# navbar fixed to top
+navbar_fixed = true
+# theme-mode
+theme_switcher = true
+theme_default = "system" # available options [light/dark/system]
+# Main Sections
+mainSections = ["blog"]
+# contact form action
+contact_form_action = "#" # contact form works with [https://airform.io/] or [https://formspree.io]
+# google tag manager, see https://developers.google.com/tag-manager/
+google_tag_manager = "" # example: G-XXXXXXXXXX
+google_adsense = ""     # example: ca-pub-xxxxxxxxxxxxxxxx
+# custom script on header, example: custom_script= "<script>console.log(\"Hello World\")</script>"
+custom_script = ""
+# copyright
+copyright = "Designed & Developed by [Zeon Studio](https://zeon.studio)"
+
+# Preloader
+# preloader module: https://github.com/gethugothemes/hugo-modules/tree/master/components/preloader
+[preloader]
+enable = false
+preloader = "" # use jpg, png, svg or gif format.
+
+# Navigation button
+[navigation_button]
+enable = true
+label = "get a quote"
+link = "contact"
+
+# search
+# search module: https://github.com/gethugothemes/hugo-modules/tree/master/search
+[search]
+enable = true
+primary_color = "#121212"
+include_sections = ["blog"]
+show_image = true
+show_description = true
+show_tags = true
+show_categories = true
+
+# announcement
+# announcement module: https://github.com/gethugothemes/hugo-modules/tree/master/components/announcement
+[announcement]
+enable = false
+expire_days = 7
+content = "You must replace the **baseURL** in **hugo.toml** file when deploying, you can manage this announcement from the **params.toml** file."
+
+# seo meta data for OpenGraph / Twitter Card
+# seo module: https://github.com/gethugothemes/hugo-modules/tree/master/seo-tools/basic-seo
+[metadata]
+keywords = ["Boilerplate", "Hugo"]
+description = "Hugo & Tailwindcss Starter"
+author = "zeon.studio"
+twitter = "zeon_studio"
+image = "images/og-image.png"
+
+
+# site verifications
+# verification module: https://github.com/gethugothemes/hugo-modules/tree/master/seo-tools/site-verifications
+[site_verification]
+google = ""   # Your verification code
+bing = ""     # Your verification code
+baidu = ""    # Your verification code
+facebook = "" # Your verification code
+mastodon = "" # Your verification code
+
+# cookies
+# cookies module: https://github.com/gethugothemes/hugo-modules/tree/master/components/cookie-consent
+[cookies]
+enable = false
+expire_days = 60
+content = "This site uses cookies. By continuing to use this website, you agree to their use."
+button = "I Accept"
+
+# diagrams
+[mermaid]
+js_url = 'https://cdn.jsdelivr.net/npm/mermaid@latest/dist/mermaid.esm.min.mjs'
+
+######################## sidebar widgets #########################
+[widgets]
+sidebar = ["categories", "tags"]
+
+
+# google map
+[google_map]
+enable = false
+map_api_key = "AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU"
+map_latitude = "51.5223477"
+map_longitude = "-0.1622023"
+map_marker = "images/marker.png"
+
+
+# Subscription
+[subscription]
+enable = false
+# mailchimp subsciption
+mailchimp_form_action = "https://gmail.us4.list-manage.com/subscribe/post?u=463ee871f45d2d93748e77cad&amp;id=a0a2c6d074" # replace this url with yours
+mailchimp_form_name = "b_463ee871f45d2d93748e77cad_a0a2c6d074"
+
+================
+File: config/development/server.toml
+================
+# defaultContentLanguageInSubdir must be true for this to work.
+
+# Other languages redirects
+# [[redirects]]
+# from = '/fr/**'
+# to = '/fr/404.html'
+# status = 404
+
+# Default language must be last.
+# [[redirects]]
+# from = '/**'
+# to = '/en/404.html'
+# status = 404
+
+================
+File: content/english/about/_index.md
+================
+---
+title: "Hey, I am John Doe!"
+meta_title: "About"
+description: "this is meta description"
+image: "/images/avatar.png"
+draft: false
+---
+
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis illum nesciunt commodi vel nisi ut alias excepturi ipsum, totam, labore tempora, odit ex iste tempore sed. Fugit voluptatibus perspiciatis assumenda nulla ad nihil, omnis vel, doloremque sit quam autem optio maiores, illum eius facilis et quo consectetur provident dolor similique! Enim voluptatem dicta expedita veritatis repellat dolorum impedit, provident quasi at.
+
+================
+File: content/english/authors/_index.md
+================
+---
+title: "Authors"
+---
+
+================
+File: content/english/authors/john-doe.md
+================
+---
+title: John Doe
+email: johndoe@email.com
+image: "/images/avatar.png"
+description: this is meta description
+social:
+  - name: github
+    icon: fa-brands fa-github
+    link: https://github.com
+
+  - name: twitter
+    icon: fa-brands fa-twitter
+    link: https://twitter.com
+
+  - name: linkedin
+    icon: fa-brands fa-linkedin
+    link: https://linkedin.com
+---
+
+lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostr navigation et dolore magna aliqua.
+
+================
+File: content/english/authors/sam-wilson.md
+================
+---
+title: Sam Wilson
+email: samwilson@email.com
+image: "/images/avatar.png"
+description: this is meta description
+social:
+  - name: github
+    icon: fa-brands fa-github
+    link: https://github.com
+
+  - name: twitter
+    icon: fa-brands fa-twitter
+    link: https://twitter.com
+
+  - name: linkedin
+    icon: fa-brands fa-linkedin
+    link: https://linkedin.com
+---
+
+lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostr navigation et dolore magna aliqua.
+
+================
+File: content/english/authors/william-jacob.md
+================
+---
+title: William Jacob
+email: williamjacob@email.com
+image: "/images/avatar.png"
+description: this is meta description
+social:
+  - name: github
+    icon: fa-brands fa-github
+    link: https://github.com
+
+  - name: twitter
+    icon: fa-brands fa-twitter
+    link: https://twitter.com
+
+  - name: linkedin
+    icon: fa-brands fa-linkedin
+    link: https://linkedin.com
+---
+
+lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostr navigation et dolore magna aliqua.
+
+================
+File: content/english/blog/_index.md
+================
+---
+title: "Blog Posts"
+meta_title: ""
+description: "this is meta description"
+---
+
+================
+File: content/english/blog/post-1.md
+================
+---
+title: "How to build an Application with modern Technology"
+meta_title: ""
+description: "this is meta description"
+date: 2022-04-04T05:00:00Z
+image: "/images/image-placeholder.png"
+categories: ["Application", "Data"]
+author: "John Doe"
+tags: ["nextjs", "tailwind"]
+draft: false
+---
+
+Nemo vel ad consectetur namut rutrum ex, venenatis sollicitudin urna. Aliquam erat volutpat. Integer eu ipsum sem. Ut bibendum lacus vestibulum maximus suscipit. Quisque vitae nibh iaculis neque blandit euismod.
+
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo vel ad consectetur ut aperiam. Itaque eligendi natus aperiam? Excepturi repellendus consequatur quibusdam optio expedita praesentium est adipisci dolorem ut eius!
+
+## Creative Design
+
+Nam ut rutrum ex, venenatis sollicitudin urna. Aliquam erat volutpat. Integer eu ipsum sem. Ut bibendum lacus vestibulum maximus suscipit. Quisque vitae nibh iaculis neque blandit euismod.
+
+> Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo vel ad consectetur ut aperiam. Itaque eligendi natus aperiam? Excepturi repellendus consequatur quibusdam optio expedita praesentium est adipisci dolorem ut eius!
+
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo vel ad consectetur ut aperiam. Itaque eligendi natus aperiam? Excepturi repellendus consequatur quibusdam optio expedita praesentium est adipisci dolorem ut eius!
+
+================
+File: content/english/blog/post-2.md
+================
+---
+title: "How to build an Application with modern Technology"
+meta_title: ""
+description: "this is meta description"
+date: 2022-04-04T05:00:00Z
+image: "/images/image-placeholder.png"
+categories: ["Technology", "Data"]
+author: "Sam Wilson"
+tags: ["technology", "tailwind"]
+draft: false
+---
+
+Nemo vel ad consectetur namut rutrum ex, venenatis sollicitudin urna. Aliquam erat volutpat. Integer eu ipsum sem. Ut bibendum lacus vestibulum maximus suscipit. Quisque vitae nibh iaculis neque blandit euismod.
+
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo vel ad consectetur ut aperiam. Itaque eligendi natus aperiam? Excepturi repellendus consequatur quibusdam optio expedita praesentium est adipisci dolorem ut eius!
+
+## Creative Design
+
+Nam ut rutrum ex, venenatis sollicitudin urna. Aliquam erat volutpat. Integer eu ipsum sem. Ut bibendum lacus vestibulum maximus suscipit. Quisque vitae nibh iaculis neque blandit euismod.
+
+> Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo vel ad consectetur ut aperiam. Itaque eligendi natus aperiam? Excepturi repellendus consequatur quibusdam optio expedita praesentium est adipisci dolorem ut eius!
+
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo vel ad consectetur ut aperiam. Itaque eligendi natus aperiam? Excepturi repellendus consequatur quibusdam optio expedita praesentium est adipisci dolorem ut eius!
+
+================
+File: content/english/blog/post-3.md
+================
+---
+title: "How to build an Application with modern Technology"
+meta_title: ""
+description: "this is meta description"
+date: 2022-04-04T05:00:00Z
+image: "/images/image-placeholder.png"
+categories: ["Software"]
+author: "John Doe"
+tags: ["software", "tailwind"]
+draft: false
+---
+
+Nemo vel ad consectetur namut rutrum ex, venenatis sollicitudin urna. Aliquam erat volutpat. Integer eu ipsum sem. Ut bibendum lacus vestibulum maximus suscipit. Quisque vitae nibh iaculis neque blandit euismod.
+
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo vel ad consectetur ut aperiam. Itaque eligendi natus aperiam? Excepturi repellendus consequatur quibusdam optio expedita praesentium est adipisci dolorem ut eius!
+
+## Creative Design
+
+Nam ut rutrum ex, venenatis sollicitudin urna. Aliquam erat volutpat. Integer eu ipsum sem. Ut bibendum lacus vestibulum maximus suscipit. Quisque vitae nibh iaculis neque blandit euismod.
+
+> Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo vel ad consectetur ut aperiam. Itaque eligendi natus aperiam? Excepturi repellendus consequatur quibusdam optio expedita praesentium est adipisci dolorem ut eius!
+
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo vel ad consectetur ut aperiam. Itaque eligendi natus aperiam? Excepturi repellendus consequatur quibusdam optio expedita praesentium est adipisci dolorem ut eius!
+
+================
+File: content/english/blog/post-4.md
+================
+---
+title: "How to build an Application with modern Technology"
+meta_title: ""
+description: "this is meta description"
+date: 2022-04-04T05:00:00Z
+image: "/images/image-placeholder.png"
+categories: ["Architecture"]
+author: "John Doe"
+tags: ["silicon", "technology"]
+draft: false
+---
+
+Nemo vel ad consectetur namut rutrum ex, venenatis sollicitudin urna. Aliquam erat volutpat. Integer eu ipsum sem. Ut bibendum lacus vestibulum maximus suscipit. Quisque vitae nibh iaculis neque blandit euismod.
+
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo vel ad consectetur ut aperiam. Itaque eligendi natus aperiam? Excepturi repellendus consequatur quibusdam optio expedita praesentium est adipisci dolorem ut eius!
+
+## Creative Design
+
+Nam ut rutrum ex, venenatis sollicitudin urna. Aliquam erat volutpat. Integer eu ipsum sem. Ut bibendum lacus vestibulum maximus suscipit. Quisque vitae nibh iaculis neque blandit euismod.
+
+> Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo vel ad consectetur ut aperiam. Itaque eligendi natus aperiam? Excepturi repellendus consequatur quibusdam optio expedita praesentium est adipisci dolorem ut eius!
+
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo vel ad consectetur ut aperiam. Itaque eligendi natus aperiam? Excepturi repellendus consequatur quibusdam optio expedita praesentium est adipisci dolorem ut eius!
+
+================
+File: content/english/contact/_index.md
+================
+---
+title: "Contact"
+meta_title: ""
+description: "this is meta description"
+draft: false
+---
+
+================
+File: content/english/pages/elements.md
+================
+---
+title: "Elements"
+# meta title
+meta_title: ""
+# meta description
+description: "This is meta description"
+# save as draft
+draft: false
+---
+
+{{< toc >}}
+
+Here is an example of headings. You can use this heading by the following markdown rules. For example: use `#` for heading 1 and use `######` for heading 6.
+
+# Heading 1
+
+## Heading 2
+
+### Heading 3
+
+#### Heading 4
+
+##### Heading 5
+
+###### Heading 6
+
+<hr>
+
+### Emphasis
+
+The emphasis, aka italics, with _asterisks_ or _underscores_.
+
+Strong emphasis, aka bold, with **asterisks** or **underscores**.
+
+The combined emphasis with **asterisks and _underscores_**.
+
+Strike through uses two tildes. ~~Scratch this.~~
+
+<hr>
+
+### Button
+
+{{< button label="Button" link="/" style="solid" >}}
+
+<hr>
+
+### Link
+
+[I'm an inline-style link](https://www.google.com)
+
+[I'm an inline-style link with title](https://www.google.com "Google's Homepage")
+
+[I'm a reference-style link][Arbitrary case-insensitive reference text]
+
+[I'm a relative reference to a repository file](../blob/master/LICENSE)
+
+[You can use numbers for reference-style link definitions][1]
+
+Or leave it empty and use the [link text itself].
+
+URLs and URLs in angle brackets will automatically get turned into links.
+<http://www.example.com> or <http://www.example.com> and sometimes
+example.com (but not on Github, for example).
+
+Some text to show that the reference links can follow later.
+
+[arbitrary case-insensitive reference text]: https://www.themefisher.com
+[1]: https://gethugothemes.com
+[link text itself]: https://www.getjekyllthemes.com
+
+<hr>
+
+### Paragraph
+
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam nihil enim maxime corporis cumque totam aliquid nam sint inventore optio modi neque laborum officiis necessitatibus, facilis placeat pariatur! Voluptatem, sed harum pariatur adipisci voluptates voluptatum cumque, porro sint minima similique magni perferendis fuga! Optio vel ipsum excepturi tempore reiciendis id quidem? Vel in, doloribus debitis nesciunt fugit sequi magnam accusantium modi neque quis, vitae velit, pariatur harum autem a! Velit impedit atque maiores animi possimus asperiores natus repellendus excepturi sint architecto eligendi non, omnis nihil. Facilis, doloremque illum. Fugit optio laborum minus debitis natus illo perspiciatis corporis voluptatum rerum laboriosam.
+
+<hr>
+
+### Ordered List
+
+1. List item
+2. List item
+3. List item
+4. List item
+5. List item
+
+<hr>
+
+### Unordered List
+
+- List item
+- List item
+- List item
+- List item
+- List item
+
+<hr>
+
+### Notice
+
+{{< notice "note" >}}
+This is a simple note.
+{{< /notice >}}
+
+{{< notice "tip" >}}
+This is a simple tip.
+{{< /notice >}}
+
+{{< notice "info" >}}
+This is a simple info.
+{{< /notice >}}
+
+{{< notice "warning" >}}
+This is a simple warning.
+{{< /notice >}}
+
+<hr>
+
+### Tab
+
+{{< tabs >}}
+{{< tab "Tab 1" >}}
+
+#### Hey There, I am a tab
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+{{< /tab >}}
+
+{{< tab "Tab 2" >}}
+
+#### I wanna talk about the assassination attempt
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+{{< /tab >}}
+
+{{< tab "Tab 3" >}}
+
+#### We know you’re dealing in stolen ore
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
+
+{{< /tab >}}
+{{< /tabs >}}
+
+<hr>
+
+### Accordions
+
+{{< accordion "Why should you need to do this?" >}}
+
+- Lorem ipsum dolor sit amet consectetur adipisicing elit.
+- Lorem ipsum dolor sit amet consectetur adipisicing elit.
+- Lorem ipsum dolor sit amet consectetur
+
+{{< /accordion >}}
+
+{{< accordion "How can I adjust Horizontal centering" >}}
+
+- Lorem ipsum dolor sit amet consectetur adipisicing elit.
+- Lorem ipsum dolor sit amet consectetur adipisicing elit.
+- Lorem ipsum dolor sit amet consectetur
+
+{{< /accordion >}}
+
+{{< accordion "Should you use Negative margin?" >}}
+
+- Lorem ipsum dolor sit amet consectetur adipisicing elit.
+- Lorem ipsum dolor sit amet consectetur adipisicing elit.
+- Lorem ipsum dolor sit amet consectetur
+
+{{< /accordion >}}
+
+<hr>
+
+### Code and Syntax Highlighting
+
+This is an `Inline code` sample.
+
+```javascript
+var s = "JavaScript syntax highlighting";
+alert(s);
+```
+
+```python
+s = "Python syntax highlighting"
+print s
+```
+
+```c  { linenos=true }
+#include <stdio.h>
+
+int main(void)
+{
+    printf("hello, world\n");
+    return 0;
+}
+```
+
+```mermaid
+flowchart TD
+    A[Start] --> B{Is it?}
+    B -- Yes --> C[OK]
+    C --> D[Rethink]
+    D --> B
+    B -- No ----> E[End]
+```
+
+<hr>
+
+### Blockquote
+
+> Did you come here for something in particular or just general Riker-bashing? And blowing into maximum warp speed, you appeared for an instant to be in two places at once.
+
+<hr>
+
+### Tables
+
+| Tables        |      Are      |  Cool |
+| ------------- | :-----------: | ----: |
+| col 3 is      | right-aligned | $1600 |
+| col 2 is      |   centered    |   $12 |
+| zebra stripes |   are neat    |    $1 |
+
+<hr>
+
+### Image
+
+{{< image src="images/image-placeholder.png" caption="" alt="alter-text" height="" width="" position="center" command="fill" option="q100" class="img-fluid" title="image title"  webp="false" >}}
+
+<hr>
+
+### Gallery
+
+{{< gallery dir="images/gallery" class="" height="400" width="400" webp="true" command="Fit" option="" zoomable="true" >}}
+
+<hr>
+
+### Slider
+
+{{< slider dir="images/gallery" class="max-w-[600px] ml-0" height="400" width="400" webp="true" command="Fit" option="" zoomable="true" >}}
+
+<hr>
+
+### Youtube video
+
+{{< youtube ResipmZmpDU >}}
+
+<hr>
+
+### Custom video
+
+{{< video src="https://www.w3schools.com/html/mov_bbb.mp4" width="100%" height="auto" autoplay="false" loop="false" muted="false" controls="true" class="rounded-lg" >}}
+
+================
+File: content/english/pages/privacy-policy.md
+================
+---
+title: "Privacy"
+# meta title
+meta_title: ""
+# meta description
+description: "This is meta description"
+# save as draft
+draft: false
+---
+
+#### Responsibility of Contributors
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Purus, donec nunc eros, ullamcorper id feugiat quisque aliquam sagittis. Sem turpis sed viverra massa gravida pharetra. Non dui dolor potenti eu dignissim fusce. Ultrices amet, in curabitur a arcu a lectus morbi id. Iaculis erat sagittis in tortor cursus. Molestie urna eu tortor, erat scelerisque eget. Nunc hendrerit sed interdum lacus. Lorem quis viverra sed
+
+pretium, aliquam sit. Praesent elementum magna amet, tincidunt eros, nibh in leo. Malesuada purus, lacus, at aliquam suspendisse tempus. Quis tempus amet, velit nascetur sollicitudin. At sollicitudin eget amet in. Eu velit nascetur sollicitudin erhdfvssfvrgss eget viverra nec elementum. Lacus, facilisis tristique lectus in.
+
+#### Gathering of Personal Information
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Purus, donec nunc eros, ullamcorper id feugiat quisque aliquam sagittis. Sem turpis sed viverra massa gravida pharetra. Non dui dolor potenti eu dignissim fusce. Ultrices amet, in curabitur a arcu a lectus morbi id. Iaculis erat sagittis in tortor cursus. Molestie urna eu tortor, erat scelerisque eget. Nunc hendrerit sed interdum lacus. Lorem quis viverra sed
+
+#### Protection of Personal- Information
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Purus, donec nunc eros, ullamcorper id feugiat quisque aliquam sagittis. Sem turpis sed viverra massa gravida pharetra. Non dui dolor potenti eu dignissim fusce. Ultrices amet, in curabitur a arcu a lectus morbi id. Iaculis erat sagittis in tortor cursus.
+
+Molestie urna eu tortor, erat scelerisque eget. Nunc hendrerit sed interdum lacus. Lorem quis viverra sed
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Purus, donec nunc eros, ullamcorper id feugiat
+
+#### Privacy Policy Changes
+
+1. Sll the Themefisher items are designed to be with the latest , We check all
+2. comments that threaten or harm the reputation of any person or organization
+3. personal information including, but limited to, email addresses, telephone numbers
+4. Any Update come in The technology Customer will get automatic Notification.
+
+================
+File: content/english/sections/call-to-action.md
+================
+---
+enable: true
+title: "Ready to build your next project with Hugo?"
+image: "/images/call-to-action.png"
+description: "Experience the future of web development with Hugoplate and Hugo. Build lightning-fast static sites with ease and flexibility."
+button:
+  enable: true
+  label: "Get Started Now"
+  link: "https://github.com/zeon-studio/hugoplate"
+
+# don't create a separate page
+_build:
+  render: "never"
+---
+
+================
+File: content/english/sections/testimonial.md
+================
+---
+enable: true
+title: "What Users Are Saying About Hugoplate"
+description: "Don't just take our word for it - hear from some of our satisfied users!  Check out some of our testimonials below to see what others are saying about Hugoplate."
+
+# Testimonials
+testimonials:
+  - name: "Marvin McKinney"
+    designation: "Web Designer"
+    avatar: "/images/avatar-sm.png"
+    content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui iusto illo molestias, assumenda expedita commodi inventore non itaque molestiae voluptatum dolore, facilis sapiente, repellat veniam."
+
+  - name: "Marvin McKinney"
+    designation: "Web Designer"
+    avatar: "/images/avatar-sm.png"
+    content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui iusto illo molestias, assumenda expedita commodi inventore non itaque molestiae voluptatum dolore, facilis sapiente, repellat veniam."
+
+  - name: "Marvin McKinney"
+    designation: "Web Designer"
+    avatar: "/images/avatar-sm.png"
+    content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui iusto illo molestias, assumenda expedita commodi inventore non itaque molestiae voluptatum dolore, facilis sapiente, repellat veniam."
+
+  - name: "Marvin McKinney"
+    designation: "Web Designer"
+    avatar: "/images/avatar-sm.png"
+    content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui iusto illo molestias, assumenda expedita commodi inventore non itaque molestiae voluptatum dolore, facilis sapiente, repellat veniam."
+
+# don't create a separate page
+_build:
+  render: "never"
+---
+
+================
+File: content/english/_index.md
+================
+---
+# Banner
+banner:
+  title: "The Ultimate Starter Template You Need To Start Your Hugo Project"
+  content: "Hugoplate is a free starter template built with Hugo and TailwindCSS, providing everything you need to jumpstart your Hugo project and save valuable time."
+  image: "/images/banner.png"
+  button:
+    enable: true
+    label: "Get Started For Free"
+    link: "https://github.com/zeon-studio/hugoplate"
+
+# Features
+features:
+  - title: "What's Included in Hugoplate"
+    image: "/images/service-1.png"
+    content: "Hugoplate is a comprehensive starter template that includes everything you need to get started with your Hugo project. What's Included in Hugoplate"
+    bulletpoints:
+      - "10+ Pre-build pages"
+      - "95+ Google Pagespeed Score"
+      - "Build with Hugo and TailwindCSS for easy and customizable styling"
+      - "Fully responsive on all devices"
+      - "SEO-optimized for better search engine rankings"
+      - "**Open-source and free** for personal and commercial use"
+    button:
+      enable: false
+      label: "Get Started Now"
+      link: "#"
+
+  - title: "Discover the Key Features Of Hugo"
+    image: "/images/service-2.png"
+    content: "Hugo is an all-in-one web framework for building fast, content-focused websites. It offers a range of exciting features for developers and website creators. Some of the key features are:"
+    bulletpoints:
+      - "Zero JS, by default: No JavaScript runtime overhead to slow you down."
+      - "Customizable: Tailwind, MDX, and 100+ other integrations to choose from."
+      - "UI-agnostic: Supports React, Preact, Svelte, Vue, Solid, Lit and more."
+    button:
+      enable: true
+      label: "Get Started Now"
+      link: "https://github.com/zeon-studio/hugoplate"
+
+  - title: "The Top Reasons to Choose Hugo for Your Hugo Project"
+    image: "/images/service-3.png"
+    content: "With Hugo, you can build modern and content-focused websites without sacrificing performance or ease of use."
+    bulletpoints:
+      - "Instantly load static sites for better user experience and SEO."
+      - "Intuitive syntax and support for popular frameworks make learning and using Hugo a breeze."
+      - "Use any front-end library or framework, or build custom components, for any project size."
+      - "Built on cutting-edge technology to keep your projects up-to-date with the latest web standards."
+    button:
+      enable: false
+      label: ""
+      link: ""
+---
+
+================
+File: data/social.json
+================
+{
+  "main": [
+    {
+      "name": "facebook",
+      "icon": "fab fa-facebook",
+      "link": "https://www.facebook.com/"
+    },
+    {
+      "name": "twitter",
+      "icon": "fab fa-twitter",
+      "link": "https://twitter.com/"
+    },
+    {
+      "name": "github",
+      "icon": "fab fa-github",
+      "link": "https://www.github.com/"
+    },
+    {
+      "name": "linkedin",
+      "icon": "fab fa-linkedin",
+      "link": "https://www.linkedin.com/"
+    }
+  ]
+}
+
+================
+File: data/theme.json
+================
+{
+  "colors": {
+    "default": {
+      "theme_color": {
+        "primary": "#121212",
+        "body": "#fff",
+        "border": "#eaeaea",
+        "light": "#f6f6f6",
+        "dark": "#040404"
+      },
+      "text_color": {
+        "text": "#444444",
+        "text-dark": "#040404",
+        "text-light": "#717171"
+      }
+    },
+    "darkmode": {
+      "theme_color": {
+        "primary": "#fff",
+        "body": "#1c1c1c",
+        "border": "#3E3E3E",
+        "light": "#222222",
+        "dark": "#fff"
+      },
+      "text_color": {
+        "text": "#B4AFB6",
+        "text-dark": "#fff",
+        "text-light": "#B4AFB6"
+      }
+    }
+  },
+  "fonts": {
+    "font_family": {
+      "primary": "Heebo:wght@400;600",
+      "primary_type": "sans-serif",
+      "secondary": "Signika:wght@500;700",
+      "secondary_type": "sans-serif"
+    },
+    "font_size": {
+      "base": "16",
+      "scale": "1.2"
+    }
+  }
+}
+
+================
+File: i18n/en.yaml
+================
+home: Home
+read_more: Read More
+send: Send
+related_posts: Related Posts
+categories: Categories
+tags: Tags
+toc: Table of Contents
+share: Share
+search_input_placeholder: Search Post...
+search_no_results: No results for
+search_initial_message: Type something to search..
+search_navigate: to navigate
+search_select: to select
+search_close: to close
+
+================
+File: scripts/clearModules.js
+================
+const fs = require("fs");
+
+const clearModules = (filePath) => {
+  if (fs.existsSync(filePath)) {
+    let fileContent = fs.readFileSync(filePath, "utf8");
+    fileContent = fileContent.replace(/require\s*\([\s\S]*?\)/, "");
+    fs.writeFileSync(filePath, fileContent, "utf8");
+  } else {
+    console.log("File does not exist.");
+  }
+};
+
+clearModules("go.mod");
+clearModules("exampleSite/go.mod");
+
+================
+File: scripts/projectSetup.js
+================
+const fs = require("fs");
+const path = require("path");
+
+const toggleComment = ({ filepath, regex }) => {
+  let updatedContent = fs.readFileSync(filepath, "utf8");
+  const match = updatedContent.match(regex);
+
+  if (filepath.endsWith("hugo.toml")) {
+    updatedContent = updatedContent.replace(
+      'baseURL = "https://example.org"',
+      'baseURL = "/"',
+    );
+  }
+
+  if (match) {
+    const matchedContent = match[0];
+    const hasComment = matchedContent.startsWith("# ");
+    if (hasComment) {
+      updatedContent = updatedContent.replace(
+        regex,
+        matchedContent.replace("# ", ""),
+      );
+      fs.writeFileSync(filepath, updatedContent, "utf8");
+    } else {
+      const hasLineBreak = matchedContent.includes("\n");
+      if (hasLineBreak) {
+        const content = matchedContent
+          .split("\n")
+          .map((line) => "# " + line)
+          .join("\n");
+        updatedContent = updatedContent.replace(regex, content);
+        fs.writeFileSync(filepath, updatedContent, "utf8");
+      }
+    }
+  }
+};
+
+const getFolderName = (rootFolder) => {
+  const configPath = path.join(rootFolder, "exampleSite/hugo.toml");
+  const getConfig = fs.readFileSync(configPath, "utf8");
+  const match = getConfig.match(/theme\s*=\s*\[?"([^"\]]+)"\]?/);
+  let selectedTheme = null;
+  if (match && match[1]) {
+    selectedTheme = match[1];
+  }
+  return selectedTheme;
+};
+
+const deleteFolder = (folderPath) => {
+  if (fs.existsSync(folderPath)) {
+    fs.rmSync(folderPath, { recursive: true, force: true });
+  }
+};
+
+const createNewFolder = (rootFolder, folderName) => {
+  const newFolder = path.join(rootFolder, folderName);
+  fs.mkdirSync(newFolder, { recursive: true });
+  return newFolder;
+};
+
+const iterateFilesAndFolders = (rootFolder, { destinationRoot }) => {
+  const directory = path.join(rootFolder);
+  const items = fs.readdirSync(directory, { withFileTypes: true });
+  items.forEach((item) => {
+    if (item.isDirectory()) {
+      createNewFolder(destinationRoot, item.name);
+      iterateFilesAndFolders(path.join(directory, item.name), {
+        currentFolder: item.name,
+        destinationRoot: path.join(destinationRoot, item.name),
+      });
+    } else {
+      const sourceFile = path.join(directory, item.name);
+      const destinationFile = path.join(destinationRoot, item.name);
+      fs.renameSync(sourceFile, destinationFile);
+    }
+  });
+};
+
+const setupProject = () => {
+  const rootFolder = path.join(__dirname, "../");
+  if (!fs.existsSync(path.join(rootFolder, "themes"))) {
+    // remove this part if you don't using theme demo as a module
+    [
+      {
+        filepath: path.join(rootFolder, "exampleSite/hugo.toml"),
+        regex: /^.*theme\s*=\s*("[^"\]]+"|\S+)/m,
+      },
+      {
+        filepath: path.join(
+          rootFolder,
+          "exampleSite/config/_default/module.toml",
+        ),
+        regex: /\[\[imports\]\]\s*\r?\npath = "([^"]+)"/,
+      },
+    ].forEach(toggleComment);
+
+    const folderList = ["layouts", "assets", "static", "tailwind-plugin"];
+    const folderName = getFolderName(rootFolder);
+    const newFolderName = createNewFolder(
+      path.join(rootFolder, "themes"),
+      folderName,
+    );
+
+    folderList.forEach((folder) => {
+      const source = path.join(rootFolder, folder);
+      const destination = path.join(newFolderName, folder);
+      if (fs.existsSync(source)) {
+        fs.mkdirSync(destination, { recursive: true });
+        iterateFilesAndFolders(source, {
+          currentFolder: folder,
+          destinationRoot: destination,
+        });
+        deleteFolder(source);
+      }
+    });
+
+    const exampleSite = path.join(rootFolder, "exampleSite");
+    iterateFilesAndFolders(exampleSite, { destinationRoot: rootFolder });
+    deleteFolder(exampleSite);
+  } else {
+    console.log("Project already setup");
+  }
+};
+
+setupProject();
+
+================
+File: scripts/removeDarkmode.js
+================
+const fs = require("fs");
+const path = require("path");
+
+const rootDirs = ["assets/css", "layouts"];
+const configFiles = [
+  {
+    filePath: "exampleSite/data/theme.json",
+    patterns: ["colors.darkmode"],
+  },
+];
+
+// asset paths
+const deleteAssetList = [
+  "exampleSite/assets/images/logo-darkmode.png",
+  "layouts/partials/components/theme-switcher.html",
+];
+
+const filePaths = [
+  {
+    filePath: "layouts/partials/essentials/header.html",
+    patterns: [
+      '{{\\s*partial\\s*"components\\/theme-switcher"\\s*\\([^)]*\\)\\s*}}',
+    ],
+  },
+];
+
+filePaths.forEach(({ filePath, patterns }) =>
+  removeDarkModeFromFiles(filePath, patterns),
+);
+
+deleteAssetList.forEach((asset) => {
+  try {
+    fs.unlinkSync(asset);
+    console.log(`${path.basename(asset)} deleted successfully!`);
+  } catch (error) {
+    console.error(`${asset} not found`);
+  }
+});
+
+rootDirs.forEach(removeDarkModeFromPages);
+configFiles.forEach(removeDarkMode);
+
+function removeDarkModeFromFiles(filePath, regexPatterns) {
+  const fileContent = fs.readFileSync(filePath, "utf8");
+  let updatedContent = fileContent;
+  regexPatterns.forEach((pattern) => {
+    const regex = new RegExp(pattern, "g");
+    updatedContent = updatedContent.replace(regex, "");
+  });
+
+  fs.writeFileSync(filePath, updatedContent, "utf8");
+}
+
+// like html file
+function removeDarkModeFromPages(directoryPath) {
+  const files = fs.readdirSync(directoryPath);
+
+  files.forEach((file) => {
+    const filePath = path.join(directoryPath, file);
+    const stats = fs.statSync(filePath);
+    if (stats.isDirectory()) {
+      removeDarkModeFromPages(filePath);
+    } else if (stats.isFile()) {
+      removeDarkModeFromFiles(filePath, [
+        '(?:(?!["])\\S)*dark:(?:(?![,;"])\\S)*',
+        "@apply?(\\s)*;",
+      ]);
+    }
+  });
+}
+
+function removeDarkMode(configFile) {
+  const { filePath, patterns } = configFile;
+  const contentFile = JSON.parse(fs.readFileSync(filePath, "utf8"));
+  patterns.forEach((pattern) => deleteNestedProperty(contentFile, pattern));
+  fs.writeFileSync(filePath, JSON.stringify(contentFile));
+}
+
+function deleteNestedProperty(obj, propertyPath) {
+  const properties = propertyPath.split(".");
+  let currentObj = obj;
+  for (let i = 0; i < properties.length - 1; i++) {
+    const property = properties[i];
+    if (currentObj.hasOwnProperty(property)) {
+      currentObj = currentObj[property];
+    } else {
+      return; // Property not found, no need to continue
+    }
+  }
+  delete currentObj[properties[properties.length - 1]];
+}
+
+================
+File: scripts/themeSetup.js
+================
+const fs = require("fs");
+const path = require("path");
+
+const toggleComment = ({ filepath, regex }) => {
+  let updatedContent = fs.readFileSync(filepath, "utf8");
+  const match = updatedContent.match(regex);
+
+  if (filepath.endsWith("hugo.toml")) {
+    updatedContent = updatedContent.replace(
+      'baseURL = "/"',
+      'baseURL = "https://example.org"',
+    );
+  }
+
+  if (match) {
+    const matchedContent = match[0];
+    const hasComment = matchedContent.startsWith("# ");
+    if (hasComment) {
+      const hasLineBreak = matchedContent.includes("\n");
+      if (hasLineBreak) {
+        updatedContent = updatedContent.replace(
+          regex,
+          matchedContent.replace(/# /gm, ""),
+        );
+        fs.writeFileSync(filepath, updatedContent, "utf8");
+      }
+    } else {
+      updatedContent = updatedContent.replace(regex, "# " + matchedContent);
+      fs.writeFileSync(filepath, updatedContent, "utf8");
+    }
+  }
+};
+
+const createNewFolder = (rootFolder, folderName) => {
+  const newFolder = path.join(rootFolder, folderName);
+  fs.mkdirSync(newFolder, { recursive: true });
+  return newFolder;
+};
+
+const deleteFolder = (folderPath) => {
+  if (fs.existsSync(folderPath)) {
+    fs.rmSync(folderPath, { recursive: true, force: true });
+  }
+};
+
+const getFolderName = (rootFolder) => {
+  const configPath = path.join(rootFolder, "exampleSite/hugo.toml");
+  const getConfig = fs.readFileSync(configPath, "utf8");
+  const match = getConfig.match(/theme\s*=\s*\[?"([^"\]]+)"\]?/);
+  let selectedTheme = null;
+  if (match && match[1]) {
+    selectedTheme = match[1];
+  }
+  return selectedTheme;
+};
+
+const iterateFilesAndFolders = (rootFolder, { destinationRoot }) => {
+  const directory = path.join(rootFolder);
+  const items = fs.readdirSync(directory, { withFileTypes: true });
+  items.forEach((item) => {
+    if (item.isDirectory()) {
+      createNewFolder(destinationRoot, item.name);
+      iterateFilesAndFolders(path.join(directory, item.name), {
+        currentFolder: item.name,
+        destinationRoot: path.join(destinationRoot, item.name),
+      });
+    } else {
+      const sourceFile = path.join(directory, item.name);
+      const destinationFile = path.join(destinationRoot, item.name);
+      fs.renameSync(sourceFile, destinationFile);
+    }
+  });
+};
+
+const setupTheme = () => {
+  const rootFolder = path.join(__dirname, "../");
+
+  if (!fs.existsSync(path.join(rootFolder, "exampleSite"))) {
+    // remove this part if you don't using theme demo as a module
+    [
+      {
+        filepath: path.join(rootFolder, "config/_default/module.toml"),
+        regex: /# \[\[imports\]\]\s*\r?\n# path = "([^"]+)"/,
+      },
+      {
+        filepath: path.join(rootFolder, "hugo.toml"),
+        regex: /^.*theme\s*=\s*("[^"\]]+"|\S+)/m,
+      },
+    ].forEach(toggleComment);
+
+    const includesFiles = [
+      "go.mod",
+      "hugo.toml",
+      "assets",
+      "config",
+      "data",
+      "content",
+      "i18n",
+      "static",
+      "tailwind-plugin",
+    ];
+
+    const folder = createNewFolder(rootFolder, "exampleSite");
+
+    fs.readdirSync(rootFolder, { withFileTypes: true }).forEach((file) => {
+      if (includesFiles.includes(file.name)) {
+        if (file.isDirectory()) {
+          const destination = path.join(rootFolder, "exampleSite", file.name);
+          fs.mkdirSync(destination, { recursive: true });
+          iterateFilesAndFolders(path.join(rootFolder, file.name), {
+            destinationRoot: destination,
+          });
+          deleteFolder(path.join(rootFolder, file.name));
+        } else {
+          fs.renameSync(
+            path.join(rootFolder, file.name),
+            path.join(folder, file.name),
+          );
+        }
+      }
+    });
+
+    const themes = path.join(rootFolder, "themes");
+    iterateFilesAndFolders(path.join(themes, getFolderName(rootFolder)), {
+      destinationRoot: rootFolder,
+    });
+    deleteFolder(themes);
+  }
+};
+
+setupTheme();
+
+================
+File: scripts/themeUpdate.js
+================
+const { exec } = require("child_process");
+
+const repositoryUrl = "https://github.com/zeon-studio/hugoplate";
+const localDirectory = "./themes/hugoplate";
+const foldersToFetch = ["assets", "layouts"];
+const foldersToSkip = ["exampleSite"];
+
+const fetchFolder = (folder) => {
+  exec(
+    `curl -L ${repositoryUrl}/tarball/main | tar -xz --strip-components=1 --directory=${localDirectory} --exclude=$(curl -sL ${repositoryUrl}/tarball/main | tar -tz | grep -E "/(${foldersToSkip.join(
+      "|",
+    )})/") */${folder}`,
+  );
+};
+
+// Fetch each specified folder
+foldersToFetch.forEach((folder) => {
+  fetchFolder(folder);
+});
+
+================
+File: tailwind-plugin/tw-bs-grid.js
+================
+import plugin from "tailwindcss/plugin";
+
+(function () {
+  "use strict";
+  module.exports = plugin.withOptions(() => {
+    return ({ addComponents }) => {
+      const gridColumns = 12;
+      const gridGutterWidth = "1.5rem";
+      const gridGutters = {
+        0: "0",
+        1: "0.25rem",
+        2: "0.5rem",
+        3: "1rem",
+        4: "1.5rem",
+        5: "3rem",
+      };
+      const respectImportant = true;
+      const columns = Array.from({ length: gridColumns }, (_, i) => i + 1);
+      const rowColsSteps = columns.slice(0, Math.floor(gridColumns / 2));
+
+      // row
+      addComponents(
+        {
+          ".row": {
+            "--bs-gutter-x": gridGutterWidth,
+            "--bs-gutter-y": 0,
+            display: "flex",
+            flexWrap: "wrap",
+            marginTop: "calc(var(--bs-gutter-y) * -1)",
+            marginRight: "calc(var(--bs-gutter-x) / -2)",
+            marginLeft: "calc(var(--bs-gutter-x) / -2)",
+            "& > *": {
+              boxSizing: "border-box",
+              flexShrink: 0,
+              width: "100%",
+              maxWidth: "100%",
+              paddingRight: "calc(var(--bs-gutter-x) / 2)",
+              paddingLeft: "calc(var(--bs-gutter-x) / 2)",
+              marginTop: "var(--bs-gutter-y)",
+            },
+          },
+        },
+        { respectImportant },
+      );
+
+      // columns
+      addComponents(
+        [
+          {
+            ".col": { flex: "1 0 0%" },
+            ".row-cols-auto": { "& > *": { flex: "0 0 auto", width: "auto" } },
+          },
+          ...rowColsSteps.map((num) => ({
+            [`.row-cols-${num}`]: {
+              "& > *": { flex: "0 0 auto", width: `${100 / num}%` },
+            },
+          })),
+          { ".col-auto": { flex: "0 0 auto", width: "auto" } },
+          ...columns.map((num) => ({
+            [`.col-${num}`]: {
+              flex: "0 0 auto",
+              width: `${(100 / gridColumns) * num}%`,
+            },
+          })),
+        ],
+        { respectImportant },
+      );
+
+      // offset
+      addComponents(
+        [0, ...columns.slice(0, -1)].map((num) => ({
+          [`.offset-${num}`]: { marginLeft: `${(100 / gridColumns) * num}%` },
+        })),
+        { respectImportant },
+      );
+
+      // gutters
+      if (Object.keys(gridGutters).length) {
+        const gutterComponents = Object.entries(gridGutters).reduce(
+          (acc, [key, value]) => {
+            acc[`.g-${key}`] = {
+              "--bs-gutter-x": value,
+              "--bs-gutter-y": value,
+            };
+            acc[`.gx-${key}`] = { "--bs-gutter-x": value };
+            acc[`.gy-${key}`] = { "--bs-gutter-y": value };
+            return acc;
+          },
+          {},
+        );
+        addComponents(gutterComponents, { respectImportant });
+      }
+
+      // order
+      addComponents(
+        [
+          {
+            ".order-first": { order: "-1" },
+            ".order-last": { order: gridColumns + 1 },
+          },
+          ...[0, ...columns].map((num) => ({
+            [`.order-${num}`]: { order: String(num) },
+          })),
+        ],
+        { respectImportant },
+      );
+    };
+  });
+})();
+
+================
+File: tailwind-plugin/tw-theme.js
+================
+const plugin = require("tailwindcss/plugin");
+const fs = require("fs");
+const path = require("path");
+const themePath = path.join(__dirname, "../data/theme.json");
+const themeRead = fs.readFileSync(themePath, "utf8");
+const themeConfig = JSON.parse(themeRead);
+
+// Helper to extract a clean font name.
+const findFont = (fontStr) =>
+  fontStr.replace(/\+/g, " ").replace(/:[^:]+/g, "");
+
+// Set font families dynamically, filtering out 'type' keys
+const fontFamilies = Object.entries(themeConfig.fonts.font_family)
+  .filter(([key]) => !key.includes("type"))
+  .reduce((acc, [key, font]) => {
+    acc[key] =
+      `${findFont(font)}, ${themeConfig.fonts.font_family[`${key}_type`] || "sans-serif"}`;
+    return acc;
+  }, {});
+
+const defaultColorGroups = [
+  { colors: themeConfig.colors.default.theme_color, prefix: "" },
+  { colors: themeConfig.colors.default.text_color, prefix: "" },
+];
+const darkColorGroups = [];
+if (themeConfig.colors.darkmode?.theme_color) {
+  darkColorGroups.push({
+    colors: themeConfig.colors.darkmode.theme_color,
+    prefix: "darkmode-",
+  });
+}
+if (themeConfig.colors.darkmode?.text_color) {
+  darkColorGroups.push({
+    colors: themeConfig.colors.darkmode.text_color,
+    prefix: "darkmode-",
+  });
+}
+
+const getVars = (groups) => {
+  const vars = {};
+  groups.forEach(({ colors, prefix }) => {
+    Object.entries(colors).forEach(([k, v]) => {
+      const cssKey = k.replace(/_/g, "-");
+      vars[`--color-${prefix}${cssKey}`] = v;
+    });
+  });
+  return vars;
+};
+
+const defaultVars = getVars(defaultColorGroups);
+const darkVars = getVars(darkColorGroups);
+
+const baseSize = Number(themeConfig.fonts.font_size.base);
+const scale = Number(themeConfig.fonts.font_size.scale);
+const calculateFontSizes = (base, scale) => {
+  const sizes = {};
+  let currentSize = scale;
+  for (let i = 6; i >= 1; i--) {
+    sizes[`h${i}`] = `${currentSize}rem`;
+    sizes[`h${i}-sm`] = `${currentSize * 0.9}rem`;
+    currentSize *= scale;
+  }
+  sizes.base = `${base}px`;
+  sizes["base-sm"] = `${base * 0.8}px`;
+  return sizes;
+};
+const fontSizes = calculateFontSizes(baseSize, scale);
+
+const fontVars = {};
+Object.entries(fontSizes).forEach(([key, value]) => {
+  fontVars[`--text-${key}`] = value;
+});
+Object.entries(fontFamilies).forEach(([key, font]) => {
+  fontVars[`--font-${key}`] = font;
+});
+
+const baseVars = { ...fontVars, ...defaultVars };
+
+// Build a colorsMap including both sets
+const colorsMap = {};
+[...defaultColorGroups, ...darkColorGroups].forEach(({ colors, prefix }) => {
+  Object.entries(colors).forEach(([key]) => {
+    const cssKey = key.replace(/_/g, "-");
+    colorsMap[prefix + cssKey] = `var(--color-${prefix}${cssKey})`;
+  });
+});
+
+module.exports = plugin.withOptions(() => {
+  return function ({ addBase, addUtilities, matchUtilities }) {
+    // Default vars on :root; dark vars on .dark
+    addBase({
+      ":root": baseVars,
+      ".dark": darkVars,
+    });
+
+    const fontUtils = {};
+    Object.keys(fontFamilies).forEach((key) => {
+      fontUtils[`.font-${key}`] = { fontFamily: `var(--font-${key})` };
+    });
+    Object.keys(fontSizes).forEach((key) => {
+      fontUtils[`.text-${key}`] = { fontSize: `var(--text-${key})` };
+    });
+    addUtilities(fontUtils, {
+      variants: ["responsive", "hover", "focus", "active", "disabled"],
+    });
+
+    matchUtilities(
+      {
+        bg: (value) => ({ backgroundColor: value }),
+        text: (value) => ({ color: value }),
+        border: (value) => ({ borderColor: value }),
+        fill: (value) => ({ fill: value }),
+        stroke: (value) => ({ stroke: value }),
+      },
+      { values: colorsMap, type: "color" },
+    );
+
+    matchUtilities(
+      {
+        from: (value) => ({
+          "--tw-gradient-from": value,
+          "--tw-gradient-via-stops":
+            "var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position))",
+          "--tw-gradient-stops":
+            "var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position))",
+        }),
+        to: (value) => ({
+          "--tw-gradient-to": value,
+          "--tw-gradient-via-stops":
+            "var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position))",
+          "--tw-gradient-stops":
+            "var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position))",
+        }),
+        via: (value) => ({
+          "--tw-gradient-via": value,
+          "--tw-gradient-via-stops":
+            "var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-via) var(--tw-gradient-via-position), var(--tw-gradient-to) var(--tw-gradient-to-position)",
+        }),
+      },
+      { values: colorsMap, type: "color" },
+    );
+  };
+});
+
+================
+File: themes/hugoplate/layouts/_default/baseof.html
+================
+<!doctype html>
+<html
+  itemscope
+  class="{{- if not site.Params.theme_switcher -}}
+    {{- site.Params.theme_default -}}
+  {{- end -}}"
+  lang="{{ site.LanguageCode | default `en-US` }}"
+  itemtype="http://schema.org/WebPage">
+  <head>
+    <!-- head (don't cache it) -->
+    {{ partial "essentials/head.html" . }}
+
+
+    <!-- style (always cache it) -->
+    {{ partialCached "essentials/style.html" . }}
+
+  </head>
+
+  <body>
+    <!-- cache partial only in production -->
+    {{ if hugo.IsProduction }}
+      {{ partialCached "preloader.html" . }}
+      {{ partialCached "gtm-noscript.html" . }}
+    {{ else }}
+      {{ partial "preloader.html" . }}
+
+
+      <!-- tailwind size indicator -->
+      {{ partial "components/tw-size-indicator.html" . }}
+    {{ end }}
+
+
+    <!-- announcement -->
+    {{ partialCached "announcement.html" . }}
+
+
+    <!-- header (don't cache it) -->
+    {{ partial "essentials/header.html" . }}
+    {{ partial "search-modal.html" (dict "Context" . ) }}
+
+
+    <main>
+      {{ block "main" . }}{{ end }}
+    </main>
+
+    <!-- footer -->
+    {{ partial "essentials/footer.html" . }}
+
+
+    <!-- script (always cache it) -->
+    {{ partialCached "essentials/script.html" . }}
+  </body>
+</html>
+
+================
+File: themes/hugoplate/layouts/_default/list.html
+================
+{{ define "main" }}
+  {{ partial "page-header" . }}
+
+
+  <section class="section">
+    <div class="container">
+      <ul class="text-center">
+        {{ range .RegularPages }}
+          <li class="m-3">
+            <a
+              href="{{ .Permalink }}"
+              class="text-text-dark dark:text-darkmode-text-dark block text-xl">
+              {{ .Title }}
+            </a>
+          </li>
+        {{ end }}
+      </ul>
+    </div>
+  </section>
+{{ end }}
+
+================
+File: themes/hugoplate/layouts/_default/single.html
+================
+{{ define "main" }}
+  {{ partial "page-header" . }}
+
+
+  <section class="section-sm">
+    <div class="container">
+      <div class="row justify-center">
+        <div class="lg:col-10">
+          <div class="content">
+            {{ .Content }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}
+
+================
+File: themes/hugoplate/layouts/_default/taxonomy.html
+================
+{{ define "main" }}
+  {{ partial "page-header" . }}
+
+
+  <section class="section">
+    <div class="container">
+      <div class="row gx-5">
+        <!-- blog posts -->
+        <div class="lg:col-8">
+          <div class="row">
+            {{ range .Data.Pages }}
+              <div class="md:col-6 mb-14">
+                {{ partial "components/blog-card" . }}
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}
+
+================
+File: themes/hugoplate/layouts/_default/terms.html
+================
+{{ define "main" }}
+  {{ partial "page-header" . }}
+
+
+  <section class="section">
+    <div class="container">
+      <ul class="text-center">
+        {{/* categories */}}
+        {{ if eq .Permalink (`categories/` | absLangURL) }}
+          {{ range site.Taxonomies.categories.ByCount }}
+            <li class="m-3 inline-block">
+              <a
+                href="{{ .Page.Permalink }}"
+                class="bg-light text-text-dark dark:bg-darkmode-light dark:text-darkmode-text-dark block rounded px-4 py-2 text-xl">
+                {{ .Page.Title }}
+                <span class="bg-body dark:bg-darkmode-body ml-2 rounded px-2">
+                  {{ .Count }}
+                </span>
+              </a>
+            </li>
+          {{ end }}
+        {{ end }}
+        {{/* tags */}}
+        {{ if eq .Permalink (`tags/` | absLangURL) }}
+          {{ range site.Taxonomies.tags.ByCount }}
+            <li class="m-3 inline-block">
+              <a
+                href="{{ .Page.Permalink }}"
+                class="bg-light text-text-dark dark:bg-darkmode-light dark:text-darkmode-text-dark block rounded px-4 py-2 text-xl">
+                {{ .Page.Title }}
+                <span class="bg-body dark:bg-darkmode-body ml-2 rounded px-2">
+                  {{ .Count }}
+                </span>
+              </a>
+            </li>
+          {{ end }}
+        {{ end }}
+      </ul>
+    </div>
+  </section>
+{{ end }}
+
+================
+File: themes/hugoplate/layouts/about/list.html
+================
+{{ define "main" }}
+  <section class="section-sm">
+    <div class="container">
+      <div class="row justify-center">
+        <div class="md:col-10 lg:col-7 text-center">
+          {{ partial "image" (dict "Src" .Params.image "Context" .Page "Alt" .Title "Class" "mx-auto mb-6" "Size" "200x200") }}
+          <h2 class="h3 mb-6">{{ .Title }}</h2>
+          <div class="content">{{ .Content }}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}
+
+================
+File: themes/hugoplate/layouts/authors/list.html
+================
+{{ define "main" }}
+  {{ partial "page-header" . }}
+
+
+  <section class="section">
+    <div class="container">
+      <div class="row">
+        {{ range .RegularPages }}
+          <div class="md:col-6 lg:col-4 mb-14">
+            {{ partial "components/author-card" . }}
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}
+
+================
+File: themes/hugoplate/layouts/authors/single.html
+================
+{{ define "main" }}
+  <section class="section-sm pb-0">
+    <div class="container">
+      <div
+        class="row border-border dark:border-darkmode-border justify-center border-b pb-14">
+        <div class="lg:col-4 text-center">
+          {{ $image:= .Params.image }}
+          {{ if $image }}
+            {{ partial "image" (dict "Src" $image "Context" .Page "Alt" .Title "Class" "mx-auto" "Size" "200x200") }}
+          {{ else if .Params.Email }}
+            <img
+              class="mx-auto"
+              alt="{{ .Title }}"
+              height="200"
+              width="200"
+              src="https://www.gravatar.com/avatar/{{ md5 .Params.email }}?s=128&pg&d=identicon" />
+          {{ end }}
+          <h1 class="h3 mt-10">{{ .Title }}</h1>
+          <div class="content mt-6">
+            {{ .Content }}
+          </div>
+          <ul class="social-icons ml-4 mt-10 text-center">
+            {{ range .Params.social }}
+              <li>
+                <a
+                  href="{{ .link | safeURL }}"
+                  target="_blank"
+                  rel="noopener nofollow">
+                  <span class="sr-only">{{ .title }}</span>
+                  <i class="{{ .icon }}"></i>
+                </a>
+              </li>
+            {{ end }}
+          </ul>
+        </div>
+      </div>
+
+      <div class="row pb-16 pt-14">
+        {{ $filterByAuthor := where site.RegularPages "Params.author" "==" .Title }}
+        {{ range $filterByAuthor }}
+          <div class="md:col-6 lg:col-4 mb-12">
+            {{ partial "components/blog-card" . }}
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}
+
+================
+File: themes/hugoplate/layouts/blog/list.html
+================
+{{ define "main" }}
+  {{ partial "page-header" . }}
+
+
+  <section class="section">
+    <div class="container">
+      <div class="row gx-5">
+        <!-- blog posts -->
+        <div class="lg:col-8">
+          <div class="row">
+            {{ $paginator:= .Paginate .RegularPages }}
+            {{ range $paginator.Pages }}
+              <div class="md:col-6 mb-14">
+                {{ partial "components/blog-card" . }}
+              </div>
+            {{ end }}
+          </div>
+          {{ partial "components/pagination.html" . }}
+        </div>
+        <!-- sidebar -->
+        <div class="lg:col-4">
+          <!-- widget -->
+          {{ $widget:= site.Params.widgets.sidebar }}
+          {{ partialCached "widgets/widget-wrapper" ( dict "Widgets" $widget "Scope" . ) }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}
+
+================
+File: themes/hugoplate/layouts/blog/single.html
+================
+{{ define "main" }}
+  <section class="section pt-7">
+    <div class="container">
+      <div class="row justify-center">
+        <article class="lg:col-10">
+          {{ $image:= .Params.image }}
+          {{ if $image }}
+            <div class="mb-10">
+              {{ partial "image" (dict "Src" $image "Context" .Page "Alt" .Title "Class" "w-full rounded") }}
+            </div>
+          {{ end }}
+          <h1 class="h2 mb-4">
+            {{ .Title }}
+          </h1>
+          <ul class="mb-4">
+            <li class="mr-4 inline-block">
+              <a
+                href="{{ `authors/` | relLangURL }}{{ .Params.Author | urlize }}/">
+                <i class="fa-regular fa-circle-user mr-2"></i
+                >{{ .Params.author }}
+              </a>
+            </li>
+            {{ $categories:= .Params.categories }}
+            {{ if $categories }}
+              <li class="mr-4 inline-block">
+                <i class="fa-regular fa-folder mr-2"></i>
+                {{ range $i,$p:= $categories }}
+                  <a
+                    href="{{ `categories/` | relLangURL }}{{ . | urlize | lower }}/"
+                    class=""
+                    >{{ . | humanize }}{{ if ne $i (sub (len $categories) 1) }}
+                      {{ "," }}
+                    {{ end }}
+                  </a>
+                {{ end }}
+              </li>
+            {{ end }}
+            <li class="mr-4 inline-block">
+              <i class="fa-regular fa-clock mr-2"></i>
+              {{ time.Format ":date_long" .PublishDate }}
+            </li>
+          </ul>
+          <div class="content mb-10">
+            {{ partial "toc.html" (dict "Class" "blog" "Collapsed" false "TableOfContents" .TableOfContents ) }}
+            {{ .Content }}
+          </div>
+          <div class="row items-start justify-between">
+            {{ $tags:= .Params.tags }}
+            {{ if $tags }}
+              <div class="lg:col-6 mb-10 flex items-center lg:mb-0">
+                <h5 class="mr-3">{{ T "tags" }} :</h5>
+                <ul>
+                  {{ range $i,$p:= $tags }}
+                    <li class="inline-block">
+                      <a
+                        class="bg-light hover:bg-primary dark:bg-darkmode-light dark:hover:bg-darkmode-primary dark:hover:text-text-dark m-1 block rounded px-3 py-1 hover:text-white"
+                        href="{{ `tags/` | relLangURL }}{{ . | urlize | lower }}/">
+                        {{ . | humanize }}
+                      </a>
+                    </li>
+                  {{ end }}
+                </ul>
+              </div>
+            {{ end }}
+            <div class="lg:col-6 flex items-center">
+              {{ partial "social-share" (dict "Context" . "Class" "share-icons lg:ml-auto" "Title" (T "share") "Whatsapp" false "Telegram" false "Linkedin" false "Pinterest" false "Tumblr" false "Vk" false) }}
+            </div>
+          </div>
+          <!-- comments -->
+          {{ if site.Config.Services.Disqus.Shortname }}
+            <div class="mt-20">
+              {{ template "_internal/disqus.html" . }}
+            </div>
+          {{ end }}
+        </article>
+      </div>
+
+      <!-- Related posts -->
+      {{ $related := .Site.RegularPages.Related . | first 10 }}
+      {{ $related = $related | shuffle | first 3 }}
+      {{ with $related }}
+        <div class="section pb-0">
+          <h2 class="h3 mb-12">{{ T "related_posts" }}</h2>
+          <div class="row">
+            {{ range . }}
+              <div class="lg:col-4 md:col-6 mb-14">
+                {{ partial "components/blog-card" . }}
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}
+
+================
+File: themes/hugoplate/layouts/contact/list.html
+================
+{{ define "main" }}
+  {{ partial "page-header" . }}
+
+
+  <section class="section-sm">
+    <div class="container">
+      <div class="row">
+        <div class="md:col-10 lg:col-6 mx-auto">
+          <form action="{{ site.Params.contact_form_action }}" method="POST">
+            <div class="mb-6">
+              <label for="name" class="form-label">
+                Full Name <span class="text-red-500">*</span>
+              </label>
+              <input
+                id="name"
+                name="name"
+                class="form-input"
+                placeholder="John Doe"
+                type="text" />
+            </div>
+            <div class="mb-6">
+              <label for="email" class="form-label">
+                Working Mail <span class="text-red-500">*</span>
+              </label>
+              <input
+                id="email"
+                name="email"
+                class="form-input"
+                placeholder="john.doe@email.com"
+                type="email" />
+            </div>
+            <div class="mb-6">
+              <label for="message" class="form-label">
+                Anything else? <span class="text-red-500">*</span>
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                class="form-input"
+                placeholder="Message goes here..."
+                rows="8"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- google map -->
+  {{ with site.Params.google_map }}
+    {{ if .enable }}
+      <div
+        id="map"
+        style="height: 400px;"
+        data-latitude="{{ .map_latitude }}"
+        data-longitude="{{ .map_longitude }}"
+        data-marker="{{ .map_marker | relURL }}"
+        data-marker-name="{{ site.Title }}"></div>
+    {{ end }}
+  {{ end }}
+
+  {{ with site.Params.subscription }}
+    {{ if .enable }}
+      <!-- subscription form -->
+      <form
+        action="{{ .mailchimp_form_action | safeURL }}"
+        method="post"
+        id="mc-embedded-subscribe-form"
+        novalidate="novalidate">
+        <div class="input-group w-75 mx-auto mb-3">
+          <input
+            type="email"
+            name="EMAIL"
+            placeholder="Email"
+            class="form-control required email mce_inline_error"
+            id="mce-EMAIL"
+            aria-required="true"
+            autocomplete="off"
+            required />
+          <button
+            class="input-group-text"
+            name="subscribe"
+            id="mc-embedded-subscribe">
+            {{ .button_label }}
+          </button>
+        </div>
+        <input
+          type="hidden"
+          name="EMAILTYPE"
+          id="mce-EMAILTYPE-0"
+          value="html" />
+        <div style="position:absolute;left:-5000px" aria-hidden="true">
+          <input type="text" name="{{ .name }}" tabindex="-1" />
+        </div>
+      </form>
+      <div id="mce-responses" class="clear">
+        <div
+          class="response text-white"
+          id="mce-error-response"
+          style="display:none"></div>
+        <div
+          class="response text-white"
+          id="mce-success-response"
+          style="display:none"></div>
+      </div>
+      <script
+        type="text/javascript"
+        src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
+      <!-- /subscription form -->
+    {{ end }}
+  {{ end }}
+
+  {{ if site.Params.google_map.enable }}
+    {{ $gmap:= resources.Get "plugins/maps/google-map.js" }}
+    <script defer src="{{ $gmap.RelPermalink }}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ site.Params.google_map.map_api_key }}&libraries=places"></script>
+  {{ end }}
+
+{{ end }}
+
+================
+File: themes/hugoplate/layouts/partials/components/author-card.html
+================
+<div class="bg-light dark:bg-darkmode-light rounded p-8 text-center">
+  {{ $image:= .Params.image }}
+  {{ if $image }}
+    {{ partial "image" (dict "Src" $image "Context" .Page "Alt" .Title "Class" "mx-auto mb-6 rounded" "size" "120x120") }}
+  {{ else if .Params.Email }}
+    <img
+      class="mx-auto mb-6 rounded"
+      alt="{{ .Title }}"
+      height="120"
+      width="120"
+      src="https://www.gravatar.com/avatar/{{ md5 .Params.email }}?s=128&pg&d=identicon" />
+  {{ end }}
+  <h4 class="mb-3">
+    <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+  </h4>
+  <p class="mb-4">
+    {{ .Summary }}
+  </p>
+  <ul class="social-icons">
+    {{ range .Params.social }}
+      <li>
+        <a href="{{ .link | safeURL }}" target="_blank" rel="noopener nofollow">
+          <span class="sr-only">{{ .title }}</span>
+          <i class="{{ .icon }}"></i>
+        </a>
+      </li>
+    {{ end }}
+  </ul>
+</div>
+
+================
+File: themes/hugoplate/layouts/partials/components/blog-card.html
+================
+<div class="bg-body dark:bg-darkmode-body">
+  {{ $image:= .Params.image }}
+  {{ if $image }}
+    {{ partial "image" (dict "Src" $image "Context" .Page "Alt" .Title "Class" "mb-6 w-full rounded") }}
+  {{ end }}
+  <h4 class="mb-3">
+    <a href="{{ .RelPermalink }}">
+      {{ .Title }}
+    </a>
+  </h4>
+  {{ $categories:= .Params.categories }}
+  {{ if $categories }}
+    <ul class="mb-4">
+      <li class="mr-4 inline-block">
+        <a href="{{ `authors/` | relLangURL }}{{ .Params.Author | urlize }}/">
+          <i class="fa-regular fa-circle-user mr-2"></i>{{ .Params.author }}
+        </a>
+      </li>
+      <li class="mr-4 inline-block">
+        <i class="fa-regular fa-folder mr-1"></i>
+        {{ range $i,$p:= $categories }}
+          <a
+            href="{{ `categories/` | relLangURL }}{{ . | urlize | lower }}/"
+            class="ms-1"
+            >{{ . | humanize }}{{ if ne $i (sub (len $categories) 1) }}
+              {{ "," }}
+            {{ end }}
+          </a>
+        {{ end }}
+      </li>
+    </ul>
+  {{ end }}
+  <p class="mb-6">{{ .Summary | plainify }}</p>
+  <a class="btn btn-outline-primary btn-sm" href="{{ .RelPermalink }}">
+    {{ T "read_more" }}
+  </a>
+</div>
+
+================
+File: themes/hugoplate/layouts/partials/components/breadcrumb.html
+================
+{{ $context := .Context }}
+{{ $class := .Class }}
+{{ $base := site.Home.Permalink }}
+
+
+<ul class="{{ $class }} inline-flex space-x-1 capitalize">
+  <li>
+    <a class="text-primary dark:text-darkmode-primary" href="{{ $base }}">
+      {{ T "home" | default "Home" }}
+    </a>
+    <span class="inlin-block mr-1">/</span>
+  </li>
+  {{ range $i, $e:= $context.Ancestors.Reverse }}
+    {{ if and (not .IsHome) (ne .Title "Pages") }}
+      <li>
+        <a
+          class="text-primary dark:text-darkmode-primary"
+          href="{{ .RelPermalink }}">
+          {{ T (printf "%s" (lower .Title)) | default .Title }}
+        </a>
+        <span class="inlin-block mr-1">/</span>
+      </li>
+    {{ end }}
+  {{ end }}
+  <li>
+    <span class="text-primary dark:text-darkmode-primary">
+      {{ T (printf "%s" (lower $context.Title)) | default $context.Title }}
+    </span>
+  </li>
+</ul>
+
+================
+File: themes/hugoplate/layouts/partials/components/language-switcher.html
+================
+<!-- Language List -->
+{{ if hugo.IsMultilingual }}
+{{ $class := .Class }}
+{{ $context := .Context }}
+{{ $pageLang := $context.Lang }}
+{{ $pageTranslations := newScratch }}
+{{/* First, fill all translations of the Home page (failsafe) */}}
+{{ range site.Home.AllTranslations }}
+  {{ $pageTranslations.Set .Language.Lang .Permalink }}
+{{ end }}
+{{/* Second, if a translation exists for the current page for the target language, replace failsafe */}}
+{{ range $context.AllTranslations }}
+  {{ $pageTranslations.Set .Language.Lang .Permalink }}
+{{ end }}
+
+<select class="{{ $class }}" onchange="location = this.value">
+  {{ range site.Languages }}
+    {{/* Fill the dropdown with all known languages */}}
+    {{ $link := $pageTranslations.Get .Lang }}
+    {{ if $link }}
+      <option
+        id="{{ .Lang }}"
+        value="{{ $link }}"
+      {{ if eq .Lang $pageLang }}
+        selected
+      {{ end }}
+        >
+        {{ .LanguageName }}
+      </option>
+    {{ else }}
+      {{/* if we can't safely redirect the user to the translated page or at least to translated home, discard the language from options */}}
+    {{ end }}
+  {{ end }}
+</select>
+{{ end }}
+
+================
+File: themes/hugoplate/layouts/partials/components/pagination.html
+================
+{{ $paginator := .Paginator }}
+<!-- Number of links either side of the current page. -->
+{{ $adjacent_links := 2 }}
+<!-- $max_links = ($adjacent_links * 2) + 1 -->
+{{ $max_links := (add (mul $adjacent_links 2) 1) }}
+<!-- $lower_limit = $adjacent_links + 1 -->
+{{ $lower_limit := (add $adjacent_links 1) }}
+<!-- $upper_limit = $paginator.TotalPages - $adjacent_links -->
+{{ $upper_limit := (sub $paginator.TotalPages $adjacent_links) }}
+<!-- If there's more than one page. -->
+{{ if gt $paginator.TotalPages 1 }}
+  <nav
+    class="flex items-center justify-center space-x-3"
+    aria-label="Pagination">
+    <!-- Previous page. -->
+    {{ if $paginator.HasPrev }}
+      <a
+        class="text-text-dark hover:bg-light dark:text-darkmode-text-dark dark:hover:bg-darkmode-light rounded px-2 py-1.5"
+        href="{{ $paginator.Prev.URL }}"
+        aria-label="Pagination Arrow">
+        <span class="sr-only">Previous</span>
+        <svg
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
+          height="30"
+          width="30">
+          <path
+            fill-rule="evenodd"
+            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+            clip-rule="evenodd" />
+        </svg>
+      </a>
+    {{ else }}
+      <span class="text-text-light rounded px-2 py-1.5">
+        <span class="sr-only">Previous</span>
+        <svg
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
+          height="30"
+          width="30">
+          <path
+            fill-rule="evenodd"
+            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+            clip-rule="evenodd" />
+        </svg>
+      </span>
+    {{ end }}
+
+
+    <!-- Page numbers -->
+    {{ range $paginator.Pagers }}
+      {{ $.Scratch.Set "page_number_flag" false }}
+      <!-- Advanced page numbers. -->
+      {{ if gt $paginator.TotalPages $max_links }}
+        <!-- Lower limit pages. -->
+        <!-- If the user is on a page which is in the lower limit.  -->
+        {{ if le $paginator.PageNumber $lower_limit }}
+          <!-- If the current loop page is less than max_links. -->
+          {{ if le .PageNumber $max_links }}
+            {{ $.Scratch.Set "page_number_flag" true }}
+          {{ end }}
+          <!-- Upper limit pages. -->
+          <!-- If the user is on a page which is in the upper limit. -->
+        {{ else if ge $paginator.PageNumber $upper_limit }}
+          <!-- If the current loop page is greater than total pages minus $max_links -->
+          {{ if gt .PageNumber (sub $paginator.TotalPages $max_links) }}
+            {{ $.Scratch.Set "page_number_flag" true }}
+          {{ end }}
+          <!-- Middle pages. -->
+        {{ else }}
+          {{ if and ( ge .PageNumber (sub $paginator.PageNumber $adjacent_links) ) ( le .PageNumber (add $paginator.PageNumber $adjacent_links) ) }}
+            {{ $.Scratch.Set "page_number_flag" true }}
+          {{ end }}
+        {{ end }}
+        <!-- Simple page numbers. -->
+      {{ else }}
+        {{ $.Scratch.Set "page_number_flag" true }}
+      {{ end }}
+      <!-- Output page numbers. -->
+      {{ if eq ($.Scratch.Get "page_number_flag") true }}
+
+        {{ if eq . $paginator }}
+          <span
+            aria-current="page"
+            class="bg-primary dark:bg-darkmode-primary dark:text-text-dark rounded px-4 py-2 text-white">
+            {{ .PageNumber }}
+          </span>
+        {{ else }}
+          <a
+            href="{{ .URL }}"
+            aria-current="page"
+            class="text-text-dark hover:bg-light dark:text-darkmode-text-dark dark:hover:bg-darkmode-light rounded px-4 py-2">
+            {{ .PageNumber }}
+          </a>
+        {{ end }}
+      {{ end }}
+    {{ end }}
+
+
+    <!-- Next page. -->
+    {{ if $paginator.HasNext }}
+      <a
+        class="text-text-dark hover:bg-light dark:text-darkmode-text-dark dark:hover:bg-darkmode-light rounded px-2 py-1.5"
+        href="{{ $paginator.Next.URL }}"
+        aria-label="Pagination Arrow">
+        <span class="sr-only">Next</span>
+        <svg
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
+          height="30"
+          width="30">
+          <path
+            fill-rule="evenodd"
+            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+            clip-rule="evenodd" />
+        </svg>
+      </a>
+    {{ else }}
+      <span class="text-text-light rounded px-2 py-1.5">
+        <span class="sr-only">Next</span>
+        <svg
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
+          height="30"
+          width="30">
+          <path
+            fill-rule="evenodd"
+            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+            clip-rule="evenodd" />
+        </svg>
+      </span>
+    {{ end }}
+  </nav>
+{{ end }}
+
+================
+File: themes/hugoplate/layouts/partials/components/theme-switcher.html
+================
+<!-- theme switcher -->
+{{ $class := .Class }}
+{{ if site.Params.theme_switcher }}
+  <div class="theme-switcher {{ $class }} hidden">
+    <input id="theme-switcher" data-theme-switcher type="checkbox" />
+    <label for="theme-switcher">
+      <span class="sr-only">theme switcher</span>
+      <span>
+        <!-- sun -->
+        <svg
+          class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 opacity-100 dark:opacity-0"
+          viewBox="0 0 56 56"
+          fill="#fff"
+          height="16"
+          width="16">
+          <path
+            d="M30 4.6c0-1-.9-2-2-2a2 2 0 0 0-2 2v5c0 1 .9 2 2 2s2-1 2-2Zm9.6 9a2 2 0 0 0 0 2.8c.8.8 2 .8 2.9 0L46 13a2 2 0 0 0 0-2.9 2 2 0 0 0-3 0Zm-26 2.8c.7.8 2 .8 2.8 0 .8-.7.8-2 0-2.9L13 10c-.7-.7-2-.8-2.9 0-.7.8-.7 2.1 0 3ZM28 16a12 12 0 0 0-12 12 12 12 0 0 0 12 12 12 12 0 0 0 12-12 12 12 0 0 0-12-12Zm23.3 14c1.1 0 2-.9 2-2s-.9-2-2-2h-4.9a2 2 0 0 0-2 2c0 1.1 1 2 2 2ZM4.7 26a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4.9c1 0 2-.9 2-2s-1-2-2-2Zm37.8 13.6a2 2 0 0 0-3 0 2 2 0 0 0 0 2.9l3.6 3.5a2 2 0 0 0 2.9 0c.8-.8.8-2.1 0-3ZM10 43.1a2 2 0 0 0 0 2.9c.8.7 2.1.8 3 0l3.4-3.5c.8-.8.8-2.1 0-2.9-.8-.8-2-.8-2.9 0Zm20 3.4c0-1.1-.9-2-2-2a2 2 0 0 0-2 2v4.9c0 1 .9 2 2 2s2-1 2-2Z" />
+        </svg>
+        <!-- moon -->
+        <svg
+          class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 opacity-0 dark:opacity-100"
+          viewBox="0 0 24 24"
+          fill="none"
+          height="16"
+          width="16">
+          <path
+            fill="#000"
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M8.2 2.2c1-.4 2 .6 1.6 1.5-1 3-.4 6.4 1.8 8.7a8.4 8.4 0 0 0 8.7 1.8c1-.3 2 .5 1.5 1.5v.1a10.3 10.3 0 0 1-9.4 6.2A10.3 10.3 0 0 1 3.2 6.7c1-2 2.9-3.5 4.9-4.4Z" />
+        </svg>
+      </span>
+    </label>
+  </div>
+
+  <!-- theme switcher -->
+  <script>
+    var darkMode = {{if eq site.Params.theme_default "dark"}}true{{else}}false{{end}};
+
+    {{ if eq site.Params.theme_default "system" }}
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches){darkMode = true}
+    {{ end }}
+
+    if (localStorage.getItem("theme") === "dark"){darkMode = true}
+    else if (localStorage.getItem("theme") === "light"){darkMode = false}
+
+    if (darkMode){document.documentElement.classList.add("dark")}
+    else {document.documentElement.classList.remove("dark")}
+
+    // Show theme switcher after applying theme
+    document.addEventListener("DOMContentLoaded", () => {
+      var themeSwitch = document.querySelectorAll("[data-theme-switcher]");
+      var themeSwitcherContainer = document.querySelector('.theme-switcher');
+
+      [].forEach.call(themeSwitch, function (ts) {
+        ts.checked = darkMode;
+        ts.addEventListener("click", () => {
+          document.documentElement.classList.toggle("dark");
+          localStorage.setItem(
+            "theme",
+            document.documentElement.classList.contains("dark") ? "dark" : "light"
+          );
+        });
+      });
+
+      // Now make the switcher visible
+      themeSwitcherContainer.classList.remove('hidden');
+    });
+  </script>
+{{ end }}
+
+================
+File: themes/hugoplate/layouts/partials/components/tw-size-indicator.html
+================
+<div
+  class="fixed left-0 top-0 z-50 flex w-[30px] items-center justify-center bg-gray-200 py-[2.5px] text-[12px] uppercase text-black sm:bg-red-200 md:bg-yellow-200 lg:bg-green-200 xl:bg-blue-200 2xl:bg-pink-200">
+  <span class="block sm:hidden">all</span>
+  <span class="hidden sm:block md:hidden">sm</span>
+  <span class="hidden md:block lg:hidden">md</span>
+  <span class="hidden lg:block xl:hidden">lg</span>
+  <span class="hidden xl:block 2xl:hidden">xl</span>
+  <span class="hidden 2xl:block">2xl</span>
+</div>
+
+================
+File: themes/hugoplate/layouts/partials/essentials/footer.html
+================
+<footer class="bg-light dark:bg-darkmode-light">
+  <div class="container">
+    <div class="row items-center py-10">
+      <div class="lg:col-3 mb-8 text-center lg:mb-0 lg:text-left">
+        <!-- navbar brand/logo -->
+        <a
+          class="navbar-brand inline-block"
+          href="{{ site.Home.RelPermalink }}">
+          {{ partial "logo" }}
+        </a>
+      </div>
+      <div class="lg:col-6 mb-8 text-center lg:mb-0">
+        <ul>
+          {{ range site.Menus.footer }}
+            <li class="m-3 inline-block">
+              <a
+                {{ if findRE `^http` .URL }}
+                  target="_blank" rel="noopener"
+                {{ end }}
+                href="{{ if findRE `^#` .URL }}
+                  {{ if not $.IsHome }}
+                    {{ site.Home.RelPermalink }}
+                  {{ end }}{{ .URL }}
+                {{ else }}
+                  {{ .URL | relLangURL }}
+                {{ end }}"
+                >{{ .Name }}</a
+              >
+            </li>
+          {{ end }}
+        </ul>
+      </div>
+      <div class="lg:col-3 mb-8 text-center lg:mb-0 lg:mt-0 lg:text-right">
+        <ul class="social-icons">
+          {{ range site.Data.social.main }}
+            <li>
+              <a
+                target="_blank"
+                aria-label="{{ .name }}"
+                rel="nofollow noopener"
+                href="{{ .link | safeURL }}">
+                <i class="{{ .icon }}"></i>
+              </a>
+            </li>
+          {{ end }}
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="border-border dark:border-darkmode-border border-t py-7">
+    <div
+      class="text-text-light dark:text-darkmode-text-light container text-center">
+      <p>
+        {{ site.Params.copyright | markdownify }}
+      </p>
+    </div>
+  </div>
+</footer>
+
+================
+File: themes/hugoplate/layouts/partials/essentials/head.html
+================
+<meta charset="utf-8" />
+
+<!-- responsive meta -->
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, maximum-scale=5" />
+
+<!-- theme meta -->
+<meta name="theme-name" content="hugoplate" />
+
+<!-- favicon -->
+{{ partialCached "favicon" . }}
+
+
+<!-- manifest -->
+{{ partialCached "manifest" . }}
+
+
+<!-- site verifications -->
+{{ partialCached "site-verifications.html" . }}
+
+
+<!-- opengraph and twitter card -->
+{{ partial "basic-seo.html" . }}
+
+
+<!-- custom script -->
+{{ partialCached "custom-script.html" . }}
+
+
+<!-- google analytics -->
+{{ if and site.Config.Services.GoogleAnalytics.ID (ne site.Config.Services.GoogleAnalytics.ID "G-MEASUREMENT_ID") }}
+  {{ template "_internal/google_analytics.html" . }}
+{{ end }}
+
+
+<!-- google tag manager -->
+{{ partialCached "gtm.html" . }}
+
+
+<!-- search index -->
+{{ partial "search-index.html" . }}
+
+
+<!-- matomo analytics -->
+{{/* {{ partialCached "matomo-analytics.html" . }} */}}
+
+<!--  Baidu analytics -->
+{{/* {{ partialCached "baidu-analytics.html" . }} */}}
+
+<!-- Plausible Analytics -->
+{{/* {{ partialCached "plausible-analytics.html" . }} */}}
+
+<!-- Counter Analytics -->
+{{/* {{ partialCached "counter-analytics.html" . }} */}}
+
+<!-- Crisp Chat -->
+{{/* {{ partialCached "crisp-chat.html" . }} */}}
+
+<!-- Mermaid -->
+{{ partial "mermaid/assets/js" . }}
+
+================
+File: themes/hugoplate/layouts/partials/essentials/header.html
+================
+<header
+  class="header {{ if site.Params.navbar_fixed }}sticky top-0{{ end }} z-30">
+  <nav class="navbar container">
+    <!-- logo -->
+    <div class="order-0">
+      <!-- navbar brand/logo -->
+      <a class="navbar-brand block" href="{{ site.Home.RelPermalink }}">
+        {{ partial "logo" }}
+      </a>
+    </div>
+    <!-- navbar toggler -->
+    <input id="nav-toggle" type="checkbox" class="hidden" />
+    <label
+      for="nav-toggle"
+      class="order-3 cursor-pointer flex items-center lg:hidden text-text-dark dark:text-white lg:order-1">
+      <svg id="show-button" class="h-6 fill-current block" viewBox="0 0 20 20">
+        <title>Menu Open</title>
+        <path d="M0 3h20v2H0V3z m0 6h20v2H0V9z m0 6h20v2H0V0z"></path>
+      </svg>
+      <svg id="hide-button" class="h-6 fill-current hidden" viewBox="0 0 20 20">
+        <title>Menu Close</title>
+        <polygon
+          points="11 9 22 9 22 11 11 11 11 22 9 22 9 11 -2 11 -2 9 9 9 9 -2 11 -2"
+          transform="rotate(45 10 10)"></polygon>
+      </svg>
+    </label>
+    <!-- /navbar toggler -->
+
+    <!-- main navbar -->
+    <ul
+      id="nav-menu"
+      class="navbar-nav order-3 hidden lg:flex w-full pb-6 lg:order-1 lg:w-auto lg:space-x-2 lg:pb-0 xl:space-x-8">
+      {{ $currentPage := . }}
+      {{ range site.Menus.main }}
+        {{ $menuURL := .URL | absLangURL }}
+        {{ $pageURL:= $currentPage.Permalink | absLangURL }}
+        {{ $active := eq $menuURL $pageURL }}
+        {{ if .HasChildren }}
+          <li class="nav-item nav-dropdown group relative">
+            <span
+              class="nav-link {{ range .Children }}
+                {{ $childURL := .URL | absLangURL }}
+                {{ $active := eq $childURL $pageURL }}
+                {{ if $active }}active{{ end }}
+              {{ end }} inline-flex items-center">
+              {{ .Name }}
+              <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
+                <path
+                  d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+              </svg>
+            </span>
+            <ul
+              class="nav-dropdown-list lg:group-hover:visible lg:group-hover:opacity-100">
+              {{ range .Children }}
+                {{ $childURL := .URL | absLangURL }}
+                {{ $active := eq $childURL $pageURL }}
+                <li class="nav-dropdown-item">
+                  <a
+                    class="nav-dropdown-link {{ if $active }}
+                      active
+                    {{- end -}}"
+                    {{ if findRE `^http` .URL }}
+                      target="_blank" rel="noopener"
+                    {{ end }}
+                    href="{{- if findRE `^#` .URL -}}
+                      {{- if not $.IsHome -}}
+                        {{- site.Home.RelPermalink -}}
+                      {{- end }}
+                      {{- .URL -}}
+                    {{- else -}}
+                      {{- .URL | relLangURL -}}
+                    {{- end -}}">
+                    {{ .Name }}
+                  </a>
+                </li>
+              {{ end }}
+            </ul>
+          </li>
+        {{ else }}
+          <li class="nav-item">
+            <a
+              class="nav-link {{ if $active }}active{{- end -}}"
+              {{ if findRE `^http` .URL }}
+                target="_blank" rel="noopener"
+              {{ end }}
+              href="{{- if findRE `^#` .URL -}}
+                {{- if not $.IsHome -}}
+                  {{- site.Home.RelPermalink -}}
+                {{- end }}{{- .URL -}}
+              {{- else -}}
+                {{- .URL | relLangURL -}}
+              {{- end -}}"
+              >{{ .Name }}</a
+            >
+          </li>
+        {{ end }}
+      {{ end }}
+      {{ if site.Params.navigation_button.enable }}
+        <li class="mt-4 inline-block lg:hidden">
+          <a
+            class="btn btn-outline-primary btn-sm"
+            href="{{ site.Params.navigation_button.link | relLangURL }}">
+            {{ site.Params.navigation_button.label }}
+          </a>
+        </li>
+      {{ end }}
+    </ul>
+
+    <div class="order-1 ml-auto flex items-center md:order-2 lg:ml-0">
+      {{ with site.Params.search }}
+        {{ if .enable }}
+          <button
+            aria-label="search"
+            {{ if and (not site.Params.navigation_button.enable) (not site.Params.theme_switcher) }}
+              class="border-border text-text-dark hover:text-primary
+              dark:border-darkmode-border mr-5 inline-block border-r
+              lg:border-r-0 pr-5 lg:pr-0 text-xl dark:text-white
+              dark:hover:text-darkmode-primary"
+            {{ else }}
+              class="border-border text-text-dark hover:text-primary
+              dark:border-darkmode-border mr-5 inline-block border-r pr-5
+              text-xl dark:text-white dark:hover:text-darkmode-primary"
+            {{ end }}
+            data-target="search-modal">
+            <i class="fa-solid fa-search"></i>
+          </button>
+        {{ end }}
+      {{ end }}
+
+      {{ partial "components/language-switcher" (dict "Context" . "Class" "mr-5 pl-2 py-1 dark:bg-darkmode-light rounded") }}
+      {{ partial "components/theme-switcher" (dict "Class" "mr-5") }}
+
+
+      <!-- navigation btn -->
+      {{ if site.Params.navigation_button.enable }}
+        <a
+          href="{{ site.Params.navigation_button.link | relLangURL }}"
+          class="btn btn-outline-primary btn-sm hidden lg:inline-block">
+          {{ site.Params.navigation_button.label }}
+        </a>
+      {{ end }}
+    </div>
+  </nav>
+</header>
+
+================
+File: themes/hugoplate/layouts/partials/essentials/script.html
+================
+<!-- JS Plugins + Main script -->
+{{ $scripts := slice }}
+{{ $scriptsLazy := slice }}
+{{ range site.Params.plugins.js }}
+  {{ if findRE "^http" .link }}
+    <script
+      src="{{ .link | relURL }}"
+      type="application/javascript"
+      {{ .attributes | safeHTMLAttr }}></script>
+  {{ else }}
+    {{ if not .lazy }}
+      {{ $scripts = $scripts | append (resources.Get .link) }}
+    {{ else }}
+      {{ $scriptsLazy = $scriptsLazy | append (resources.Get .link) }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+
+<!-- main script -->
+{{ $scripts = $scripts | append (resources.Get "js/main.js") }}
+{{ $scripts = $scripts | resources.Concat "js/script.js" }}
+
+{{ $scriptsLazy = $scriptsLazy | resources.Concat "js/script-lazy.js" }}
+
+{{ if hugo.IsProduction }}
+  {{ $scripts = $scripts | minify | fingerprint }}
+  {{ $scriptsLazy = $scriptsLazy | minify | fingerprint }}
+{{ end }}
+
+{{/* scripts */}}
+<script
+  crossorigin="anonymous"
+  integrity="{{ $scripts.Data.Integrity }}"
+  src="{{ $scripts.RelPermalink }}"></script>
+
+{{/* scripts lazy */}}
+<script
+  defer
+  async
+  crossorigin="anonymous"
+  integrity="{{ $scriptsLazy.Data.Integrity }}"
+  src="{{ $scriptsLazy.RelPermalink }}"></script>
+
+<!-- progressive web app -->
+{{ partialCached "pwa.html" . }}
+
+
+<!-- cookie consent -->
+{{ partialCached "cookie-consent.html" . }}
+
+
+<!-- google adsense -->
+{{ partialCached "adsense-script.html" . }}
+
+
+<!-- cookie consent -->
+{{ partialCached "announcement-script.html" . }}
+
+================
+File: themes/hugoplate/layouts/partials/essentials/style.html
+================
+<!-- DNS preconnect -->
+<meta http-equiv="x-dns-prefetch-control" content="on" />
+<link rel="preconnect" href="https://use.fontawesome.com" crossorigin />
+<link rel="preconnect" href="//cdnjs.cloudflare.com" />
+<link rel="preconnect" href="//www.googletagmanager.com" />
+<link rel="preconnect" href="//www.google-analytics.com" />
+<link rel="dns-prefetch" href="https://use.fontawesome.com" />
+<link rel="dns-prefetch" href="//ajax.googleapis.com" />
+<link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
+<link rel="dns-prefetch" href="//www.googletagmanager.com" />
+<link rel="dns-prefetch" href="//www.google-analytics.com" />
+<link rel="dns-prefetch" href="//fonts.googleapis.com" />
+<link rel="dns-prefetch" href="//connect.facebook.net" />
+<link rel="dns-prefetch" href="//platform.linkedin.com" />
+<link rel="dns-prefetch" href="//platform.twitter.com" />
+
+<!-- google fonts -->
+{{ $pf:= site.Data.theme.fonts.font_family.primary }}
+{{ $sf:= site.Data.theme.fonts.font_family.secondary }}
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<script>
+  (function () {
+    const googleFont = document.createElement("link");
+    googleFont.href = "https://fonts.googleapis.com/css2?family={{$pf | safeURL}}{{with $sf}}&family={{. | safeURL}}{{end}}&display=swap";
+    googleFont.type = "text/css";
+    googleFont.rel = "stylesheet";
+    document.head.appendChild(googleFont);
+  })();
+</script>
+
+<!-- main styles -->
+{{ $styles := slice }}
+{{ $stylesLazy := slice }}
+
+{{ range site.Params.plugins.css }}
+  {{ if findRE "^http" .link }}
+    <link
+      crossorigin="anonymous"
+      media="all"
+      rel="stylesheet"
+      href="{{ .link | relURL }}"
+      {{ .attributes | safeHTMLAttr }} />
+  {{ else }}
+    {{ if not .lazy }}
+      {{ $styles = $styles | append (resources.Get .link) }}
+    {{ else }}
+      {{ $stylesLazy = $stylesLazy | append (resources.Get .link) }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ $mainCSS := resources.Get "css/main.css" }}
+{{ $tailwindOpts := dict "inlineImports" true }}
+{{ $tailwindCSS := $mainCSS | css.TailwindCSS $tailwindOpts }}
+
+{{ $styles = $styles | append $tailwindCSS }}
+{{ $styles = $styles | resources.Concat "css/style.css" }}
+
+{{ $stylesLazy = $stylesLazy | resources.Concat "css/style-lazy.css" }}
+
+{{ if hugo.IsProduction }}
+  {{ $styles = $styles | minify | fingerprint }}
+  {{ $stylesLazy = $stylesLazy | minify | fingerprint }}
+{{ end }}
+
+
+<!-- link main style -->
+<link
+  href="{{ $styles.RelPermalink }}"
+  integrity="{{ $styles.Data.Integrity }}"
+  rel="stylesheet" />
+
+<!-- link lazy style -->
+<link
+  defer
+  async
+  rel="stylesheet"
+  href="{{ $stylesLazy.RelPermalink }}"
+  integrity="{{ $stylesLazy.Data.Integrity }}"
+  media="print"
+  onload="this.media='all'; this.onload=null;" />
+
+================
+File: themes/hugoplate/layouts/partials/widgets/categories.html
+================
+<!-- categories -->
+{{ if isset site.Taxonomies "categories" }}
+  {{ if not (eq (len site.Taxonomies.categories) 0) }}
+    <div class="mb-8">
+      <h5 class="mb-6">{{ T "categories" }}</h5>
+      <div class="bg-light dark:bg-darkmode-light rounded p-8">
+        <ul class="space-y-4">
+          {{ range $name, $items := site.Taxonomies.categories }}
+            <li>
+              <a
+                class="hover:text-primary dark:hover:text-darkmode-primary {{ if (and (eq $.Page.Kind `term`) (eq $.Page.Type `categories`) (eq $.Page.Title .Page.Title)) }}
+                  active
+                {{ end }} flex justify-between"
+                href="{{ .Page.RelPermalink }}">
+                {{ .Page.Title }} <span>( {{ len $items }} )</span>
+              </a>
+            </li>
+          {{ end }}
+        </ul>
+      </div>
+    </div>
+  {{ end }}
+{{ end }}
+
+================
+File: themes/hugoplate/layouts/partials/widgets/tags.html
+================
+<!-- tags -->
+{{ if isset site.Taxonomies "tags" }}
+  {{ if not (eq (len site.Taxonomies.tags) 0) }}
+    <div class="mb-8">
+      <h5 class="mb-6">{{ T "tags" }}</h5>
+      <div class="bg-light dark:bg-darkmode-light rounded p-6">
+        <ul>
+          {{ range $name, $items := site.Taxonomies.tags }}
+            <li class="inline-block">
+              <a
+                class="hover:bg-primary dark:bg-darkmode-body dark:hover:bg-darkmode-primary dark:hover:text-text-dark {{ if (and (eq $.Page.Kind `term`) (eq $.Page.Type `tags`) (eq $.Page.Title .Page.Title)) }}
+                  active
+                {{ end }} m-1 block rounded bg-white px-3 py-1 hover:text-white"
+                href="{{ .Page.RelPermalink }}">
+                {{ .Page.Title }}
+              </a>
+            </li>
+          {{ end }}
+        </ul>
+      </div>
+    </div>
+  {{ end }}
+{{ end }}
+
+================
+File: themes/hugoplate/layouts/partials/widgets/widget-wrapper.html
+================
+{{ range .Widgets }}
+  {{ partial ( print "widgets/" . ) $.Scope }}
+{{ end }}
+
+================
+File: themes/hugoplate/layouts/partials/call-to-action.html
+================
+<!-- Call to actions -->
+{{ with site.GetPage "sections/call-to-action" }}
+  {{ if .Params.enable }}
+    <section class="mb-28">
+      <div class="container">
+        <div
+          class="bg-light dark:bg-darkmode-light rounded-xl px-4 py-16 xl:p-20">
+          <div class="row items-center justify-between">
+            <div class="md:col-5 lg:col-4 mb-10 md:order-2 md:mb-0">
+              {{ partial "image" (dict "Src" .image "Alt" "call to action" "Class" "w-full") }}
+            </div>
+            <div class="md:col-7 md:order-1">
+              <h2 class="mb-2">
+                {{ .Title | markdownify }}
+              </h2>
+              <p class="mb-6">
+                {{ .Params.description | markdownify }}
+              </p>
+              {{ with .Params.button }}
+                {{ if .enable }}
+                  <a class="btn btn-primary" href="{{ .link | absURL }}">
+                    {{ .label }}
+                  </a>
+                {{ end }}
+              {{ end }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  {{ end }}
+{{ end }}
+<!-- /Call to actions -->
+
+================
+File: themes/hugoplate/layouts/partials/page-header.html
+================
+<section>
+  <div class="container text-center">
+    <div
+      class="from-body to-light dark:from-darkmode-body dark:to-darkmode-light rounded-2xl bg-gradient-to-b px-8 py-14">
+      <h1>{{ T (printf "%s" (lower .Title)) | default .Title | title }}</h1>
+      {{ partial "components/breadcrumb" (dict "Context" . "Class" "mt-6") }}
+    </div>
+  </div>
+</section>
+
+================
+File: themes/hugoplate/layouts/404.en.html
+================
+{{ define "main" }}
+  <section class="section-sm text-center">
+    <div class="container">
+      <div class="row justify-center">
+        <div class="sm:col-10 md:col-8 lg:col-6">
+          <span
+            class="text-[8rem] block font-bold text-text-dark dark:text-darkmode-text-dark">
+            404
+          </span>
+          <h1 class="h2 mb-4">Page not found</h1>
+          <div class="content">
+            <p>
+              The page you are looking for might have been removed, had its name
+              changed, or is temporarily unavailable.
+            </p>
+          </div>
+          <a
+            href="{{ site.BaseURL | relLangURL }}"
+            class="btn btn-primary mt-8">
+            Back to home
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}
+
+================
+File: themes/hugoplate/layouts/index.html
+================
+{{ define "main" }}
+  <!-- Banner -->
+  {{ with .Params.banner }}
+    <section class="section pt-14">
+      <div class="container">
+        <div class="row justify-center">
+          <div class="lg:col-7 md:col-9 mb-8 text-center">
+            <h1 class="mb-4 text-h3 lg:text-h1">
+              {{ .title | markdownify }}
+            </h1>
+            <p class="mb-8">
+              {{ .content | markdownify }}
+            </p>
+            {{ with .button }}
+              {{ if .enable }}
+                <a
+                  class="btn btn-primary"
+                  href="{{ .link | absURL }}"
+                  {{ if strings.HasPrefix .link `http` }}
+                    target="_blank" rel="noopener"
+                  {{ end }}>
+                  {{ .label }}
+                  <i class="fa fa-arrow-right pl-2"></i>
+                </a>
+              {{ end }}
+            {{ end }}
+          </div>
+          <div class="col-12">
+            {{ partial "image" (dict "Src" .image "Alt" "Banner image" "Loading" "eager" "Class" "mx-auto lg:!max-w-[800px]" "DisplayXL" "800x" ) }}
+          </div>
+        </div>
+      </div>
+    </section>
+  {{ end }}
+  <!-- /Banner -->
+
+  <!-- Features -->
+  {{ range $i, $e:= .Params.features }}
+    <section class="section-sm {{ if (modBool $i 2) }}bg-gradient{{ end }}">
+      <div class="container">
+        <div class="row items-center justify-between">
+          <div
+            class="mb:md-0 {{ if not (modBool $i 2) }}
+              md:order-2
+            {{ end }} md:col-5 mb-6">
+            {{ partial "image" (dict "Src" .image "Alt" "feature image" "DisplayXL" "520x" "DisplayLG" "425x" "DisplayMD" "360x") }}
+          </div>
+          <div
+            class="{{ if not (modBool $i 2) }}
+              md:order-1
+            {{ end }} md:col-7 lg:col-6">
+            <h2 class="mb-4">
+              {{ .title | markdownify }}
+            </h2>
+            <p class="mb-8 text-lg">
+              {{ .content | markdownify }}
+            </p>
+            <ul>
+              {{ range .bulletpoints }}
+                <li class="relative mb-4 pl-6">
+                  <i class="fa fa-check absolute left-0 top-1.5"></i>
+                  {{ . | markdownify }}
+                </li>
+              {{ end }}
+            </ul>
+            {{ with .button }}
+              {{ if .enable }}
+                <a class="btn btn-primary mt-6" href="{{ .link | absURL }}">
+                  {{ .label }}
+                  <i class="fa fa-arrow-right pl-2"></i>
+                </a>
+              {{ end }}
+            {{ end }}
+          </div>
+        </div>
+      </div>
+    </section>
+  {{ end }}
+  <!-- /Features -->
+
+  <!-- Testimonials -->
+  {{ with site.GetPage "sections/testimonial" }}
+    {{ if .Params.enable }}
+      <section class="section">
+        <div class="container">
+          <div class="row">
+            <div class="md:col-10 lg:col-8 xl:col-6 mx-auto mb-12 text-center">
+              <h2 class="mb-4">
+                {{ .Title | markdownify }}
+              </h2>
+              <p>
+                {{ .Params.description | markdownify }}
+              </p>
+            </div>
+            <div class="col-12">
+              <div class="swiper testimonial-slider">
+                <div class="swiper-wrapper">
+                  {{ range .Params.testimonials }}
+                    <div class="swiper-slide">
+                      <div
+                        class="bg-light dark:bg-darkmode-light rounded-lg px-7 py-10">
+                        <div class="text-text-dark dark:text-white">
+                          <svg
+                            width="33"
+                            height="20"
+                            viewBox="0 0 33 20"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                              d="M1.28375 19.41L0.79375 18.64C1.21375 17.0067 1.75042 15.07 2.40375 12.83C3.05708 10.5433 3.75708 8.28 4.50375 6.04C5.29708 3.75333 6.06708 1.77 6.81375 0.0899959H15.3538C14.9338 2.09666 14.4904 4.26667 14.0238 6.6C13.5571 8.88666 13.1371 11.15 12.7638 13.39C12.4371 15.5833 12.1571 17.59 11.9238 19.41H1.28375ZM31.69 0.0899959L32.18 0.859998C31.76 2.54 31.2233 4.5 30.57 6.74C29.9167 8.98 29.2167 11.2433 28.47 13.53C27.7233 15.77 26.9533 17.73 26.16 19.41H17.69C18.0167 17.9167 18.3433 16.33 18.67 14.65C18.9967 12.9233 19.3 11.22 19.58 9.54C19.9067 7.81333 20.1867 6.15667 20.42 4.57C20.7 2.93666 20.91 1.44333 21.05 0.0899959H31.69Z"
+                              fill="currentColor" />
+                          </svg>
+                        </div>
+                        <blockquote class="mt-8">
+                          {{ .content | markdownify }}
+                        </blockquote>
+                        <div class="mt-11 flex items-center">
+                          <div class="text-text-dark dark:text-white">
+                            {{ partial "image" (dict "Src" .avatar "Size" "50x50" "Class" "rounded-full" "Alt" .name) }}
+                          </div>
+                          <div class="ml-4">
+                            <h3 class="h5 font-primary font-semibold">
+                              {{ .name }}
+                            </h3>
+                            <p class="text-text-dark dark:text-white">
+                              {{ .designation | markdownify }}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {{ end }}
+                </div>
+                <div
+                  class="testimonial-slider-pagination mt-9 flex items-center justify-center text-center"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  <!-- /Testimonials -->
+{{ end }}
+
+================
+File: hugo.toml
+================
+######################## default configuration ####################
+# The base URL of your site (required). This will be prepended to all relative URLs.
+baseURL = "/"
+# Title of your website (required).
+title = "Hugoplate"
+# Your theme name
+theme = "hugoplate"
+# Default time zone for time stamps; use any valid tz database name: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List
+timeZone = "America/New_York"
+# post excerpt
+summaryLength = 10 # see https://gohugo.io/content-management/excerpts/
+# disable language
+disableLanguages = [
+] # example: ["fr"] for disable french language. see https://gohugo.io/content-management/multilingual/
+hasCJKLanguage = false #  If hasCJKLanguage true, auto-detect Chinese/Japanese/Korean Languages in the content. see: https://gohugo.io/getting-started/configuration/#hascjklanguage
+# default language
+defaultContentLanguage = 'en'
+# defaultContentLanguageInSubdir need to be true if you want to use the language code as a subdirectory and language specific 404 page
+defaultContentLanguageInSubdir = false
+
+########################### Services #############################
+[services]
+[services.googleAnalytics]
+ID = 'G-MEASUREMENT_ID' # see https://gohugo.io/templates/internal/#configure-google-analytics
+
+[services.disqus]
+shortname = 'themefisher-template' # we use disqus to show comments in blog posts . To install disqus please follow this tutorial https://portfolio.peter-baumgartner.net/2017/09/10/how-to-install-disqus-on-hugo/
+
+########################## Permalinks ############################
+[permalinks.page]
+"pages" = "/:slugorfilename/"
+
+
+########################## Pagination ############################
+[pagination]
+disableAliases = false
+pagerSize = 10
+path = 'page'
+
+
+############################# Build ##############################
+[build]
+[build.buildStats]
+enable = true
+[[build.cachebusters]]
+source = 'assets/notwatching/hugo_stats\.json'
+target = 'css'
+
+############################# Modules ############################
+[module]
+[[module.mounts]]
+source = 'assets'
+target = 'assets'
+[[module.mounts]]
+disableWatch = true
+source = 'hugo_stats.json'
+target = 'assets/notwatching/hugo_stats.json'
+
+
+############################# Outputs ############################
+[outputs]
+home = ["HTML", "RSS", "WebAppManifest", "SearchIndex"]
+
+############################# Imaging ############################
+[imaging]
+# See https://github.com/disintegration/imaging
+# Default JPEG or WebP quality setting. Default is 75.
+quality = 80
+resampleFilter = "Lanczos"
+
+############################ Caches ##############################
+[caches]
+[caches.images]
+dir = ":resourceDir/_gen"
+maxAge = "720h"
+
+[caches.assets]
+dir = ":resourceDir/_gen"
+maxAge = "720h"
+
+
+############################ Markup ##############################
+[markup]
+[markup.goldmark.renderer]
+unsafe = true
+
+[markup.highlight]
+style = 'monokai' # see https://xyproto.github.io/splash/docs/all.html
+lineNumbersInTable = false
+
+[markup.tableOfContents]
+startLevel = 2
+endLevel = 5
+ordered = true
+
+
+########################### Media types ###########################
+[mediaTypes]
+[mediaTypes."application/manifest+json"]
+suffixes = ["webmanifest"]
+
+
+########################### Output Format ##########################
+[outputFormats]
+[outputFormats.WebAppManifest]
+mediaType = "application/manifest+json"
+rel = "manifest"
+
+[outputFormats.SearchIndex]
+mediaType = "application/json"
+baseName = "searchindex"
+isPlainText = true
+notAlternative = true
+
+
+############################# Plugins ##############################
+
+# CSS Plugins
+[[params.plugins.css]]
+link = "plugins/swiper/swiper-bundle.css"
+lazy = true
+[[params.plugins.css]]
+link = "plugins/glightbox/glightbox.css"
+lazy = true
+[[params.plugins.css]]
+link = "plugins/font-awesome/v6/brands.css"
+lazy = true
+[[params.plugins.css]]
+link = "plugins/font-awesome/v6/solid.css"
+lazy = true
+[[params.plugins.css]]
+link = "plugins/font-awesome/v6/icons.css"
+lazy = true
+
+# JS Plugins
+[[params.plugins.js]]
+link = "js/search.js"
+lazy = false
+[[params.plugins.js]]
+link = "plugins/swiper/swiper-bundle.js"
+lazy = false
+[[params.plugins.js]]
+link = "plugins/cookie.js"
+lazy = false
+[[params.plugins.js]]
+link = "plugins/glightbox/glightbox.js"
+lazy = true
+[[params.plugins.js]]
+link = "js/gallery-slider.js"
+lazy = true
+[[params.plugins.js]]
+link = "js/accordion.js"
+lazy = true
+[[params.plugins.js]]
+link = "js/tab.js"
+lazy = true
+[[params.plugins.js]]
+link = "js/modal.js"
+lazy = true
+[[params.plugins.js]]
+link = "plugins/youtube-lite.js"
+lazy = true
+
+================
+File: package.json
+================
+{
+  "name": "hugoplate",
+  "description": "hugo tailwindcss boilerplate",
+  "version": "2.0.5",
+  "license": "MIT",
+  "author": "zeon.studio",
+  "scripts": {
+    "dev": "hugo server",
+    "build": "hugo --gc --minify --templateMetrics --templateMetricsHints --forceSyncStatic",
+    "preview": "hugo server --disableFastRender --navigateToChanged --templateMetrics --templateMetricsHints --watch --forceSyncStatic -e production --minify",
+    "dev:example": "cd exampleSite && hugo server",
+    "build:example": "cd exampleSite && hugo --gc --minify --templateMetrics --templateMetricsHints --forceSyncStatic",
+    "preview:example": "cd exampleSite && hugo server --disableFastRender --navigateToChanged --templateMetrics --templateMetricsHints --watch --forceSyncStatic -e production --minify",
+    "update-modules": "node ./scripts/clearModules.js && hugo mod clean --all && hugo mod get -u ./... && hugo mod tidy",
+    "remove-darkmode": "node ./scripts/removeDarkmode.js && yarn format",
+    "project-setup": "node ./scripts/projectSetup.js",
+    "theme-setup": "node ./scripts/themeSetup.js",
+    "update-theme": "node ./scripts/themeUpdate.js",
+    "format": "prettier -w ."
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.0.14",
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/typography": "^0.5.16",
+    "prettier": "^3.5.3",
+    "prettier-plugin-go-template": "0.0.15",
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "tailwindcss": "^4.0.14"
+  }
+}
+
+
+
+================================================================
+End of Codebase
+================================================================
