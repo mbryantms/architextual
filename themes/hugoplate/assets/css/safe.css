@@ -11,20 +11,33 @@ input#nav-toggle:checked ~ #nav-menu {
   @apply block;
 }
 
-/* form style */
-.form-input {
-  @apply w-full rounded border-transparent bg-light px-6 py-4 text-text-dark placeholder:text-text-light focus:border-primary dark:focus:border-darkmode-primary focus:ring-transparent dark:border-darkmode-border dark:bg-darkmode-light dark:text-darkmode-text-light;
-}
-
-.form-label {
-  @apply mb-4 block font-secondary text-xl font-normal text-text-dark dark:text-darkmode-text-light;
-}
 
 /* swiper pagination */
 .swiper-pagination-bullet {
-  @apply !h-2.5 !w-2.5 !bg-light !opacity-100 dark:!bg-darkmode-light;
+  @apply !h-2.5 !w-2.5 !bg-light !opacity-100;
 }
 
 .swiper-pagination-bullet-active {
-  @apply !h-4 !w-4 !bg-primary dark:!bg-darkmode-primary;
+  @apply !h-4 !w-4 !bg-primary;
+}
+
+.tag-scrollable::-webkit-scrollbar {
+  display: none;
+}
+.tag-scrollable {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.tooltip-container{
+  @apply  absolute top-0 right-0 transform translate-x-3 -translate-y-12 bg-light px-3 py-1 rounded hidden!;
+}
+.tooltip-container::after {
+  content: "";
+  position: absolute;
+  bottom: -15px;
+  right: 20px;
+  border-width: 8px;
+  border-style: solid;
+  border-color: #F4F5F6 transparent transparent transparent;
 }

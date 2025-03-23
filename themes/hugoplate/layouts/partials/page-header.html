@@ -1,11 +1,20 @@
 <section class="border-b">
   <div class="container  ">
     <div class="px-8 py-14">
-      <h1>{{ T (printf "%s" (lower .Title)) | default .Title | title }}</h1>
-      {{/* add subtitle */}}
-      {{ with .Params.description }}
-        <p class="mt-4">{{ . }}</p>
-      {{ end }}
+      <section>
+        <div class="container text-center">
+          <div
+            class="from-body to-light rounded-2xl bg-gradient-to-b px-8 py-14">
+            <h1>
+              {{ T (printf "%s" (lower .Title)) | default .Title | title }}
+            </h1>
+            {{/* add subtitle */}}
+            {{ with .Params.description }}
+              <p class="mt-4">{{ . }}</p>
+            {{ end }}
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 </section>

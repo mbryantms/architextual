@@ -1,0 +1,186 @@
+{{ define "main" }}
+<section class="section border-border border-b">
+  <div class="container">
+    <h2 class="mb-6">{{ .Title }}</h2>
+    <div
+      class="tag-scrollable flex items-center whitespace-nowrap h-full mb-6 bg-light rounded py-2 px-5 text-sm overflow-hidden max-w-max">
+      {{ $items := seq 1 5 }}
+      {{ range $index, $item := $items }}
+      <span class="flex-shrink-0 flex items-center">
+        Design Tools
+        {{ if ne $index (sub (len $items) 1) }}
+        <svg class="mx-2.5" width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="3" cy="3" r="3" fill="#1A1D21" />
+        </svg>
+        {{ end }}
+      </span>
+      {{ end }}
+    </div>
+
+    <p class="text-xl font-medium">{{ .Params.excerpt }}</p>
+
+    <!-- filter -->
+    <div class="mt-12 flex flex-col md:flex-row gap-6 md:gap-10 md:items-center">
+      <div class="text-xl font-medium">
+        <span>2013-09-15 </span> -- <span>2025-02-28</span>
+      </div>
+      <div class="rounded-md py-1 px-4 flex justify-between items-center border border-border w-[160px] cursor-pointer">
+        <p class="font-medium">{{ T "status" }}</p>
+
+        {{/* small progress of status */}}
+        <div class="relative">
+          <div class="tooltip-container" id="tooltip">50%</div>
+          <div id="progress-bar--container">
+            <svg viewBox="0 0 100 100">
+              <circle stroke="#EAEAEA" stroke-width="9" cx="50" cy="50" r="30" fill="none" />
+              <circle id="progress--circle" stroke="#28411B" stroke-width="9" cx="50" cy="50" r="30" fill="none"
+                pathLength="100" />
+            </svg>
+          </div>
+          <div class="meter-info">
+            <input id="meter--ranger" class="hidden" type="range" value="24" min="0" max="100">
+          </div>
+          <script>
+            function initializeProgressBar() {
+              const meter = document.getElementById("progress--circle");
+              const ranger = document.getElementById("meter--ranger");
+              const progressContainer = document.getElementById("progress-bar--container");
+              const tooltip = document.getElementById("tooltip");
+
+              function updateTooltip() {
+                tooltip.textContent = `${ranger.value}%`;
+              }
+
+              function showTooltip() {
+                tooltip.classList.remove("hidden!");
+                tooltip.classList.add("block!");
+              }
+
+              function hideTooltip() {
+                tooltip.classList.add("hidden!");
+                tooltip.classList.remove("block!");
+              }
+
+              function updateMeter(rangeValue) {
+                meter.style.strokeDashoffset = 100 - rangeValue;
+                meter.style.stroke = rangeValue === "0" ? "none" : "#28411B";
+              }
+
+              function handleWheelEvent(e) {
+                e.preventDefault();
+                ranger.value = +ranger.value + (e.deltaY > 0 ? 1 : -1);
+                ranger.dispatchEvent(new Event("input"));
+              }
+
+              progressContainer.addEventListener("mouseenter", showTooltip);
+              progressContainer.addEventListener("mouseleave", hideTooltip);
+
+              ranger.addEventListener("input", e => {
+                updateTooltip();
+                updateMeter(e.target.value);
+              });
+
+              ranger.addEventListener("wheel", handleWheelEvent);
+
+              ranger.dispatchEvent(new Event("input"));
+            }
+
+            document.addEventListener("DOMContentLoaded", initializeProgressBar);
+          </script>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section pt-7">
+  <div class="container">
+    <div class="row justify-center">
+      <article class="lg:col-10">
+        {{ $image:= .Params.image }}
+        {{ if $image }}
+        <div class="mb-10">
+          {{ partial "image" (dict "Src" $image "Context" .Page "Alt" .Title "Class" "w-full rounded") }}
+        </div>
+        {{ end }}
+        <h1 class="h2 mb-4">
+          {{ .Title }}
+        </h1>
+        <ul class="mb-4">
+          <li class="mr-4 inline-block">
+            <a href="{{ `authors/` | relLangURL }}{{ .Params.Author | urlize }}/">
+              <i class="fa-regular fa-circle-user mr-2"></i>{{ .Params.author }}
+            </a>
+          </li>
+          {{ $categories:= .Params.categories }}
+          {{ if $categories }}
+          <li class="mr-4 inline-block">
+            <i class="fa-regular fa-folder mr-2"></i>
+            {{ range $i,$p:= $categories }}
+            <a href="{{ `categories/` | relLangURL }}{{ . | urlize | lower }}/" class="">{{ . | humanize }}{{ if ne $i
+              (sub (len $categories) 1) }}
+              {{ "," }}
+              {{ end }}
+            </a>
+            {{ end }}
+          </li>
+          {{ end }}
+          <li class="mr-4 inline-block">
+            <i class="fa-regular fa-clock mr-2"></i>
+            {{ time.Format ":date_long" .PublishDate }}
+          </li>
+        </ul>
+        <div class="content mb-10">
+          {{ partial "toc.html" (dict "Class" "blog" "Collapsed" false "TableOfContents" .TableOfContents ) }}
+          {{ .Content }}
+        </div>
+        <div class="row items-start justify-between">
+          {{ $tags:= .Params.tags }}
+          {{ if $tags }}
+          <div class="lg:col-6 mb-10 flex items-center lg:mb-0">
+            <h5 class="mr-3">{{ T "tags" }} :</h5>
+            <ul>
+              {{ range $i,$p:= $tags }}
+              <li class="inline-block">
+                <a class="bg-light hover:bg-primary    m-1 block rounded px-3 py-1 hover:text-white"
+                  href="{{ `tags/` | relLangURL }}{{ . | urlize | lower }}/">
+                  {{ . | humanize }}
+                </a>
+              </li>
+              {{ end }}
+            </ul>
+          </div>
+          {{ end }}
+          <div class="lg:col-6 flex items-center">
+            {{ partial "social-share" (dict "Context" . "Class" "share-icons lg:ml-auto" "Title" (T "share") "Whatsapp"
+            false "Telegram" false "Linkedin" false "Pinterest" false "Tumblr" false "Vk" false) }}
+          </div>
+        </div>
+        <!-- comments -->
+        {{ if site.Config.Services.Disqus.Shortname }}
+        <div class="mt-20">
+          {{ template "_internal/disqus.html" . }}
+        </div>
+        {{ end }}
+      </article>
+    </div>
+
+    <!-- Related posts -->
+    {{ $related := .Site.RegularPages.Related . | first 10 }}
+    {{ $related = $related | shuffle | first 3 }}
+    {{ with $related }}
+    <div class="section pb-0">
+      <h2 class="h3 mb-12">{{ T "related_posts" }}</h2>
+      <div class="row">
+        {{ range . }}
+        <div class="lg:col-4 md:col-6 mb-14">
+          {{ partial "components/blog-card" . }}
+        </div>
+        {{ end }}
+      </div>
+    </div>
+    {{ end }}
+  </div>
+</section>
+{{ end }}
