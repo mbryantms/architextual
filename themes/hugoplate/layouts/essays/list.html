@@ -1,64 +1,75 @@
 {{ define "main" }}
+  {{ $essays := sort (.RegularPages) "Params.start_date" "desc" }}
+  {{ $grouped := dict }}
 
-<section class="section border-border border-b">
-  <div class="container">
-    <h2 class="mb-6">{{ .Title }}</h2>
-    <p class="text-xl font-medium">{{ .Params.description }}</p>
+  {{ range $essays }}
+    {{ $year := dateFormat "2006" .Params.start_date }}
+    {{ $monthYear := dateFormat "January 2006" .Params.start_date }}
 
-    <!-- filter -->
-    <div class="mt-10 flex flex-col md:flex-row gap-6 md:gap-10 md:items-center">
-      <h6>{{T "filter"}}:</h6>
-      <div class="flex gap-4 flex-wrap">
-        <select class="rounded-md w-[180px]">
-          <option selected disabled>{{T "status"}}</option>
-          <option value="notes">Notes</option>
-          <option value="draft">Draft</option>
-          <option value="in-progress">In Progress</option>
-          <option value="finished">Finished</option>
-        </select>
-        <select class="rounded-md w-[180px]">
-          <option selected disabled>{{T "categories"}}</option>
-          <option value="css">Css</option>
-          <option value="js">JS</option>
-          <option value="node">Node</option>
-        </select>
-        <select class="rounded-md w-[180px]">
-          <option selected disabled>{{T "importance"}}</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
+    {{ if not (isset $grouped $year) }}
+      {{ $grouped = merge $grouped (dict $year dict) }}
+    {{ end }}
 
-        </select>
+    {{ $yearData := index $grouped $year }}
+
+    {{ if not (isset $yearData $monthYear) }}
+      {{ $yearData = merge $yearData (dict $monthYear slice) }}
+      {{ $grouped = merge $grouped (dict $year $yearData) }}
+    {{ end }}
+
+    {{ $monthData := index $yearData $monthYear | append . }}
+    {{ $yearData = merge $yearData (dict $monthYear $monthData) }}
+    {{ $grouped = merge $grouped (dict $year $yearData) }}
+  {{ end }}
+
+
+  <section class="section border-border border-b">
+    <div class="container">
+      <h2 class="mb-6">{{ .Title }}</h2>
+      <p class="text-xl font-medium">{{ .Params.description }}</p>
+      <!-- filter -->
+      <div
+        class="mt-10 flex flex-col md:flex-row gap-6 md:gap-10 md:items-center">
+        <h6>{{ T "filter" }}:</h6>
+        <div class="flex gap-4 flex-wrap">
+          <select class="rounded-md w-[180px]">
+            <option selected disabled>{{ T "status" }}</option>
+            <option value="notes">Notes</option>
+            <option value="draft">Draft</option>
+            <option value="in-progress">In Progress</option>
+            <option value="finished">Finished</option>
+          </select>
+          <select class="rounded-md w-[180px]">
+            <option selected disabled>{{ T "categories" }}</option>
+            <option value="css">Css</option>
+            <option value="js">JS</option>
+            <option value="node">Node</option>
+          </select>
+          <select class="rounded-md w-[180px]">
+            <option selected disabled>{{ T "importance" }}</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
       </div>
     </div>
-  </div>
-</section>
-
-
-<section class="section">
-  <div class="container">
-    <div class="row gx-5">
-      <!-- blog posts -->
-      <div class="lg:col-8">
-        <div class="row">
-          {{ $paginator:= .Paginate .RegularPages }}
-          {{ range $paginator.Pages }}
-          <div class="md:col-6 mb-14">
-            {{ partial "components/blog-card" . }}
-          </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      {{ range $year, $months := $grouped }}
+        <h2 id="{{ $year }}" class="text-h3 font-bold mt-8">
+          {{ $year }}
+        </h2>
+        <div
+          class="bg-dark grid gap-[1px] grid-cols-1  py-[1px] mt-12 max-w-max w-[99%] overflow-hidden w-full">
+          {{ range $monthYear, $entries := $months }}
+            {{ partial "components/grouped-card-list.html" (dict "title" $monthYear "entries" $entries) }}
           {{ end }}
         </div>
-        {{ partial "components/pagination.html" . }}
-      </div>
-      <!-- sidebar -->
-      <div class="lg:col-4">
-        <!-- widget -->
-        {{ $widget:= site.Params.widgets.sidebar }}
-        {{ partialCached "widgets/widget-wrapper" ( dict "Widgets" $widget "Scope" . ) }}
-      </div>
+      {{ end }}
     </div>
-  </div>
-</section>
+  </section>
 {{ end }}

@@ -161,3 +161,6 @@ lazy = true
 [[params.plugins.js]]
 link = "plugins/youtube-lite.js"
 lazy = true
+
+[Taxonomies]
+tag = "tags"
