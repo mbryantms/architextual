@@ -3,7 +3,7 @@ title: "Ideas: Towards Benchmarking LLM Diversity & Creativity®; Hierarchical E
 meta_title: ""
 description: "this is meta description"
 excerpt: This is the website of Gwern Branwen. I write about Al, psychology, & statistics. I am best known for my writings about Al scaling, poetry & anime neural networks, darknet markets & Bitcoin, blinded self-ex- periments, and dual n-back & spaced repetition.
-start_date: 2014-01-04T05:00:00Z # Replace with actual start date
+start_date: 2014-02-04T05:00:00Z # Replace with actual start date
 last_update_date: 2024-02-04T05:00:00Z # Replace with actual end date
 tags: [tag1, tag2, tag3]
 categories: [Anime,Example] # grab title from content/english/categories/ folder

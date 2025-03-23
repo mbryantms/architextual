@@ -36,7 +36,7 @@
     <h2 class="prose-strong:font-medium!">{{ .Params.til.title | markdownify }}</h2>
 
     <div
-      class="bg-dark grid gap-[1px] grid-cols-1 md:grid-cols-2 xl:grid-cols-3 py-[1px] mt-12 max-w-max w-[99%] overflow-hidden mx-auto">
+      class="bg-dark grid gap-[1px]  md:grid-cols-2 xl:grid-cols-3 py-[1px] mt-12 max-w-max w-[99%] overflow-hidden mx-auto">
       {{ range (seq 1 6) }}
       <div class="bg-white">
         {{ partial "components/til-card" }}

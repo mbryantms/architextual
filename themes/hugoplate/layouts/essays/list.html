@@ -1,75 +1,118 @@
 {{ define "main" }}
-  {{ $essays := sort (.RegularPages) "Params.start_date" "desc" }}
-  {{ $grouped := dict }}
+{{ $essays := sort (.RegularPages) "Params.start_date" "desc" }}
+{{ $grouped := dict }}
 
-  {{ range $essays }}
-    {{ $year := dateFormat "2006" .Params.start_date }}
-    {{ $monthYear := dateFormat "January 2006" .Params.start_date }}
+{{ range $essays }}
+{{ $year := dateFormat "2006" .Params.start_date }}
+{{ $monthYear := dateFormat "January 2006" .Params.start_date }}
 
-    {{ if not (isset $grouped $year) }}
-      {{ $grouped = merge $grouped (dict $year dict) }}
-    {{ end }}
+{{ if not (isset $grouped $year) }}
+{{ $grouped = merge $grouped (dict $year dict) }}
+{{ end }}
 
-    {{ $yearData := index $grouped $year }}
+{{ $yearData := index $grouped $year }}
 
-    {{ if not (isset $yearData $monthYear) }}
-      {{ $yearData = merge $yearData (dict $monthYear slice) }}
-      {{ $grouped = merge $grouped (dict $year $yearData) }}
-    {{ end }}
+{{ if not (isset $yearData $monthYear) }}
+{{ $yearData = merge $yearData (dict $monthYear slice) }}
+{{ $grouped = merge $grouped (dict $year $yearData) }}
+{{ end }}
 
-    {{ $monthData := index $yearData $monthYear | append . }}
-    {{ $yearData = merge $yearData (dict $monthYear $monthData) }}
-    {{ $grouped = merge $grouped (dict $year $yearData) }}
-  {{ end }}
+{{ $monthData := index $yearData $monthYear | append . }}
+{{ $yearData = merge $yearData (dict $monthYear $monthData) }}
+{{ $grouped = merge $grouped (dict $year $yearData) }}
+{{ end }}
 
 
-  <section class="section border-border border-b">
-    <div class="container">
-      <h2 class="mb-6">{{ .Title }}</h2>
-      <p class="text-xl font-medium">{{ .Params.description }}</p>
-      <!-- filter -->
-      <div
-        class="mt-10 flex flex-col md:flex-row gap-6 md:gap-10 md:items-center">
-        <h6>{{ T "filter" }}:</h6>
-        <div class="flex gap-4 flex-wrap">
-          <select class="rounded-md w-[180px]">
-            <option selected disabled>{{ T "status" }}</option>
-            <option value="notes">Notes</option>
-            <option value="draft">Draft</option>
-            <option value="in-progress">In Progress</option>
-            <option value="finished">Finished</option>
-          </select>
-          <select class="rounded-md w-[180px]">
-            <option selected disabled>{{ T "categories" }}</option>
-            <option value="css">Css</option>
-            <option value="js">JS</option>
-            <option value="node">Node</option>
-          </select>
-          <select class="rounded-md w-[180px]">
-            <option selected disabled>{{ T "importance" }}</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-        </div>
+<section class="section border-border border-b">
+  <div class="container">
+    <h2 class="mb-6">{{ .Title }}</h2>
+    <p class="text-xl font-medium">{{ .Params.description }}</p>
+    <!-- filter -->
+    <div class="mt-10 flex flex-col md:flex-row gap-6 md:gap-10 md:items-center">
+      <h6>{{ T "filter" }}:</h6>
+      <div class="flex gap-4 flex-wrap">
+        <select class="rounded-md w-[180px]">
+          <option selected disabled>{{ T "status" }}</option>
+          <option value="notes">Notes</option>
+          <option value="draft">Draft</option>
+          <option value="in-progress">In Progress</option>
+          <option value="finished">Finished</option>
+        </select>
+        <select class="rounded-md w-[180px]">
+          <option selected disabled>{{ T "categories" }}</option>
+          <option value="css">Css</option>
+          <option value="js">JS</option>
+          <option value="node">Node</option>
+        </select>
+        <select class="rounded-md w-[180px]">
+          <option selected disabled>{{ T "importance" }}</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
       </div>
     </div>
-  </section>
-  <section class="section">
-    <div class="container">
-      {{ range $year, $months := $grouped }}
-        <h2 id="{{ $year }}" class="text-h3 font-bold mt-8">
-          {{ $year }}
-        </h2>
-        <div
-          class="bg-dark grid gap-[1px] grid-cols-1  py-[1px] mt-12 max-w-max w-[99%] overflow-hidden w-full">
-          {{ range $monthYear, $entries := $months }}
-            {{ partial "components/grouped-card-list.html" (dict "title" $monthYear "entries" $entries) }}
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <div class="row">
+      {{/* sidebar */}}
+      <div class="lg:col-2 hidden lg:flex flex-col">
+        <div class="bg-light py-6 px-4 rounded-lg">
+          {{ range $year, $months := $grouped }}
+          <a class="text-h5 font-semibold" href="#{{ $year }}">{{ $year }}</a>
+
+          <div class="flex flex-col gap-2 my-3 pl-3">
+            {{ range $monthYear, $entries := $months }}
+            <a href="#{{$year}}" class="text-text-dark">
+              {{ $monthYear}}
+            </a>
+            {{end}}
+          </div>
           {{ end }}
         </div>
-      {{ end }}
+      </div>
+
+      {{/* essays */}}
+      <div class="lg:col-10">
+        <div class="lg:pl-20 w-full">
+
+          {{ range $year, $months := $grouped }}
+          <div class="mb-20">
+            <h3 id="{{ $year }}" class="text-h3 font-bold mb-6">
+              {{ $year }}
+            </h3>
+
+            <div class="grid md:grid-cols-2 mt-6">
+              {{ $count := 0 }}
+              {{ range $monthYear, $entries := $months }}
+              {{ $isLeftItem := eq (mod $count 2) 0 }}
+              {{ $addTopBorderTransparent := ge $count 2 }}
+
+              <div class="border md:border-border border-x-transparent md:p-6 py-6
+                  {{ if $isLeftItem }}md:pl-0 md:border-x-transparent{{ else }}md:border-r-transparent md:pr-0{{ end }}
+                  {{ if $addTopBorderTransparent }} border-t-transparent!{{ end }}">
+
+                {{ partial "components/grouped-card-list.html" (dict "title" $monthYear "entries" $entries) }}
+              </div>
+              {{ $count = add $count 1 }}
+              {{ end }}
+            </div>
+
+
+          </div>
+          {{ end }}
+
+        </div>
+
+
+
+      </div>
     </div>
-  </section>
+
+  </div>
+</section>
 {{ end }}
