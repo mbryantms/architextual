@@ -2,7 +2,7 @@
 # The base URL of your site (required). This will be prepended to all relative URLs.
 baseURL = "/"
 # Title of your website (required).
-title = "Hugoplate"
+title = "Architext"
 # Your theme name
 theme = "hugoplate"
 # Default time zone for time stamps; use any valid tz database name: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List
@@ -36,6 +36,7 @@ shortname = 'themefisher-template' # we use disqus to show comments in blog post
 disableAliases = false
 pagerSize = 10
 path = 'page'
+
 
 
 ############################# Build ##############################

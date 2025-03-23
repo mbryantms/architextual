@@ -1,13 +1,27 @@
 {{ define "main" }}
-  <section class="section-sm">
-    <div class="container">
-      <div class="row justify-center">
-        <div class="md:col-10 lg:col-7 text-center">
-          {{ partial "image" (dict "Src" .Params.image "Context" .Page "Alt" .Title "Class" "mx-auto mb-6" "Size" "200x200") }}
-          <h2 class="h3 mb-6">{{ .Title }}</h2>
-          <div class="content">{{ .Content }}</div>
+<section class="section-sm">
+  <div class="container">
+    <div class="row lg:flex-row flex-col-reverse justify-between gap-y-10">
+      <div class="lg:col-7">
+        <h2 class="mb-8">{{ .Title }}</h2>
+        <div class="content prose-p:text-xl prose-p:font-medium">{{ .Params.description | markdownify }}</div>
+      </div>
+      <div class="lg:col-4">
+        {{ partial "image" (dict "Src" .Params.image "Context" .Page "Alt" .Title "Class" "mx-auto" "Size" "350x375") }}
+        <div class="flex justify-center mt-6">
+          <ul class="flex gap-8 text-text-dark">
+            {{ range .Params.social }}
+            <li>
+              <a target="_blank" aria-label="{{ .name }}" rel="nofollow noopener" href="{{ .link | safeURL }}">
+                <i class="text-3xl {{ .icon }}"></i>
+              </a>
+            </li>
+            {{ end }}
+          </ul>
         </div>
+
       </div>
     </div>
-  </section>
+  </div>
+</section>
 {{ end }}
