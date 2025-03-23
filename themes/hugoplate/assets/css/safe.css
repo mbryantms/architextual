@@ -30,7 +30,7 @@ input#nav-toggle:checked ~ #nav-menu {
 }
 
 .tooltip-container{
-  @apply  absolute top-0 right-0 transform translate-x-3 -translate-y-12 bg-light px-3 py-1 rounded hidden!;
+  @apply  absolute top-0 right-0 transform translate-x-3 -translate-y-12 bg-light px-3 py-1 rounded hidden;
 }
 .tooltip-container::after {
   content: "";
