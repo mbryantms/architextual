@@ -3,7 +3,7 @@
   <div class="container">
     <h2 class="mb-6">{{ .Title }}</h2>
     <div
-      class="tag-scrollable flex items-center whitespace-nowrap h-full mb-6 bg-light rounded py-2 px-5 text-sm overflow-hidden max-w-max">
+      class="tag-scrollable flex items-center whitespace-nowrap h-full mb-6 bg-light rounded py-2 px-5 text-sm overflow-hidden max-w-max flex-wrap">
       {{ $items := seq 1 5 }}
       {{ range $index, $item := $items }}
       <span class="flex-shrink-0 flex items-center">
@@ -20,16 +20,33 @@
     <p class="text-xl font-medium">{{ .Params.excerpt }}</p>
 
     <!-- filter -->
-    <div class="mt-12 flex flex-col md:flex-row gap-6 md:gap-10 md:items-center">
+    <div class="mt-12 flex flex-col md:flex-row gap-6 md:gap-10 md:items-center md:flex-wrap">
       <div class="text-xl font-medium">
         <span>2013-09-15 </span> -- <span>2025-02-28</span>
       </div>
-      <div class="rounded-md py-1 px-4 flex justify-between items-center border border-border w-[160px] cursor-pointer">
+      {{/* status */}}
+      <div class="rounded-md py-1 px-4 flex justify-between items-center border border-border w-[165px] cursor-pointer">
         <p class="font-medium">{{ T "status" }}</p>
-
-        {{/* small progress of status */}}
         <div class="relative">
-          <div class="tooltip-container" id="tooltip">50%</div>
+          <div class="tooltip-container ">50%</div>
+          <div id="progress-bar--container">
+            <svg viewBox="0 0 100 100">
+              <circle stroke="#EAEAEA" stroke-width="9" cx="50" cy="50" r="30" fill="none" />
+              <circle id="progress--circle" stroke="#28411B" stroke-width="9" cx="50" cy="50" r="30" fill="none"
+                pathLength="100" />
+            </svg>
+          </div>
+          <div class="meter-info">
+            <input id="meter--ranger" class="hidden" type="range" value="66" min="0" max="100">
+          </div>
+        </div>
+      </div>
+
+      {{/* Certainity */}}
+      <div class="rounded-md py-1 px-4 flex justify-between items-center border border-border w-[165px] cursor-pointer">
+        <p class="font-medium">{{ T "certainity" }}</p>
+        <div class="relative">
+          <div class="tooltip-container">50%</div>
           <div id="progress-bar--container">
             <svg viewBox="0 0 100 100">
               <circle stroke="#EAEAEA" stroke-width="9" cx="50" cy="50" r="30" fill="none" />
@@ -40,56 +57,27 @@
           <div class="meter-info">
             <input id="meter--ranger" class="hidden" type="range" value="24" min="0" max="100">
           </div>
-          <script>
-            function initializeProgressBar() {
-              const meter = document.getElementById("progress--circle");
-              const ranger = document.getElementById("meter--ranger");
-              const progressContainer = document.getElementById("progress-bar--container");
-              const tooltip = document.getElementById("tooltip");
-
-              function updateTooltip() {
-                tooltip.textContent = `${ranger.value}%`;
-              }
-
-              function showTooltip() {
-                tooltip.classList.remove("hidden!");
-                tooltip.classList.add("block!");
-              }
-
-              function hideTooltip() {
-                tooltip.classList.add("hidden!");
-                tooltip.classList.remove("block!");
-              }
-
-              function updateMeter(rangeValue) {
-                meter.style.strokeDashoffset = 100 - rangeValue;
-                meter.style.stroke = rangeValue === "0" ? "none" : "#28411B";
-              }
-
-              function handleWheelEvent(e) {
-                e.preventDefault();
-                ranger.value = +ranger.value + (e.deltaY > 0 ? 1 : -1);
-                ranger.dispatchEvent(new Event("input"));
-              }
-
-              progressContainer.addEventListener("mouseenter", showTooltip);
-              progressContainer.addEventListener("mouseleave", hideTooltip);
-
-              ranger.addEventListener("input", e => {
-                updateTooltip();
-                updateMeter(e.target.value);
-              });
-
-              ranger.addEventListener("wheel", handleWheelEvent);
-
-              ranger.dispatchEvent(new Event("input"));
-            }
-
-            document.addEventListener("DOMContentLoaded", initializeProgressBar);
-          </script>
         </div>
-
       </div>
+
+      {{/* Importance */}}
+      <div class="rounded-md py-1 px-4 flex justify-between items-center border border-border w-[165px] cursor-pointer">
+        <p class="font-medium">{{ T "importance" }}</p>
+        <div class="relative">
+          <div class="tooltip-container">50%</div>
+          <div id="progress-bar--container">
+            <svg viewBox="0 0 100 100">
+              <circle stroke="#EAEAEA" stroke-width="9" cx="50" cy="50" r="30" fill="none" />
+              <circle id="progress--circle" stroke="#28411B" stroke-width="9" cx="50" cy="50" r="30" fill="none"
+                pathLength="100" />
+            </svg>
+          </div>
+          <div class="meter-info">
+            <input id="meter--ranger" class="hidden" type="range" value="24" min="0" max="100">
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>

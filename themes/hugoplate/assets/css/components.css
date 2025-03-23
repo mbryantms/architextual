@@ -62,6 +62,7 @@
 
 #progress-bar--container svg {
   width: 40px;
+  transform: rotate(-90deg);
 }
 
 #progress--circle {
@@ -70,9 +71,6 @@
   stroke-linecap: round;
 }
 
-svg {
-  transform: rotate(-90deg);
-}
 #meter--ranger {
   width: 100%;
 }
