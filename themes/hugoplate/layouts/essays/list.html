@@ -1,10 +1,10 @@
 {{ define "main" }}
-  {{ $essays := sort (.RegularPages) "Params.start_date" "desc" }}
+  {{ $essays := .RegularPages }}
   {{ $grouped := dict }}
 
   {{ range $essays }}
-    {{ $year := dateFormat "2006" .Params.start_date }}
-    {{ $monthYear := dateFormat "January 2006" .Params.start_date }}
+    {{ $year := dateFormat "2006" .Params.publishdate }}
+    {{ $monthYear := dateFormat "January 2006" .Params.publishdate }}
 
     {{ if not (isset $grouped $year) }}
       {{ $grouped = merge $grouped (dict $year dict) }}
@@ -22,41 +22,81 @@
     {{ $grouped = merge $grouped (dict $year $yearData) }}
   {{ end }}
 
+  {{/* INFORMATION FOR FILTERING */}}
+  {{ $uniqueCategories := slice }}
+  {{ range $essays }}
+    {{ $uniqueCategories = union $uniqueCategories .Params.categories }}
+  {{ end }}
+
+  {{ $uniqueStatus := slice }}
+  {{ range $essays }}
+    {{ if .Params.status }}
+      {{ $uniqueStatus = $uniqueStatus | append .Params.status | uniq }}
+    {{ end }}
+  {{ end }}
+
+  {{ $uniqueImportance := slice }}
+  {{ range $essays }}
+    {{ $uniqueImportance = $uniqueImportance | append .Params.importance | uniq }}
+  {{ end }}
+
+  {{ $uniqueCertainty := slice }}
+  {{ range $essays }}
+    {{ $uniqueCertainty = $uniqueCertainty | append .Params.certainty | uniq }}
+  {{ end }}
+
+  {{/* END INFORMATION FOR FILTERING */}}
+
+  {{ partial "partials/page-header.html" . }}
+
 
   <section class="section border-border border-b">
     <div class="container">
       <h2 class="mb-6">{{ .Title }}</h2>
       <p class="text-xl font-medium">{{ .Params.description }}</p>
-      <!-- filter -->
+
+      <!-- FILTER SECTION -->
       <div
         class="mt-10 flex flex-col md:flex-row gap-6 md:gap-10 md:items-center">
         <h6>{{ T "filter" }}:</h6>
         <div class="flex gap-4 flex-wrap">
-          <select class="rounded-md w-[180px]">
-            <option selected disabled>{{ T "status" }}</option>
-            <option value="notes">Notes</option>
-            <option value="draft">Draft</option>
-            <option value="in-progress">In Progress</option>
-            <option value="finished">Finished</option>
+          <select
+            id="statusFilter"
+            class="filter-dropdown rounded-md w-[180px]">
+            <option value="">All Status</option>
+            {{ range $uniqueStatus }}
+              <option value="{{ . }}">{{ . }}</option>
+            {{ end }}
           </select>
-          <select class="rounded-md w-[180px]">
-            <option selected disabled>{{ T "categories" }}</option>
-            <option value="css">Css</option>
-            <option value="js">JS</option>
-            <option value="node">Node</option>
+          <select
+            id="categoryFilter"
+            class="filter-dropdown rounded-md w-[180px]">
+            <option value="">All Categories</option>
+            {{ range $uniqueCategories }}
+              <option value="{{ . }}">{{ . }}</option>
+            {{ end }}
           </select>
-          <select class="rounded-md w-[180px]">
-            <option selected disabled>{{ T "importance" }}</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
+          <select
+            id="certaintyFilter"
+            class="filter-dropdown rounded-md w-[180px]">
+            <option value="">All Certainty</option>
+            {{ range $uniqueCertainty }}
+              <option value="{{ . }}">{{ . }}</option>
+            {{ end }}
+          </select>
+          <select
+            id="importanceFilter"
+            class="filter-dropdown rounded-md w-[180px]">
+            <option value="">All Importance</option>
+            {{ range $uniqueImportance }}
+              <option value="{{ . }}">{{ . }}</option>
+            {{ end }}
           </select>
         </div>
       </div>
     </div>
   </section>
+
   <section class="section">
     <div class="container">
       {{ range $year, $months := $grouped }}
@@ -64,12 +104,36 @@
           {{ $year }}
         </h2>
         <div
-          class="bg-dark grid gap-[1px] grid-cols-1  py-[1px] mt-12 max-w-max w-[99%] overflow-hidden w-full">
+          class="grouped-entries bg-dark grid gap-[1px] grid-cols-1 py-[1px] mt-12 max-w-max w-[99%] overflow-hidden w-full">
           {{ range $monthYear, $entries := $months }}
-            {{ partial "components/grouped-card-list.html" (dict "title" $monthYear "entries" $entries) }}
+            <div class="month-group" data-month="{{ $monthYear }}">
+              {{ partial "components/grouped-card-list.html" (dict "title" $monthYear "entries" $entries) }}
+            </div>
           {{ end }}
         </div>
       {{ end }}
     </div>
   </section>
+
+  <script>
+    const essays = {{ $essays | jsonify }};
+    console.log('🪲 :', essays);
+
+
+
+    let selectedFilters = new Map();
+    document.addEventListener("DOMContentLoaded", function () {
+      const filters = document.querySelectorAll(".filter-dropdown");
+
+      filters.forEach((filter) => {
+        filter.addEventListener("change", applyFilters);
+      });
+
+      function applyFilters(e) {
+        selectedFilters.set(e.target.id, e.target.value);
+
+        console.log("🪲 :", selectedFilters);
+      }
+    });
+  </script>
 {{ end }}
