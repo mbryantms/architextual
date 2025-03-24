@@ -3,7 +3,7 @@ title: Your Essay Title Here 3
 meta_title: ""
 description: "this is meta description"
 excerpt: This is the website of Gwern Branwen. I write about Al, psychology, & statistics. I am best known for my writings about Al scaling, poetry & anime neural networks, darknet markets & Bitcoin, blinded self-ex- periments, and dual n-back & spaced repetition.
-published: 2016-03-04T05:00:00Z # Replace with actual start date
+publishdate: 2016-03-04T05:00:00Z # Replace with actual start date
 lastmod: 2024-02-04T05:00:00Z # Replace with actual end date
 tags: [tag1, tag2, tag3]
 categories: ["Anime","Example"] # grab title from content/english/categories/ folder
