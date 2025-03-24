@@ -116,10 +116,20 @@
   </section>
 
   <script>
-    const essays = {{ $essays | jsonify }};
+    {{ $allCherryPickedEssaysFields := slice }}
+    {{ range $essays }}
+      {{ $allCherryPickedEssaysFields = $allCherryPickedEssaysFields | append (dict
+        "title" .Title
+        "permalink" .Permalink
+        "published_date" .Params.publishdate
+        "categories" .Params.categories
+        "status" .Params.status
+        "certainty" .Params.certainty
+        "importance" .Params.importance
+      ) }}
+    {{ end }}
+    const essays = {{ $allCherryPickedEssaysFields | jsonify }};
     console.log('🪲 :', essays);
-
-
 
     let selectedFilters = new Map();
     document.addEventListener("DOMContentLoaded", function () {
