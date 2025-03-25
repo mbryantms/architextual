@@ -1,5 +1,5 @@
 {{ define "main" }}
-<section class="section-sm">
+<section class="section border-b border-border">
   <div class="container">
     <div class="row lg:flex-row flex-col-reverse justify-between gap-y-10">
       <div class="lg:col-7">
@@ -23,6 +23,32 @@
       </div>
     </div>
   </div>
+</section>
+
+{{/* About Content  */}}
+<section class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-2">
+        <div class="bg-light p-4 rounded-lg">
+          {{.TableOfContents}}
+        </div>
+      </div>
+      <div class="col-8">
+        <div class="content">
+          {{ .Content }}  
+        </div>
+      </div>
+      <div class="col-2">
+        <div class="flex flex-col ">
+          <div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </section>
 
 <!-- Feedback -->

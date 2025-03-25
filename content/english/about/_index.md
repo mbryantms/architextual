@@ -32,3 +32,13 @@ social:
 draft: false
 ---
 
+## Personal
+
+NAVIGATION: For information about my site's philosophy & method, see the About page; for the website features & implementation, see the Design page; for information about myself, my use of other websites, and contact information,  1   see the about-me page; for new pages, see the @ Changelog (@ = new), short blog posts, or new links. For an annotated version of this site index page, see the long index.  2
+
+
+> Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo vel ad consectetur ut aperiam. Itaque eligendi natus aperiam? Excepturi repellendus consequatur quibusdam optio expedita praesentium est adipisci dolorem ut eius!
+
+NAVIGATION: For information about my site's philosophy & method, see the About page; for the website features & implementation, see the Design page; for information about myself, my use of other websites, and contact information, see the about-me page; for new pages, see the @ Changelog (@ = new), short blog posts, or new links. For an annotated version of this site index page, see the long index.
+
+

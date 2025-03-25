@@ -6,11 +6,39 @@
         <div class="mt-10 flex flex-col md:flex-row gap-6 md:gap-10">
             <h6>{{T "tags"}}:</h6>
             <div class="flex gap-4 w-full flex-wrap">
-                {{ range (seq 1 28) }}
+                {{$tags := slice
+                    (dict "name" "Algorithm" "count" "34")
+                    (dict "name" "Data Structure" "count" "55")
+                    (dict "name" "Machine Learning" "count" "66")
+                    (dict "name" "Web Development" "count" "44")
+                    (dict "name" "Database" "count" "3")
+                    (dict "name" "Computer Vision" "count" "4")
+                    (dict "name" "Artificial Intelligence" "count" "34")
+                    (dict "name" "Cloud Computing" "count" "5")
+                    (dict "name" "Cyber Security" "count" "34")
+                    (dict "name" "Networking" "count" "77")
+                    (dict "name" "DevOps" "count" "88")
+                    (dict "name" "JavaScript" "count" "54")
+                    (dict "name" "Python" "count" "34")
+                    (dict "name" "Java" "count" "35")
+                    (dict "name" "C++" "count" "34")
+                    (dict "name" "Go" "count" "6")
+                    (dict "name" "Rust" "count" "2")
+                    (dict "name" "TypeScript" "count" "314")
+                    (dict "name" "React" "count" "34")
+                    (dict "name" "Angular" "count" "3")
+                    (dict "name" "Vue.js" "count" "34")
+                    (dict "name" "Node.js" "count" "5")
+                    (dict "name" "Express" "count" "7")
+                    (dict "name" "Nest" "count" "34")
+                    (dict "name" "GraphQL" "count" "34")
+                }}
+              
+                {{ range $tags }}
                 <div
                     class="inline-block py-2 px-4 rounded-md hover:bg-black hover:text-white border border-border transition duration-300 flex items-center gap-3">
-                    <span>Docker</span>
-                    <span>44</span>
+                    <span>{{.name}}</span>
+                    <span>{{.count}}</span>
                 </div>
                 {{ end }}
             </div>
