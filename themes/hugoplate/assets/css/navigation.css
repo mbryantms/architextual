@@ -17,14 +17,14 @@
 .navbar-nav {
   @apply text-center lg:text-left;
 }
-.nav-item {
-  @apply lg:border-l  lg:border-border  lg:py-8 lg:flex lg:justify-center lg:items-center lg:w-56 py-2;
-}
+
 
 .nav-link {
-  @apply text-text-dark hover:text-primary  block  cursor-pointer transition text-lg;
+  @apply text-text-dark hover:bg-primary hover:text-white   block  cursor-pointer transition text-lg lg:border-l  lg:border-border  py-2 lg:py-8 lg:flex lg:justify-center lg:items-center ;
 }
-
+.nav-link.active{
+  @apply bg-primary text-white;
+}
 .nav-dropdown {
   @apply mr-0;
 }

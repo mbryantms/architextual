@@ -7,9 +7,16 @@ publishdate: 2017-04-04T05:00:00Z # Replace with actual start date
 lastmod: 2024-02-04T05:00:00Z # Replace with actual end date
 tags: [tag1, tag2, tag3]
 categories: [Anime,Example] # grab title from content/english/categories/ folder
-status: Notes # Options: Notes | Draft | In Progress | Finished
-certainty: Likely # Options: Certain | Highly Likely | Likely | Possible | Unlikely | Highly Unlikely | Remote | Impossible
-importance: 5 # Number between 1 and 10
+status: 
+  value: Draft # Options: Notes | Draft | In Progress | Finished
+  percentage: 40
+# Options: Certain | Highly Likely | Likely | Possible | Unlikely | Highly Unlikely | Remote | Impossible
+certainty: 
+  value:  Possible 
+  percentage: 50
+importance: 
+  value: 6 # Number between 1 and 10
+  percentage: 60
 is_post_complete: false # Boolean
 homepage_featured: false # Boolean
 

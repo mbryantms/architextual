@@ -6,7 +6,7 @@
   <h4 class="mb-8" id="{{ $title }}">{{ $title  }}</h4>
 
   <div class="space-y-8">
-    {{ range $entries }}
+    {{ range first 4 $entries  }}
       <a
         href="{{ .RelPermalink }}"
         class="text-h6 hover:font-semibold transition duration-300 group flex items-center">

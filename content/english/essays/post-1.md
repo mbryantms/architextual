@@ -1,15 +1,22 @@
 ---
-title: "Ideas: Towards Benchmarking LLM Diversity & Creativity®; Hierarchical Embeddings for Text Search..."
+title: "Ideas: Towards Benchmarking LLM Diversity & Creativity"
 meta_title: ""
 description: "this is meta description"
 excerpt: This is the website of Gwern Branwen. I write about Al, psychology, & statistics. I am best known for my writings about Al scaling, poetry & anime neural networks, darknet markets & Bitcoin, blinded self-ex- periments, and dual n-back & spaced repetition.
 publishdate: 2014-01-04T05:00:00Z # Replace with actual start date
 lastmod: 2024-02-04T05:00:00Z # Replace with actual end date
 tags: [tag1, tag2, tag3]
-categories: [Anime,Example] # grab title from content/english/categories/ folder
-status: Notes # Options: Notes | Draft | In Progress | Finished
-certainty: Likely # Options: Certain | Highly Likely | Likely | Possible | Unlikely | Highly Unlikely | Remote | Impossible
-importance: 5 # Number between 1 and 10
+categories: [Anime] # grab title from content/english/categories/ folder
+status: 
+  value: Notes # Options: Notes | Draft | In Progress | Finished
+  percentage: 25
+# Options: Certain | Highly Likely | Likely | Possible | Unlikely | Highly Unlikely | Remote | Impossible
+certainty: 
+  value:  Likely 
+  percentage: 70
+importance: 
+  value: 5 # Number between 1 and 10
+  percentage: 50
 is_post_complete: false # Boolean
 homepage_featured: false # Boolean
 

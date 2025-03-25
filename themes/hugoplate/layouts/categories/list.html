@@ -1,16 +1,177 @@
 {{ define "main" }}
-  {{ partial "page-header" . }}
+<section class="section border-border border-b">
+  <div class="container">
+    <h2 class="mb-6">{{ .Title }}</h2>
+    <p class="text-xl font-medium">{{ .Params.description }}</p>
+  </div>
+</section>
 
-
-  <section class="section">
-    <div class="container">
-      <div class="row">
-        {{ range .RegularPages }}
-          <div class="md:col-6 lg:col-4 mb-14">
-            {{/* {{ partial "components/author-card" . }} */}}
+<section class="section">
+  <div class="container">
+    <div class="row">
+      {{/* sidebar */}}
+      <div class="lg:col-2 hidden lg:flex flex-col">
+        <div class="bg-light py-6 px-4 rounded-lg">
+          {{/* Years and months sidebar */}}
+          <div id="years-container" class="flex flex-col gap-4">
+            <!-- Year headings and month buttons will be dynamically inserted here -->
           </div>
-        {{ end }}
+        </div>
+      </div>
+
+      {{/* essays */}}
+      <div class="lg:col-10">
+        <div  class="lg:pl-20">
+          <div id="categories-container" class="grid md:grid-cols-2"> 
+            <!-- Categories and filtered posts will be displayed here -->
+
+          </div>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
+<!-- Feedback -->
+{{ partial "components/feedback" }}
+<!-- Feedback -->
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get all posts from Hugo
+    {{ $allPosts := slice }}
+    {{ with site.GetPage "essays" }}
+      {{ $allPosts = .RegularPages }}
+    {{ end }}
+    
+    // Format the data for JavaScript usage
+    const allPosts = [
+      {{ range $allPosts }}
+        {
+          title: {{ .Title  }},
+          date: {{ .Date.Format "2006-01-02"  }},
+          year: {{ .Date.Format "2006"  }},
+          month: {{ .Date.Format "January"  }},
+          monthYear: {{ .Date.Format "January 2006"  }},
+          url: {{ .Permalink  }},
+          categories: [{{ range .Params.categories }}{{ .  }},{{ end }}]
+        },
+      {{ end }}
+    ];
+
+    // Group posts by categories
+    const postsByCategory = {};
+    allPosts.forEach(post => {
+      post.categories.forEach(category => {
+        if (!postsByCategory[category]) {
+          postsByCategory[category] = [];
+        }
+        postsByCategory[category].push(post);
+      });
+    });
+
+  
+    // Generate unique years and months from posts
+    const dateGroups = {};
+    allPosts.forEach(post => {
+      if (!dateGroups[post.year]) {
+        dateGroups[post.year] = new Set();
+      }
+      dateGroups[post.year].add(post.monthYear);
+    });
+
+    // Render sidebar with years and months
+    const yearsContainer = document.getElementById('years-container');
+    Object.keys(dateGroups).sort((a, b) => b - a).forEach(year => {
+      // Create year heading
+      const yearHeading = document.createElement('div');
+      yearHeading.innerHTML = `<h5 class="text-h5 font-semibold">${year}</h5>`;
+      yearsContainer.appendChild(yearHeading);
+      
+      // Create container for months of this year
+      const monthsContainer = document.createElement('div');
+      monthsContainer.className = 'flex flex-col gap-2 my-3 pl-3';
+      yearHeading.appendChild(monthsContainer);
+      
+      // Add month buttons
+      Array.from(dateGroups[year]).sort().forEach(monthYear => {
+        const monthButton = document.createElement('span');
+        monthButton.textContent = monthYear;
+        monthButton.className = 'text-text-dark month-button cursor-pointer ';
+        monthButton.dataset.monthYear = monthYear;
+        monthsContainer.appendChild(monthButton);
+      });
+    });
+    
+    // Render all categories and posts initially
+    renderCategoriesAndPosts(allPosts);
+    
+    // Add event listeners to month buttons
+    document.querySelectorAll('.month-button').forEach(button => {
+      button.addEventListener('click', function() {
+        const monthYear = this.dataset.monthYear;
+        
+        // Set all month buttons to inactive style
+        document.querySelectorAll('.month-button').forEach(btn => {
+          btn.classList.remove('font-bold');
+          btn.classList.add('text-text-dark');
+        });
+        
+        // Set clicked button to active style
+        this.classList.add('font-bold');
+        this.classList.remove('text-text-dark');
+        
+        // Filter posts by selected month and year
+        const filteredPosts = allPosts.filter(post => post.monthYear === monthYear);
+        renderCategoriesAndPosts(filteredPosts);
+      });
+    });
+    
+    // Function to render categories and their posts
+    function renderCategoriesAndPosts(posts) {
+      const categoriesContainer = document.getElementById('categories-container');
+      categoriesContainer.innerHTML = '';
+      
+      // Group filtered posts by category
+      const filteredPostsByCategory = {};
+      posts.forEach(post => {
+        post.categories.forEach(category => {
+          if (!filteredPostsByCategory[category]) {
+            filteredPostsByCategory[category] = [];
+          }
+          filteredPostsByCategory[category].push(post);
+        });
+      });
+      
+      // Render each category and its posts
+      Object.keys(filteredPostsByCategory).forEach((category, index) => {
+        const categoryPosts = filteredPostsByCategory[category];
+        
+        // Create category section
+        const categorySection = document.createElement('div');
+        categorySection.className = `category-box-${index+1} border md:border-border border-x-transparent md:p-6 py-6 ${index % 2 === 0 ? 'md:pl-0 md:border-x-transparent' : 'md:border-r-transparent md:pr-0'} ${index >= 2 ? 'border-t-transparent!' : ''}`;
+        categorySection.innerHTML = `
+          <a href="/categories/${category.replace(/\s+/g, '-').toLowerCase()}" id="${category}" class="text-h4 mb-8 block font-semibold">
+            ${category}
+          </a>
+          <div class="space-y-8">
+            ${categoryPosts.slice(0,4).map(post => `
+              <a href="${post.url}" class="text-h6 hover:font-semibold transition duration-300 group flex items-center">
+               <span>${post.title.substring(0, 60)}</span>
+              <i class="fa-regular fa-arrow-right opacity-0! group-hover:opacity-100! group-hover:translate-x-2.5! transition duration-300 inline-block mt-1"></i>
+              </a>
+            `).join('')}
+          </div>
+        `;
+        
+        categoriesContainer.appendChild(categorySection);
+      });
+      
+      // Show message if no posts found
+      if (Object.keys(filteredPostsByCategory).length === 0) {
+        categoriesContainer.innerHTML = '<p class="text-xl">No posts found for the selected month.</p>';
+      }
+    }
+  });
+</script>
 {{ end }}

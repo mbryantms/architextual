@@ -2,7 +2,7 @@
   class="header {{ if site.Params.navbar_fixed }}sticky top-0{{ end }} z-30">
   <nav class="navbar container">
     <!-- logo -->
-    <div class="order-0 lg:w-3/12">
+    <div class="lg:w-3/12">
       <!-- navbar brand/logo -->
       <a class="navbar-brand block" href="{{ site.Home.RelPermalink }}">
         {{ partial "logo" }}
@@ -13,7 +13,7 @@
     <input id="nav-toggle" type="checkbox" class="hidden" />
     <label
       for="nav-toggle"
-      class="order-3 cursor-pointer flex items-center lg:hidden text-text-dark  lg:order-1">
+      class=" cursor-pointer flex items-center lg:hidden text-text-dark  lg:order-1">
       <svg id="show-button" class="h-6 fill-current block" viewBox="0 0 20 20">
         <title>Menu Open</title>
         <path d="M0 3h20v2H0V3z m0 6h20v2H0V9z m0 6h20v2H0V0z"></path>
@@ -30,11 +30,12 @@
     <!-- main navbar -->
     <ul
       id="nav-menu"
-      class="navbar-nav order-3 hidden lg:flex lg:justify-between w-full pb-6 lg:order-1   lg:pb-0 lg:w-9/12 mt-6 lg:mt-0">
+      class="navbar-nav hidden lg:flex lg:justify-between w-full pb-6   lg:pb-0 lg:w-9/12 mt-6 lg:mt-0">
       {{ $currentPage := . }}
       {{ range site.Menus.main }}
         {{ $menuURL := .URL | absLangURL }}
         {{ $pageURL:= $currentPage.Permalink | absLangURL }}
+
         {{ $active := eq $menuURL $pageURL }}
         {{ if .HasChildren }}
           <li class="nav-item nav-dropdown group relative">
@@ -78,7 +79,7 @@
             </ul>
           </li>
         {{ else }}
-          <li class="nav-item">
+          <li class="nav-item block w-full">
             <a
               class="nav-link {{ if $active }}active{{- end -}}"
               {{ if findRE `^http` .URL }}

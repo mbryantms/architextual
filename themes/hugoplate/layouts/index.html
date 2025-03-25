@@ -53,14 +53,41 @@
 <section class="section">
   <div class="container">
     <h2 class="prose-strong:font-medium!">{{ .Params.favorite_topic.title | markdownify }}</h2>
-
-    <div class="mt-12">
-      {{ range (seq 1 4) }}
-      <div class="border-b border-border {{ if eq . 1 }} border-t {{ end }}">
-        {{ partial "components/topic-card" }}
-      </div>
+    {{/*  a  */}}
+    {{ $postByCategory := dict }}
+    {{ $allPosts := slice }}
+    
+    {{ with site.GetPage "essays" }}
+      {{ $allPosts = .RegularPages }}
+    {{ end }}
+    
+    {{ range $allPosts }}
+      {{ if .Params.homepage_featured }}
+        {{$title := .Title}}
+        {{$link := .RelPermalink}}
+        {{ range .Params.categories }}
+          {{ $category := . }}
+          {{ $postData := dict "postTitle" $title "postURL" $link }}
+          
+          {{ if isset $postByCategory $category }}
+            {{ $posts := index $postByCategory $category }}
+            {{ $posts = $posts | append $postData }}
+            {{ $postByCategory = merge $postByCategory (dict $category $posts) }}
+          {{ else }}
+            {{ $postByCategory = merge $postByCategory (dict $category (slice $postData)) }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+    
+    <div class="mt-12 border-t border-border">
+      {{ range $title, $posts := $postByCategory }}
+        <div class="border-b border-border ">
+          {{ partial "components/topic-card" (dict "title" $title "posts" $posts) }}
+        </div>
       {{end}}
     </div>
+
   </div>
 </section>
 {{ end }}

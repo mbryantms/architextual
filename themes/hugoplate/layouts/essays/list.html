@@ -21,28 +21,29 @@
     {{ $yearData = merge $yearData (dict $monthYear $monthData) }}
     {{ $grouped = merge $grouped (dict $year $yearData) }}
   {{ end }}
+  
 
   {{/* INFORMATION FOR FILTERING */}}
   {{ $uniqueCategories := slice }}
   {{ range $essays }}
-    {{ $uniqueCategories = union $uniqueCategories .Params.categories }}
+    {{ $uniqueCategories = union $uniqueCategories .Params.categories | uniq}}
   {{ end }}
 
   {{ $uniqueStatus := slice }}
   {{ range $essays }}
     {{ if .Params.status }}
-      {{ $uniqueStatus = $uniqueStatus | append .Params.status | uniq }}
+      {{ $uniqueStatus = $uniqueStatus | append .Params.status.value | uniq }}
     {{ end }}
   {{ end }}
 
   {{ $uniqueImportance := slice }}
   {{ range $essays }}
-    {{ $uniqueImportance = $uniqueImportance | append .Params.importance | uniq }}
+    {{ $uniqueImportance = $uniqueImportance | append .Params.importance.value | uniq }}
   {{ end }}
 
   {{ $uniqueCertainty := slice }}
   {{ range $essays }}
-    {{ $uniqueCertainty = $uniqueCertainty | append .Params.certainty | uniq }}
+    {{ $uniqueCertainty = $uniqueCertainty | append .Params.certainty.value | uniq }}
   {{ end }}
 
   {{/* END INFORMATION FOR FILTERING */}}
@@ -94,6 +95,8 @@
       </div>
     </div>
   </section>
+
+  {{/*  eassys  */}}
   <section class="section">
     <div class="container">
       <div class="row">
@@ -107,7 +110,7 @@
 
               <div class="flex flex-col gap-2 my-3 pl-3">
                 {{ range $monthYear, $entries := $months }}
-                  <a href="#{{ $year }}" class="text-text-dark">
+                  <a href="#{{ $monthYear }}" class="text-text-dark">
                     {{ $monthYear }}
                   </a>
                 {{ end }}
@@ -157,35 +160,42 @@
     </div>
   </section>
 
+<!-- Feedback -->
+{{ partial "components/feedback" }}
+<!-- Feedback -->
+
   <script>
-    {{ $allCherryPickedEssaysFields := slice }}
-    {{ range $essays }}
-      {{ $allCherryPickedEssaysFields = $allCherryPickedEssaysFields | append (dict
-        "title" .Title
-        "permalink" .Permalink
-        "published_date" .Params.publishdate
-        "categories" .Params.categories
-        "status" .Params.status
-        "certainty" .Params.certainty
-        "importance" .Params.importance
-      ) }}
-    {{ end }}
-    const essays = {{ $allCherryPickedEssaysFields | jsonify }};
-    console.log('🪲 :', essays);
+  const allPosts = {{ $grouped | jsonify }};
 
-    let selectedFilters = new Map();
-    document.addEventListener("DOMContentLoaded", function () {
-      const filters = document.querySelectorAll(".filter-dropdown");
+  const statusFilter = document.getElementById("statusFilter");
+  const categoryFilter = document.getElementById("categoryFilter");
+  const certaintyFilter = document.getElementById("certaintyFilter");
+  const importanceFilter = document.getElementById("importanceFilter");
 
-      filters.forEach((filter) => {
-        filter.addEventListener("change", applyFilters);
-      });
+  statusFilter.addEventListener("change", filterEssays);
+  categoryFilter.addEventListener("change", filterEssays);
+  certaintyFilter.addEventListener("change", filterEssays);
+  importanceFilter.addEventListener("change", filterEssays);
 
-      function applyFilters(e) {
-        selectedFilters.set(e.target.id, e.target.value);
+  function filterEssays() {
+    const selectedStatus = statusFilter.value;
+    const selectedCategory = categoryFilter.value;
+    const selectedCertainty = certaintyFilter.value;
+    const selectedImportance = importanceFilter.value;
 
-        console.log("🪲 :", selectedFilters);
-      }
+    const filteredEssays = allPosts.filter(essay => {
+      const statusMatch = selectedStatus === "" || essay.status === selectedStatus;
+      const categoryMatch = selectedCategory === "" || essay.categories.includes(selectedCategory);
+      const certaintyMatch = selectedCertainty === "" || essay.certainty === selectedCertainty;
+      const importanceMatch = selectedImportance === "" || essay.importance === selectedImportance;
+
+      return statusMatch && categoryMatch && certaintyMatch && importanceMatch;
     });
+
+    renderCategoriesAndPosts(filteredEssays);
+    
+
+  }
+
   </script>
 {{ end }}

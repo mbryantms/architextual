@@ -1,14 +1,14 @@
 <div class="row">
     <div class="lg:col-4 lg:border-r lg:border-border flex items-center">
-        <h4 class="p-6">Anime</h4>
+        <a href="/categories/{{.title }}" class="p-6 h4 font-semibold">{{.title}}</a>
     </div>
     <div class="lg:col-8 ">
         <div class="p-8 flex flex-col gap-8">
-            {{ range (seq 1 4) }}
-            <a href="/" class="text-h6 hover:font-semibold transition duration-300 group flex items-center">
-                <span> For a More Creative Brain Follow These 5 Steps</span>
-                <i
-                    class="fa-regular fa-arrow-right opacity-0! group-hover:opacity-100! group-hover:translate-x-4! transition duration-300 inline-block mt-1"></i>
+        
+            {{ range .posts }}
+            <a href="{{.postURL}}" class="text-h6 hover:font-semibold transition duration-300 group flex items-center">
+                <span> {{.postTitle }}</span>
+                <i class="fa-regular fa-arrow-right opacity-0! group-hover:opacity-100! group-hover:translate-x-4! transition duration-300 inline-block mt-1"></i>
             </a>
             {{ end }}
         </div>

@@ -2,23 +2,23 @@
 
 # main menu
 [[main]]
-name = "Home"
-url = "/"
+name = "Categories"
+url = "/categories/"
 weight = 1
 
 [[main]]
 name = "About Me"
-url = "/about"
+url = "/about/"
 weight = 2
 
 [[main]]
 name = "Til"
-url = "/til"
+url = "/til/"
 weight = 3
 
 [[main]]
 name = "Essays"
-url = "/essays"
+url = "/essays/"
 weight = 4
 
 # [[main]]

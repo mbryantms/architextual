@@ -41,3 +41,7 @@ input#nav-toggle:checked ~ #nav-menu {
   border-style: solid;
   border-color: #F4F5F6 transparent transparent transparent;
 }
+
+.category-box-1 {
+  @apply border-b-transparent md:border-b! sm:border-b-gray-300;
+}
