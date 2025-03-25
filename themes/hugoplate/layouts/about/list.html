@@ -25,25 +25,48 @@
   </div>
 </section>
 
-{{/* About Content  */}}
+{{/* About Content */}}
 <section class="section">
   <div class="container">
-    <div class="row">
-      <div class="col-2">
-        <div class="bg-light p-4 rounded-lg">
-          {{.TableOfContents}}
-        </div>
-      </div>
-      <div class="col-8">
-        <div class="content">
-          {{ .Content }}  
-        </div>
-      </div>
-      <div class="col-2">
-        <div class="flex flex-col ">
-          <div>
-
+    <div class="row gap-y-8">
+      <div class="lg:col-3 md:col-4">
+        <div class="bg-light p-4 rounded-lg ">
+          <div class="table-of-contents">
+            {{.TableOfContents}}
           </div>
+        </div>
+      </div>
+      <div class="lg:col-6 md:col-8">
+        <div class="content">
+          {{ .Content }}
+        </div>
+      </div>
+      <div class="lg:col-3">
+        <div class="flex flex-col gap-y-6">
+         {{/*  running  essays  */}}
+          <div class="bg-light px-4 py-6 rounded-lg border border-border">
+            <h6 class="text-lg font-semibold">Current Running Post</h6>
+            {{ range first 4 (where site.RegularPages "Params.is_post_complete" false) }}
+            <div class="flex items-center gap-4 mt-6">
+              <div>
+                <a href="{{ .RelPermalink }}" class="text-text-dark">{{ .Title }}</a>
+              </div>
+            </div>
+            {{ end }}
+          </div>
+
+          {{/*  recent complete  essays  */}}
+          <div class="bg-light px-4 py-6 rounded-lg border border-border">
+            <h6 class="text-lg font-semibold">Recent Complete Post</h6>
+            {{ range first 4 (where site.RegularPages "Params.is_post_complete" true) }}
+            <div class="flex items-center gap-4 mt-6">
+              <div>
+                <a href="{{ .RelPermalink }}" class="text-text-dark">{{ .Title }}</a>
+              </div>
+            </div>
+            {{ end }}
+          </div>
+
         </div>
       </div>
     </div>
