@@ -60,33 +60,33 @@
 
         <div class="flex gap-4 flex-wrap">
           <select
-            id="statusFilter"
+            id="status"
             class="filter-dropdown rounded-md w-[180px]">
-            <option value="">All Status</option>
+            <option value="all">All Status</option>
             {{ range $uniqueStatus }}
               <option value="{{ . }}">{{ . }}</option>
             {{ end }}
           </select>
           <select
-            id="categoryFilter"
+            id="category"
             class="filter-dropdown rounded-md w-[180px]">
-            <option value="">All Categories</option>
+            <option value="all">All Categories</option>
             {{ range $uniqueCategories }}
               <option value="{{ . }}">{{ . }}</option>
             {{ end }}
           </select>
           <select
-            id="certaintyFilter"
+            id="certainty"
             class="filter-dropdown rounded-md w-[180px]">
-            <option value="">All Certainty</option>
+            <option value="all">All Certainty</option>
             {{ range $uniqueCertainty }}
               <option value="{{ . }}">{{ . }}</option>
             {{ end }}
           </select>
           <select
-            id="importanceFilter"
+            id="importance"
             class="filter-dropdown rounded-md w-[180px]">
-            <option value="">All Importance</option>
+            <option value="all">All Importance</option>
             {{ range $uniqueImportance }}
               <option value="{{ . }}">{{ . }}</option>
             {{ end }}
@@ -101,8 +101,8 @@
     <div class="container">
       <div class="row">
         {{/* sidebar */}}
-        <div class="lg:col-2 hidden lg:flex flex-col">
-          <div class="bg-light py-6 px-4 rounded-lg">
+        <div class="lg:col-2 hidden lg:flex flex-col" >
+          <div class="bg-light py-6 px-4 rounded-lg" id="sidebar">
             {{ range $year, $months := $grouped }}
               <a class="text-h5 font-semibold" href="#{{ $year }}"
                 >{{ $year }}</a
@@ -121,7 +121,7 @@
 
         {{/* essays */}}
         <div class="lg:col-10">
-          <div class="lg:pl-20 w-full">
+          <div class="lg:pl-20 w-full" id="essays-container">
             {{ range $year, $months := $grouped }}
               <div class="mb-20">
                 <h3 id="{{ $year }}" class="text-h3 font-bold mb-6">
@@ -164,38 +164,144 @@
 {{ partial "components/feedback" }}
 <!-- Feedback -->
 
-  <script>
-  const allPosts = {{ $grouped | jsonify }};
+<script>
+  {{/*  ALl DOM  */}}
+  const sidebar = document.getElementById('sidebar')
+  const essaysContainer = document.getElementById('essays-container')
+  const statusFilter = document.getElementById('status')
+  const certaintyFilter = document.getElementById('certainty')
+  const importanceFilter = document.getElementById('importance')
+  const categoryFilter = document.getElementById('category')
 
-  const statusFilter = document.getElementById("statusFilter");
-  const categoryFilter = document.getElementById("categoryFilter");
-  const certaintyFilter = document.getElementById("certaintyFilter");
-  const importanceFilter = document.getElementById("importanceFilter");
 
-  statusFilter.addEventListener("change", filterEssays);
-  categoryFilter.addEventListener("change", filterEssays);
-  certaintyFilter.addEventListener("change", filterEssays);
-  importanceFilter.addEventListener("change", filterEssays);
 
-  function filterEssays() {
-    const selectedStatus = statusFilter.value;
-    const selectedCategory = categoryFilter.value;
-    const selectedCertainty = certaintyFilter.value;
-    const selectedImportance = importanceFilter.value;
+  {{/*  Fetchable Essays  */}}
+  let fetachableEssys = []
+  {{ $allPosts := $grouped | jsonify }}
+  {{ range  $year, $months := $grouped }}
+  mainOBJ = {
+      year: '',
+      postByMonths: []
+  }
+  mainOBJ.year = {{ $year }}
 
-    const filteredEssays = allPosts.filter(essay => {
-      const statusMatch = selectedStatus === "" || essay.status === selectedStatus;
-      const categoryMatch = selectedCategory === "" || essay.categories.includes(selectedCategory);
-      const certaintyMatch = selectedCertainty === "" || essay.certainty === selectedCertainty;
-      const importanceMatch = selectedImportance === "" || essay.importance === selectedImportance;
+  {{ range $monthYear, $entries := $months }}
+    postByMonthOBJ = {
+      month: '',
+      posts: []
+    }
+    postByMonthOBJ.month = "{{ $monthYear }}"
+      {{ range $entries }}
+      obj = {
+          title: '{{ .Title }}',
+          permalink: '{{ .Permalink }}',
+          params:JSON.parse('{{ .Params | jsonify }}'),
+        }
+        postByMonthOBJ.posts.push(obj)
+      {{ end }}
+    mainOBJ.postByMonths.push(postByMonthOBJ)
+    {{ end }}
+  fetachableEssys.push(mainOBJ)
+  {{ end }}
 
-      return statusMatch && categoryMatch && certaintyMatch && importanceMatch;
-    });
 
-    renderCategoriesAndPosts(filteredEssays);
+
+
+{{/*  Update Sidebar  */}}
+function upateSidebar (posts){
+  let sidebarHTML = ''
+  if(posts.length === 0){
+    sidebar.innerHTML = `<p class="text-h6">No posts found</p>`
+    return
+  }
+  posts.forEach((item)=>{
+    sidebarHTML += `<a class="text-h5 font-semibold" href="#${item.year}">${item.year}</a>`
+    sidebarHTML += `<div class="flex flex-col gap-2 my-3 pl-3">`
+    item.postByMonths.forEach((month)=>{
+      sidebarHTML += `<a href="#${month.month}" class="text-text-dark">${month.month}</a>`
+    })
+    sidebarHTML += `</div>`
+  })
+  sidebar.innerHTML = sidebarHTML}
+
+function updateEssaysContainer(posts) {
+   let essaysContainerHTML = ''
+  if(posts.length === 0){
+    essaysContainer.innerHTML = `<p class="text-h6">No posts found</p>`
+    return
+  }
+   posts.forEach((item)=>{
+      essaysContainerHTML += `<div class="mb-20">`
+      essaysContainerHTML += `<h3 id="${item.year}" class="text-h3 font-bold mb-6">${item.year}</h3>`
+      essaysContainerHTML += `<div class="grid md:grid-cols-2 mt-6">`
+      item.postByMonths.forEach((month, number)=>{
+          essaysContainerHTML += `<div class="border md:border-border border-x-transparent md:p-6 py-6
+               ${number % 2 === 0 ? 'md:pl-0 md:border-x-transparent' : 'md:border-r-transparent md:pr-0'}
+                ${number >= 2 ? 'border-t-transparent!' : ''}">`
+          essaysContainerHTML += `<h3 class="text-h4 font-semibold mb-4" id="${month.month}">${month.month}</h3>`
+          month.posts.forEach((post)=>{
+              essaysContainerHTML += `<div class="mb-6">`
+              essaysContainerHTML += ` <a href="${post.permalink}"
+                    class="text-h6 hover:font-semibold transition duration-300 group flex items-center">
+                    <span>${post.title.substring(0, 70)}</span>
+                    <i class="fa-regular fa-arrow-right opacity-0! group-hover:opacity-100! group-hover:translate-x-2.5! transition duration-300 inline-block mt-1"></i>
+                  </a>`
+              essaysContainerHTML += `</div>`
+          })
+          essaysContainerHTML += `</div>`
+      })
+      essaysContainerHTML += `</div>`
+      essaysContainerHTML += `</div>`
+  })
+  essaysContainer.innerHTML = essaysContainerHTML
+}
+
+
+function filterEssays() {
+    let currentFilteredPosts = JSON.parse(JSON.stringify(fetachableEssys)); // Create a fresh copy
+
+    const statusValue = statusFilter.value || "all";
+    const certaintyValue = certaintyFilter.value || "all";
+    const importanceValue = importanceFilter.value || "all";
+    const categoryValue = categoryFilter.value || "all";
+
+    const filters = [
+        { id: "status", value: statusValue },
+        { id: "certainty", value: certaintyValue },
+        { id: "importance", value: importanceValue },
+        { id: "category", value: categoryValue },
+    ];
+
+        filters.forEach((filter) => {
+          if (filter.value !== "all") {
+              currentFilteredPosts = currentFilteredPosts.map((year) => ({
+                  ...year,
+                  postByMonths: year.postByMonths
+                      .map((month) => ({
+                          ...month,
+                          posts: month.posts.filter(
+                              (post) => filter.id === "category"? post.params.categories.includes(filter.value): post.params[filter.id].value == filter.value
+                          ),
+                      }))
+                      .filter((month) => month.posts.length > 0),
+              })).filter((year) => year.postByMonths.length > 0);
+          }
+      });
+
     
 
-  }
+    updateEssaysContainer(currentFilteredPosts);
+    upateSidebar(currentFilteredPosts)
+}
 
-  </script>
+statusFilter.addEventListener("change", filterEssays);
+certaintyFilter.addEventListener("change", filterEssays);
+importanceFilter.addEventListener("change", filterEssays);
+categoryFilter.addEventListener("change", filterEssays);
+
+updateEssaysContainer(fetachableEssys);
+upateSidebar(fetachableEssys)
+
+
+</script>
 {{ end }}

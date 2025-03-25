@@ -1,5 +1,5 @@
 ---
-title: How to write a blog post
+title: How to wmake anything with Jekyll
 meta_title: ""
 description: "this is meta description"
 excerpt: This is the website of Gwern Branwen. I write about Al, psychology, & statistics. I am best known for my writings about Al scaling, poetry & anime neural networks, darknet markets & Bitcoin, blinded self-ex- periments, and dual n-back & spaced repetition.

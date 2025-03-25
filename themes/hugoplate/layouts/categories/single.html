@@ -153,39 +153,44 @@
 {{ partial "components/feedback" }}
 <!-- Feedback -->
 <script>
-  let fetachableEssys = []
-{{ $allPosts := $grouped | jsonify }}
-{{ range  $year, $months := $grouped }}
- mainOBJ = {
-    year: '',
-    postByMonths: []
- }
-mainOBJ.year = {{ $year }}
 
-{{ range $monthYear, $entries := $months }}
-   postByMonthOBJ = {
-    month: '',
-    posts: []
-  }
-  postByMonthOBJ.month = "{{ $monthYear }}"
-    {{ range $entries }}
-     obj = {
-        title: '{{ .Title }}',
-        params:JSON.parse('{{ .Params | jsonify }}'),
-      }
-       postByMonthOBJ.posts.push(obj)
-    {{ end }}
-  mainOBJ.postByMonths.push(postByMonthOBJ)
-  {{ end }}
-fetachableEssys.push(mainOBJ)
-{{ end }}
-
-const sidebar = document.getElementById('sidebar')
+  {{/*  ALl DOM  */}}
+  const sidebar = document.getElementById('sidebar')
 const essaysContainer = document.getElementById('essays-container')
 const statusFilter = document.getElementById('status')
 const certaintyFilter = document.getElementById('certainty')
 const importanceFilter = document.getElementById('importance')
-const filterDropdowns = [statusFilter, certaintyFilter, importanceFilter]
+
+{{/*  Fetchable Essays  */}}
+  let fetachableEssys = []
+  {{ $allPosts := $grouped | jsonify }}
+  {{ range  $year, $months := $grouped }}
+  mainOBJ = {
+      year: '',
+      postByMonths: []
+  }
+  mainOBJ.year = {{ $year }}
+
+  {{ range $monthYear, $entries := $months }}
+    postByMonthOBJ = {
+      month: '',
+      posts: []
+    }
+    postByMonthOBJ.month = "{{ $monthYear }}"
+      {{ range $entries }}
+      obj = {
+          title: '{{ .Title }}',
+          permalink: '{{ .Permalink }}',
+          params:JSON.parse('{{ .Params | jsonify }}'),
+        }
+        postByMonthOBJ.posts.push(obj)
+      {{ end }}
+    mainOBJ.postByMonths.push(postByMonthOBJ)
+    {{ end }}
+  fetachableEssys.push(mainOBJ)
+  {{ end }}
+
+
 
 
 {{/*  Update Sidebar  */}}
@@ -222,7 +227,7 @@ function updateEssaysContainer(posts) {
           essaysContainerHTML += `<h3 class="text-h4 font-semibold mb-4" id="${month.month}">${month.month}</h3>`
           month.posts.forEach((post)=>{
               essaysContainerHTML += `<div class="mb-6">`
-              essaysContainerHTML += ` <a href="${post.params.permalink}"
+              essaysContainerHTML += ` <a href="${post.permalink}"
                     class="text-h6 hover:font-semibold transition duration-300 group flex items-center">
                     <span>${post.title.substring(0, 70)}</span>
                     <i class="fa-regular fa-arrow-right opacity-0! group-hover:opacity-100! group-hover:translate-x-2.5! transition duration-300 inline-block mt-1"></i>
