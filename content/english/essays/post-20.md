@@ -20,8 +20,10 @@ is_post_complete: false
 homepage_featured: true
 
 bibliography:
-  - Wilson, S. (2024). "Anime's Global Reach". International Media Studies, 9(2), 56-78.
-  - Nakamura, R. (2023). "Cultural Soft Power through Animation". Global Popular Culture, 7(3), 123-145.
+  - title: "Title of the Source"
+    link: https://www.example.com
+  - title: "Title of the Source"
+    link: https://www.example.com
 
 draft: false
 ---

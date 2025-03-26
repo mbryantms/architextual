@@ -53,6 +53,22 @@
   @apply no-underline hover:!text-white;
 }
 
+.content > h1, 
+.content > h2 {
+  @apply flex items-center font-bold text-gray-900;
+}
+
+.content > h1::after,
+.content > h2::after {
+  content: "";
+  flex-grow: 1; /* Makes the divider take the remaining space */
+  height: 5px; /* Total height for both lines */
+  background: linear-gradient(to bottom, #8b9098 0%, #8b9098 40%, transparent 40%, transparent 60%, #8b9098 60%, #8b9098 100%);
+  margin-left: 10px; /* Space between text and lines */
+  display: inline-block;
+  vertical-align: middle;
+}
+
 
 /* progress bar */
 #progress-bar--container {
@@ -75,12 +91,12 @@
   width: 100%;
 }
 
-
-
 #TableOfContents{
   padding: 0 !important;
 }
 
+
+/* table of contents */
 .table-of-contents {
   line-height: 1.8;
 }
@@ -91,7 +107,6 @@
   margin: 0;
 }
 
-/* First level ol > li */
 
 .table-of-contents #TableOfContents > ol > li  {
   font-weight: 600;
@@ -101,28 +116,26 @@
   padding-left: 0;
 }
 
-/* Second level ol > li */
+
 .table-of-contents #TableOfContents > ol > li > ol > li {
   font-weight: 500;
-  font-size: 16px !important; /* 2px less than 18px */
+  font-size: 16px !important; 
   padding-left: 16px;
 
 
 }
 
-/* Third level ol > li and deeper */
 .table-of-contents #TableOfContents > ol > li > ol > li > ol > li {
-  font-size: 14px; /* 4px less than 18px */
+  font-size: 14px; 
   padding-left: 4px;
 
 }
 .table-of-contents #TableOfContents > ol > li > ol > li > ol > li > ol > li  {
-  font-size: 12px !important; /* 6px less than 18px */
+  font-size: 12px !important; 
   padding-left: 4px !important;
 
 }
 
-/* Special case for very deep nesting (like Dominic section) */
 .table-of-contents #TableOfContents > ol > li > ol > li > ol > li > ol > li > ol > li {
   font-size: 10px;
 
@@ -133,8 +146,6 @@
 
 }
 
-
-/* Remove default link styling */
 .table-of-contents #TableOfContents a {
   text-decoration: none;
   color: inherit;
@@ -144,4 +155,29 @@
 
 .table-of-contents #TableOfContents a:hover {
   text-decoration: none !important;
+}
+
+
+/* highlight heading */
+.highlight-heading{
+   @apply flex items-center font-bold text-gray-900;
+}
+.highlight-heading::after{
+  content: "";
+  flex-grow: 1;
+  height: 5px; 
+  background: linear-gradient(to bottom, #8b9098 0%, #8b9098 40%, transparent 40%, transparent 60%, #8b9098 60%, #8b9098 100%);
+  margin-left: 10px; 
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.highlight-heading::before{
+  content: "";
+  flex-grow: 1; 
+  height: 5px; 
+  background: linear-gradient(to bottom, #8b9098 0%, #8b9098 40%, transparent 40%, transparent 60%, #8b9098 60%, #8b9098 100%);
+  margin-right: 10px; 
+  display: inline-block;
+  vertical-align: middle;
 }

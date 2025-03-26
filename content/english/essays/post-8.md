@@ -20,8 +20,10 @@ is_post_complete: false
 homepage_featured: true
 
 bibliography:
-  - Sutskever, I. (2023). "The Future of AI: Scaling and Beyond". AI Research Quarterly, 5(2), 45-60.
-  - Smith, A. (2024). "Emergent Abilities in Large Language Models". Journal of AI Studies, 2(1), 12-28.
+  - title: "Title of the Source"
+    link: https://www.example.com
+  - title: "Title of the Source"
+    link: https://www.example.com
 
 draft: false
 ---

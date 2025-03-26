@@ -114,10 +114,10 @@
     {{ $related = $related | shuffle | first 3 }}
     {{ with $related }}
     <div class="section pb-0">
-      <h2 class="h3 mb-12">{{ T "related_posts" }}</h2>
+      <h2 class="h3 mb-12 highlight-heading">{{ T "related_posts" }}</h2>
       <div class="row gap-y-8">
         {{ range . }}
-        <div class="col-6">
+        <div class="md:col-6">
           <a href="{{ .RelPermalink }}"
             class="text-h6 hover:font-semibold transition duration-300 group flex items-center">
             <span>{{ .Title}}</span>
@@ -135,11 +135,11 @@
 
     {{ with .Params.bibliography }}
     <div class="section pb-0">
-      <h2 class="h3 mb-12">bibliography</h2>
+      <h2 class="h3 mb-12 highlight-heading">{{ T "bibliography" }}</h2>
       <div class="flex flex-col gap-8">
         {{ range . }}
-        <a href="{{ . }}" class="text-h6 hover:font-semibold transition duration-300 group flex items-center">
-          <span>{{ .}}</span>
+        <a href="{{ .link }}" class="text-h6 hover:font-semibold transition duration-300 group flex items-center">
+          <span>{{ .title}}</span>
           <i
             class="fa-regular fa-arrow-right opacity-0! group-hover:opacity-100! group-hover:translate-x-2.5! transition duration-300 inline-block mt-1"></i>
         </a>

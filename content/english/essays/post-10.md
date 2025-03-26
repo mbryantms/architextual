@@ -16,12 +16,14 @@ certainty:
 importance:
   value: 9
   percentage: 90
-is_post_complete: false
+is_post_complete: true
 homepage_featured: true
 
 bibliography:
-  - Mitchell, M. (2024). "Principles of AI Ethics". Journal of AI Ethics, 4(1), 23-45.
-  - Harris, R. (2023). "Safety Considerations in Large AI Systems". AI Safety Review, 2(3), 112-128.
+  - title: "Title of the Source"
+    link: https://www.example.com
+  - title: "Title of the Source"
+    link: https://www.example.com
 
 draft: false
 ---

@@ -37,7 +37,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
           // Toggle functionality
           aTag.addEventListener("click", function (event) {
-              event.preventDefault(); // Prevent default link behavior
 
               if (nestedOl.style.display === "none") {
                   nestedOl.style.display = "block";

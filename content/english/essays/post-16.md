@@ -20,8 +20,10 @@ is_post_complete: false
 homepage_featured: false
 
 bibliography:
-  - Johnson, M. (2024). "AI-Powered Cybersecurity". Security Intelligence Review, 6(1), 34-56.
-  - Kim, S. (2023). "Machine Learning in Threat Detection". Cybersecurity Journal, 4(2), 89-107.
+  - title: "Title of the Source"
+    link: https://www.example.com
+  - title: "Title of the Source"
+    link: https://www.example.com
 
 draft: false
 ---

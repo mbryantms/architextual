@@ -1,7 +1,7 @@
 home: Home
 read_more: Read More
 send: Send
-related_posts: Related Posts
+related_posts: Similar Essays
 categories: Categories
 tags: Tags
 toc: Table of Contents
@@ -17,3 +17,4 @@ filter: Filter
 status: Status
 importance: Importance
 certanity: Certainty
+bibliography: Bibliography

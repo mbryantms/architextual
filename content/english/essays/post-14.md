@@ -20,8 +20,10 @@ is_post_complete: false
 homepage_featured: true
 
 bibliography:
-  - Manning, C. (2024). "The Evolution of NLP". Computational Linguistics Review, 7(1), 45-67.
-  - Wang, H. (2023). "Neural Language Models: State of the Art". NLP Journal, 4(3), 112-134.
+  - title: "Title of the Source"
+    link: https://www.example.com
+  - title: "Title of the Source"
+    link: https://www.example.com
 
 draft: false
 ---

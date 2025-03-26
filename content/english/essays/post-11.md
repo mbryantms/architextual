@@ -20,8 +20,10 @@ is_post_complete: false
 homepage_featured: false
 
 bibliography:
-  - Ribeiro, M. (2023). "Advances in Model Interpretability". ML Interpretability Review, 3(2), 89-104.
-  - Chen, J. (2024). "Understanding Deep Neural Networks". Explainable AI Journal, 5(1), 45-62.
+  - title: "Title of the Source"
+    link: https://www.example.com
+  - title: "Title of the Source"
+    link: https://www.example.com
 
 draft: false
 ---

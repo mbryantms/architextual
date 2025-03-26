@@ -20,8 +20,10 @@ is_post_complete: false
 homepage_featured: false
 
 bibliography:
-  - Tanaka, H. (2024). "Mythology in Modern Anime". Japanese Cultural Studies, 15(2), 78-96.
-  - Lee, J. (2023). "Folk Tales and Animation". Asian Popular Culture Review, 6(4), 145-167.
+  - title: "Title of the Source"
+    link: https://www.example.com
+  - title: "Title of the Source"
+    link: https://www.example.com
 
 draft: false
 ---
@@ -38,3 +40,94 @@ Anime frequently incorporates elements from Japanese folklore, from yokai supern
 
 Modern anime creators have found innovative ways to incorporate traditional mythological elements into their narratives, creating fresh interpretations that respect cultural heritage while appealing to contemporary audiences.
 
+<!-- <p>In print, Tufte has used the proprietary Monotype Bembo
+    <label for="sn-proprietary-monotype-bembo"
+      class="margin-toggle sidenote-number"></label>
+      <input type="checkbox" id="sn-proprietary-monotype-bembo"
+      class="margin-toggle" />
+      <span class="sidenote">See Tufte’s comment in the 
+        <a
+        href="http://www.edwardtufte.com/bboard/q-and-a-fetch-msg?msg_id=0000Vt">Tufte book fonts</a> 
+        thread.
+      </span>
+    font. A similar effect is achieved in digital formats with the now open-source 
+    <a
+      href="https://github.com/edwardtufte/et-book">ETBook</a>, which Tufte CSS supplies with a
+    <code>@font-face</code> reference to a .ttf file. In case ETBook somehow doesn’t work, Tufte CSS shifts
+    gracefully to other serif fonts like Palatino and Georgia.
+</p>
+
+
+## Contemporary Interpretations
+
+Modern anime creators have found innovative ways to incorporate traditional mythological elements into their narratives, creating fresh interpretations that respect cultural heritage while appealing to contemporary audiences.
+
+<p>In print, Tufte has used the proprietary Monotype Bembo
+    <label for="sn-proprietary-monotype-bembo-2"
+      class="margin-toggle sidenote-number"></label>
+      <input type="checkbox" id="sn-proprietary-monotype-bembo-2"
+      class="margin-toggle" />
+      <span class="sidenote">See Tufte’s comment in the 
+        <a
+        href="http://www.edwardtufte.com/bboard/q-and-a-fetch-msg?msg_id=0000Vt">Tufte book fonts</a> 
+        thread.
+      </span>
+    font. A similar effect is achieved in digital formats with the now open-source 
+    <a
+      href="https://github.com/edwardtufte/et-book">ETBook</a>, which Tufte CSS supplies with a
+    <code>@font-face</code> reference to a .ttf file. In case ETBook somehow doesn’t work, Tufte CSS shifts
+    gracefully to other serif fonts like Palatino and Georgia.
+</p>
+<p>In print, Tufte has used the proprietary Monotype Bembo
+    <label for="sn-proprietary-monotype-bembo-3"
+      class="margin-toggle sidenote-number"></label>
+      <input type="checkbox" id="sn-proprietary-monotype-bembo-3"
+      class="margin-toggle" />
+      <span class="sidenote">See Tufte’s comment in the 
+        <a
+        href="http://www.edwardtufte.com/bboard/q-and-a-fetch-msg?msg_id=0000Vt">Tufte book fonts</a> 
+        thread.
+      </span>
+    font. A similar effect is achieved in digital formats with the now open-source 
+    <a
+      href="https://github.com/edwardtufte/et-book">ETBook</a>, which Tufte CSS supplies with a
+    <code>@font-face</code> reference to a .ttf file.
+    <label for="sn-proprietary-monotype-bembo-5"
+      class="margin-toggle sidenote-number"></label>
+      <input type="checkbox" id="sn-proprietary-monotype-bembo-5"
+      class="margin-toggle" />
+      <span class="sidenote">See Tufte’s comment in the 
+        <a
+        href="http://www.edwardtufte.com/bboard/q-and-a-fetch-msg?msg_id=0000Vt">Tufte book fonts</a> 
+        thread.
+      </span>
+     In case ETBook somehow doesn’t work, Tufte CSS shifts
+    gracefully to other serif fonts like Palatino and Georgia.
+</p>
+
+<p>In print, Tufte has used the proprietary Monotype Bembo
+    <label for="sn-proprietary-monotype-bembo-3"
+      class="margin-toggle sidenote-number"></label>
+      <input type="checkbox" id="sn-proprietary-monotype-bembo-3"
+      class="margin-toggle" />
+      <span class="sidenote">See Tufte’s comment in the 
+        <a
+        href="http://www.edwardtufte.com/bboard/q-and-a-fetch-msg?msg_id=0000Vt">Tufte book fonts</a> 
+        thread.
+      </span>
+    font. A similar effect is achieved in digital formats with the now open-source 
+    <a
+      href="https://github.com/edwardtufte/et-book">ETBook</a>, which Tufte CSS supplies with a
+    <code>@font-face</code> reference to a .ttf file.
+    <label for="sn-proprietary-monotype-bembo-22"
+      class="margin-toggle sidenote-number"></label>
+      <input type="checkbox" id="sn-proprietary-monotype-bembo-22"
+      class="margin-toggle" />
+      <span class="sidenote">See Tufte’s comment in the 
+        <a
+        href="http://www.edwardtufte.com/bboard/q-and-a-fetch-msg?msg_id=0000Vt">Tufte book fonts</a> 
+        thread.
+      </span>
+     In case ETBook somehow doesn’t work, Tufte CSS shifts
+    gracefully to other serif fonts like Palatino and Georgia.
+</p> -->
