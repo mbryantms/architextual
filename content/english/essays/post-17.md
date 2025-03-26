@@ -20,8 +20,10 @@ is_post_complete: false
 homepage_featured: false
 
 bibliography:
-  - Thompson, R. (2024). "AI-Driven Financial Markets". Journal of Financial Technology, 5(2), 67-85.
-  - Chen, L. (2023). "Machine Learning in Trading". Quantitative Finance Review, 7(3), 123-145.
+  - title: "Title of the Source"
+    link: https://www.example.com
+  - title: "Title of the Source"
+    link: https://www.example.com
 
 draft: false
 ---

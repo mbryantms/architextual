@@ -20,8 +20,10 @@ is_post_complete: false
 homepage_featured: false
 
 bibliography:
-  - Yamada, T. (2024). "Music in Japanese Animation". Anime Studies Journal, 8(2), 89-112.
-  - Park, S. (2023). "Evolution of Anime Soundtracks". Music in Media Review, 6(3), 145-167.
+  - title: "Title of the Source"
+    link: https://www.example.com
+  - title: "Title of the Source"
+    link: https://www.example.com
 
 draft: false
 ---

@@ -20,8 +20,10 @@ is_post_complete: false
 homepage_featured: false
 
 bibliography:
-  - Bengio, Y. (2023). "The Road to AGI: Current Perspectives". Nature Machine Intelligence, 3(4), 156-170.
-  - Lake, B. (2024). "Cognitive Architectures and AGI Development". AI Review, 12(2), 78-95.
+  - title: "Title of the Source"
+    link: https://www.example.com
+  - title: "Title of the Source"
+    link: https://www.example.com
 
 draft: false
 ---

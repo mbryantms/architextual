@@ -20,8 +20,10 @@ is_post_complete: false
 homepage_featured: true
 
 bibliography:
-  - Zhang, L. (2024). "AI Applications in Medical Imaging". Journal of Medical AI, 6(1), 34-52.
-  - Kumar, R. (2023). "Machine Learning in Drug Discovery". Healthcare Innovation Review, 4(3), 167-185.
+  - title: "Title of the Source"
+    link: https://www.example.com
+  - title: "Title of the Source"
+    link: https://www.example.com
 
 draft: false
 ---

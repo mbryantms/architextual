@@ -21,8 +21,10 @@ is_post_complete: false # Boolean
 homepage_featured: true # Boolean
 
 bibliography:
-  - Doe, J. (2022). "Title of the Source". Journal Name, 1(1), 1-10. [Link to Source](https://www.example.com)
-  - Joel, J. (2022). "Title of the Source". Journal Name, 1(1), 1-10. [Link to Source](https://www.example.com)
+  - title: "Title of the Source"
+    link: https://www.example.com
+  - title: "Title of the Source"
+    link: https://www.example.com
 
 draft: false
 ---

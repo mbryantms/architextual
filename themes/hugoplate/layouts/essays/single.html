@@ -22,7 +22,8 @@
     <!-- filter -->
     <div class="mt-12 flex flex-col md:flex-row gap-6 md:gap-10 md:items-center md:flex-wrap">
       <div class="text-xl font-medium">
-        <span>{{dateFormat "2006-01-02" .Params.publishdate }} </span> -- <span>{{dateFormat "2006-01-02" .Params.lastmod }} </span>
+        <span>{{dateFormat "2006-01-02" .Params.publishdate }} </span> -- <span>{{dateFormat "2006-01-02"
+          .Params.lastmod }} </span>
       </div>
       {{/* status */}}
       <div class="rounded-md py-1 px-4 flex justify-between items-center border border-border w-[165px] cursor-pointer">
@@ -37,7 +38,8 @@
             </svg>
           </div>
           <div class="meter-info">
-            <input id="meter--ranger" class="hidden" type="range" value="{{ .Params.status.percentage }}" min="0" max="100">
+            <input id="meter--ranger" class="hidden" type="range" value="{{ .Params.status.percentage }}" min="0"
+              max="100">
           </div>
         </div>
       </div>
@@ -55,7 +57,8 @@
             </svg>
           </div>
           <div class="meter-info">
-            <input id="meter--ranger" class="hidden" type="range" value="{{ .Params.certainty.percentage }}" min="0" max="100">
+            <input id="meter--ranger" class="hidden" type="range" value="{{ .Params.certainty.percentage }}" min="0"
+              max="100">
           </div>
         </div>
       </div>
@@ -73,7 +76,8 @@
             </svg>
           </div>
           <div class="meter-info">
-            <input id="meter--ranger" class="hidden" type="range" value="{{ .Params.importance.percentage }}" min="0" max="100">
+            <input id="meter--ranger" class="hidden" type="range" value="{{ .Params.importance.percentage }}" min="0"
+              max="100">
           </div>
         </div>
       </div>
@@ -84,74 +88,25 @@
 
 <section class="section pt-7">
   <div class="container">
-    <div class="row justify-center">
-      <article class="lg:col-10">
-        {{ $image:= .Params.image }}
-        {{ if $image }}
-        <div class="mb-10">
-          {{ partial "image" (dict "Src" $image "Context" .Page "Alt" .Title "Class" "w-full rounded") }}
+    <div class="row gap-y-8">
+      <div class="lg:col-3 md:col-4">
+        <div class="bg-light p-4 rounded-lg ">
+          <div class="table-of-contents">
+            {{.TableOfContents}}
+          </div>
         </div>
-        {{ end }}
-        <h1 class="h2 mb-4">
-          {{ .Title }}
-        </h1>
-        <ul class="mb-4">
-          <li class="mr-4 inline-block">
-            <a href="{{ `authors/` | relLangURL }}{{ .Params.Author | urlize }}/">
-              <i class="fa-regular fa-circle-user mr-2"></i>{{ .Params.author }}
-            </a>
-          </li>
-          {{ $categories:= .Params.categories }}
-          {{ if $categories }}
-          <li class="mr-4 inline-block">
-            <i class="fa-regular fa-folder mr-2"></i>
-            {{ range $i,$p:= $categories }}
-            <a href="{{ `categories/` | relLangURL }}{{ . | urlize | lower }}/" class="">{{ . | humanize }}{{ if ne $i
-              (sub (len $categories) 1) }}
-              {{ "," }}
-              {{ end }}
-            </a>
-            {{ end }}
-          </li>
-          {{ end }}
-          <li class="mr-4 inline-block">
-            <i class="fa-regular fa-clock mr-2"></i>
-            {{ time.Format ":date_long" .PublishDate }}
-          </li>
-        </ul>
-        <div class="content mb-10">
-          {{ partial "toc.html" (dict "Class" "blog" "Collapsed" false "TableOfContents" .TableOfContents ) }}
+      </div>
+      <div class="lg:col-6 md:col-8">
+        <div class="content">
           {{ .Content }}
         </div>
-        <div class="row items-start justify-between">
-          {{ $tags:= .Params.tags }}
-          {{ if $tags }}
-          <div class="lg:col-6 mb-10 flex items-center lg:mb-0">
-            <h5 class="mr-3">{{ T "tags" }} :</h5>
-            <ul>
-              {{ range $i,$p:= $tags }}
-              <li class="inline-block">
-                <a class="bg-light hover:bg-primary    m-1 block rounded px-3 py-1 hover:text-white"
-                  href="{{ `tags/` | relLangURL }}{{ . | urlize | lower }}/">
-                  {{ . | humanize }}
-                </a>
-              </li>
-              {{ end }}
-            </ul>
-          </div>
-          {{ end }}
-          <div class="lg:col-6 flex items-center">
-            {{ partial "social-share" (dict "Context" . "Class" "share-icons lg:ml-auto" "Title" (T "share") "Whatsapp"
-            false "Telegram" false "Linkedin" false "Pinterest" false "Tumblr" false "Vk" false) }}
-          </div>
+      </div>
+      <div class="lg:col-3">
+        <div class="flex flex-col gap-y-6">
+
+
         </div>
-        <!-- comments -->
-        {{ if site.Config.Services.Disqus.Shortname }}
-        <div class="mt-20">
-          {{ template "_internal/disqus.html" . }}
-        </div>
-        {{ end }}
-      </article>
+      </div>
     </div>
 
     <!-- Related posts -->
@@ -159,14 +114,38 @@
     {{ $related = $related | shuffle | first 3 }}
     {{ with $related }}
     <div class="section pb-0">
-      <h2 class="h3 mb-12">{{ T "related_posts" }}</h2>
-      <div class="row">
+      <h2 class="h3 mb-12 highlight-heading">{{ T "related_posts" }}</h2>
+      <div class="row gap-y-8">
         {{ range . }}
-        <div class="lg:col-4 md:col-6 mb-14">
-          {{ partial "components/blog-card" . }}
+        <div class="md:col-6">
+          <a href="{{ .RelPermalink }}"
+            class="text-h6 hover:font-semibold transition duration-300 group flex items-center">
+            <span>{{ .Title}}</span>
+            <i
+              class="fa-regular fa-arrow-right opacity-0! group-hover:opacity-100! group-hover:translate-x-2.5! transition duration-300 inline-block mt-1"></i>
+          </a>
         </div>
         {{ end }}
       </div>
+    </div>
+    {{ end }}
+
+
+    {{/* bibliography */}}
+
+    {{ with .Params.bibliography }}
+    <div class="section pb-0">
+      <h2 class="h3 mb-12 highlight-heading">{{ T "bibliography" }}</h2>
+      <div class="flex flex-col gap-8">
+        {{ range . }}
+        <a href="{{ .link }}" class="text-h6 hover:font-semibold transition duration-300 group flex items-center">
+          <span>{{ .title}}</span>
+          <i
+            class="fa-regular fa-arrow-right opacity-0! group-hover:opacity-100! group-hover:translate-x-2.5! transition duration-300 inline-block mt-1"></i>
+        </a>
+        {{end}}
+      </div>
+
     </div>
     {{ end }}
   </div>
@@ -174,78 +153,78 @@
 
 <script>
   // Reusable Progress Bar Component
-function initializeProgressBars() {
-  // Find all meter containers
-  const meterContainers = document.querySelectorAll(".rounded-md");
+  function initializeProgressBars() {
+    // Find all meter containers
+    const meterContainers = document.querySelectorAll(".rounded-md");
 
-  meterContainers.forEach((container) => {
-    // Get elements within this container using relative selectors
-    const tooltip = container.querySelector(".tooltip-container");
-    
-    const progressContainer = container.querySelector(
-      "#progress-bar--container",
-    );
-    const progressCircle = container.querySelector("#progress--circle");
-    const ranger = container.querySelector("#meter--ranger");
+    meterContainers.forEach((container) => {
+      // Get elements within this container using relative selectors
+      const tooltip = container.querySelector(".tooltip-container");
 
-    // Skip if any required element is missing
-    if (!tooltip || !progressContainer || !progressCircle || !ranger) {
-      console.error("Missing required elements for progress meter", container);
-      return;
-    }
-
-    // Function to update tooltip text
-    function updateTooltip() {
-      tooltip.textContent = `${ranger.value}%`;
-    }
-
-    // Alternative 1: Using display style property
-    function showTooltip() {
-      tooltip.classList.remove("hidden")
-      tooltip.classList.add("block!")
-    }
-
-    function hideTooltip() {
-      tooltip.classList.remove("block!")
-      tooltip.classList.add("hidden")
-    }
-
-    // Function to update the circle visual
-    function updateMeter(rangeValue) {
-      progressCircle.style.strokeDasharray = "100";
-      progressCircle.style.strokeDashoffset = 100 - rangeValue;
-      progressCircle.style.stroke = rangeValue === "0" ? "none" : "#28411B";
-    }
-
-    // Handle mouse wheel events
-    function handleWheelEvent(e) {
-      e.preventDefault();
-      const newValue = Math.min(
-        100,
-        Math.max(0, +ranger.value + (e.deltaY > 0 ? -1 : 1)),
+      const progressContainer = container.querySelector(
+        "#progress-bar--container",
       );
-      ranger.value = newValue;
-      ranger.dispatchEvent(new Event("input"));
-    }
+      const progressCircle = container.querySelector("#progress--circle");
+      const ranger = container.querySelector("#meter--ranger");
 
-    // Set up event listeners
-    progressContainer.addEventListener("mouseenter", showTooltip);
-    progressContainer.addEventListener("mouseleave", hideTooltip);
+      // Skip if any required element is missing
+      if (!tooltip || !progressContainer || !progressCircle || !ranger) {
+        console.error("Missing required elements for progress meter", container);
+        return;
+      }
 
-    ranger.addEventListener("input", function () {
+      // Function to update tooltip text
+      function updateTooltip() {
+        tooltip.textContent = `${ranger.value}%`;
+      }
+
+      // Alternative 1: Using display style property
+      function showTooltip() {
+        tooltip.classList.remove("hidden")
+        tooltip.classList.add("block!")
+      }
+
+      function hideTooltip() {
+        tooltip.classList.remove("block!")
+        tooltip.classList.add("hidden")
+      }
+
+      // Function to update the circle visual
+      function updateMeter(rangeValue) {
+        progressCircle.style.strokeDasharray = "100";
+        progressCircle.style.strokeDashoffset = 100 - rangeValue;
+        progressCircle.style.stroke = rangeValue === "0" ? "none" : "#28411B";
+      }
+
+      // Handle mouse wheel events
+      function handleWheelEvent(e) {
+        e.preventDefault();
+        const newValue = Math.min(
+          100,
+          Math.max(0, +ranger.value + (e.deltaY > 0 ? -1 : 1)),
+        );
+        ranger.value = newValue;
+        ranger.dispatchEvent(new Event("input"));
+      }
+
+      // Set up event listeners
+      progressContainer.addEventListener("mouseenter", showTooltip);
+      progressContainer.addEventListener("mouseleave", hideTooltip);
+
+      ranger.addEventListener("input", function () {
+        updateTooltip();
+        updateMeter(this.value);
+      });
+
+      progressContainer.addEventListener("wheel", handleWheelEvent);
+
+      // Initialize with current value
       updateTooltip();
-      updateMeter(this.value);
+      updateMeter(ranger.value);
     });
+  }
 
-    progressContainer.addEventListener("wheel", handleWheelEvent);
-
-    // Initialize with current value
-    updateTooltip();
-    updateMeter(ranger.value);
-  });
-}
-
-// Run when the DOM is fully loaded
-document.addEventListener("DOMContentLoaded", initializeProgressBars);
+  // Run when the DOM is fully loaded
+  document.addEventListener("DOMContentLoaded", initializeProgressBars);
 </script>
 {{ end }}

@@ -20,8 +20,10 @@ is_post_complete: false
 homepage_featured: false
 
 bibliography:
-  - Anderson, K. (2024). "Advances in Robotic Learning". Robotics and AI Journal, 8(2), 123-142.
-  - Lee, S. (2023). "Intelligent Automation Systems". Advanced Robotics Review, 5(4), 78-96.
+  - title: "Title of the Source"
+    link: https://www.example.com
+  - title: "Title of the Source"
+    link: https://www.example.com
 
 draft: false
 ---

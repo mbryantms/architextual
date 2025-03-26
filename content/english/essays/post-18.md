@@ -20,8 +20,10 @@ is_post_complete: false
 homepage_featured: true
 
 bibliography:
-  - Yamamoto, K. (2024). "The Art of Anime: A Historical Perspective". Animation Studies Journal, 12(2), 45-63.
-  - Chen, M. (2023). "Digital Revolution in Anime Production". Asian Media Arts Review, 8(3), 112-134.
+  - title: "Title of the Source"
+    link: https://www.example.com
+  - title: "Title of the Source"
+    link: https://www.example.com
 
 draft: false
 ---

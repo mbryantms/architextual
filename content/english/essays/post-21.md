@@ -20,8 +20,10 @@ is_post_complete: false
 homepage_featured: false
 
 bibliography:
-  - Sato, K. (2024). "Manga-to-Anime Adaptation Techniques". Animation Production Journal, 11(2), 67-89.
-  - Zhang, Y. (2023). "Visual Storytelling in Japanese Media". Asian Arts Quarterly, 5(4), 112-134.
+  - title: "Title of the Source"
+    link: https://www.example.com
+  - title: "Title of the Source"
+    link: https://www.example.com
 
 draft: false
 ---

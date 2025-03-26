@@ -20,8 +20,10 @@ is_post_complete: false
 homepage_featured: false
 
 bibliography:
-  - Liu, X. (2024). "Advances in Deep Learning for Computer Vision". Vision Computing Journal, 5(2), 78-96.
-  - Patel, R. (2023). "Modern Computer Vision Applications". AI Vision Review, 3(4), 156-174.
+  - title: "Title of the Source"
+    link: https://www.example.com
+  - title: "Title of the Source"
+    link: https://www.example.com
 
 draft: false
 ---

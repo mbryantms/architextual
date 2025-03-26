@@ -5,10 +5,9 @@ meta_title: ""
 # meta description
 description: "This is meta description"
 # save as draft
-draft: false
+draft: true
 ---
 
-{{< toc >}}
 
 Here is an example of headings. You can use this heading by the following markdown rules. For example: use `#` for heading 1 and use `######` for heading 6.
 
