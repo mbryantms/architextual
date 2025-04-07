@@ -53,13 +53,15 @@
   @apply no-underline hover:!text-white;
 }
 
-.content > h1, 
-.content > h2 {
+.content h1, 
+.content h2,
+.content h3 {
   @apply flex items-center font-bold text-gray-900;
 }
 
-.content > h1::after,
-.content > h2::after {
+.content h1::after,
+.content h2::after,
+.content h3::after {
   content: "";
   flex-grow: 1; /* Makes the divider take the remaining space */
   height: 5px; /* Total height for both lines */

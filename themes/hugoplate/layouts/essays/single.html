@@ -89,12 +89,14 @@
 <section class="section pt-7">
   <div class="container">
     <div class="row gap-y-8">
-      <div class="lg:col-3 md:col-4">
-        <div class="bg-light p-4 rounded-lg ">
+      <div class="lg:col-3 md:col-4 ">
+      <div class="">
+        <div class="bg-light p-4 rounded-lg sticky top-0">
           <div class="table-of-contents">
             {{.TableOfContents}}
           </div>
         </div>
+      </div>
       </div>
       <div class="lg:col-6 md:col-8">
         <div class="content">
@@ -102,10 +104,8 @@
         </div>
       </div>
       <div class="lg:col-3">
-        <div class="flex flex-col gap-y-6">
-
-
-        </div>
+        {{/*  <div class="flex flex-col gap-y-6">
+        </div>  */}}
       </div>
     </div>
 
@@ -132,7 +132,6 @@
 
 
     {{/* bibliography */}}
-
     {{ with .Params.bibliography }}
     <div class="section pb-0">
       <h2 class="h3 mb-12 highlight-heading">{{ T "bibliography" }}</h2>
