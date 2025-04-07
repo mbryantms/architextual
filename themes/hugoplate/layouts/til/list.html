@@ -1,44 +1,31 @@
 {{ define "main" }}
+{{- $topicCount := dict -}}
+
+{{ range .RegularPages }}
+{{ with .Params.topics }}
+{{ range . }}
+{{ $count := index $topicCount . | default 0 }}
+{{ $topicCount = merge $topicCount (dict . (add $count 1)) }}
+{{ end }}
+{{ end }}
+{{ end }}
+
+
+
 <section class="section border-border border-b">
     <div class="container">
         <h2 class="mb-6">{{ .Title }}</h2>
         <p class="text-xl font-medium">{{ .Params.description }}</p>
         <div class="mt-10 flex flex-col md:flex-row gap-6 md:gap-10">
-            <h6>{{T "tags"}}:</h6>
+            <h6>{{T "topics"}}:</h6>
             <div class="flex gap-4 w-full flex-wrap">
-                {{$tags := slice
-                    (dict "name" "Algorithm" "count" "34")
-                    (dict "name" "Data Structure" "count" "55")
-                    (dict "name" "Machine Learning" "count" "66")
-                    (dict "name" "Web Development" "count" "44")
-                    (dict "name" "Database" "count" "3")
-                    (dict "name" "Computer Vision" "count" "4")
-                    (dict "name" "Artificial Intelligence" "count" "34")
-                    (dict "name" "Cloud Computing" "count" "5")
-                    (dict "name" "Cyber Security" "count" "34")
-                    (dict "name" "Networking" "count" "77")
-                    (dict "name" "DevOps" "count" "88")
-                    (dict "name" "JavaScript" "count" "54")
-                    (dict "name" "Python" "count" "34")
-                    (dict "name" "Java" "count" "35")
-                    (dict "name" "C++" "count" "34")
-                    (dict "name" "Go" "count" "6")
-                    (dict "name" "Rust" "count" "2")
-                    (dict "name" "TypeScript" "count" "314")
-                    (dict "name" "React" "count" "34")
-                    (dict "name" "Angular" "count" "3")
-                    (dict "name" "Vue.js" "count" "34")
-                    (dict "name" "Node.js" "count" "5")
-                    (dict "name" "Express" "count" "7")
-                    (dict "name" "Nest" "count" "34")
-                    (dict "name" "GraphQL" "count" "34")
-                }}
-              
-                {{ range $tags }}
+
+
+                {{ range $key, $val := $topicCount }}
                 <div
-                    class="inline-block py-2 px-4 rounded-md hover:bg-black hover:text-white border border-border transition duration-300 flex items-center gap-3">
-                    <span>{{.name}}</span>
-                    <span>{{.count}}</span>
+                    class="inline-block py-2 px-4 rounded-md hover:bg-black hover:text-white border border-border transition duration-300 flex items-center gap-3 cursor-pointer" data-topic="">
+                    <span>{{$key}}</span>
+                    <span>{{$val}}</span>
                 </div>
                 {{ end }}
             </div>
@@ -47,8 +34,55 @@
         <div class="mt-10 flex flex-col md:flex-row gap-6 md:gap-10 md:items-center">
             <h6>{{T "filter"}}:</h6>
             <div>
-                <input type="date" class="rounded-md sm:w-[430px] w-[300px]">
+                <div class="custom-dropdown">
+                    <div class="dropdown-toggle" id="dropdownToggle">
+                        <span >Select a Date</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <div class="dropdown-item" data-days="7">Last 7 Days</div>
+                        <div class="dropdown-item" data-days="15">Last 15  Days</div>
+                        <div class="dropdown-item" data-days="30">Last 30 Days</div>
+                        <div class="dropdown-item" id="customDate">Custom Date</div>
+                    </div>
+                </div>
+            
+                <div class="custom-date-picker" id="customDatePicker">
+                    <div class="date-picker-content">
+                        <h3 class="text-h5 mb-4">Select a Date</h3>
+                        <input type="date" id="selectedDate" class="date-input">
+                        
+                        <div class="date-picker-actions">
+                            <button class="cancel" id="cancelDatePicker">Cancel</button>
+                            <button class="apply" id="applyDatePicker">Apply</button>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
+
+    </div>
+</section>
+
+{{/* All Til */}}
+<section class="section-sm">
+    <div class="container">
+        <h2>{{T "til"}}</h2>
+        <div class="grid md:grid-cols-2 mt-6 mt-5  border-t border-b border-border">
+            {{ $count := 0 }}
+            {{ range $index, $page := .Pages }}
+            {{ $isLeftItem := eq (mod $count 2) 0 }}
+            {{ $addTopBorderTransparent := ge $count 2 }}
+            <div
+                class="{{if $isLeftItem}} md:border-r border-border {{else}} md:pl-6 {{end}} {{if eq $count 0}} pt-7 {{end}} {{if eq $count 1}} md:pt-7 {{end}}  pb-7">
+                <a href="{{.Permalink}}"
+                    class="text-h6 hover:font-semibold transition duration-300 group flex items-center">
+                    <span> {{.Title }}</span>
+                    <i class="fa-regular fa-arrow-right opacity-0! group-hover:opacity-100! group-hover:translate-x-4! transition duration-300 inline-block mt-1"></i>
+                </a>
+            </div>
+            {{ $count = add $count 1 }}
+            {{ end }}
         </div>
     </div>
 </section>
@@ -57,4 +91,93 @@
 <!-- Feedback -->
 {{ partial "components/feedback" }}
 <!-- Feedback -->
+
+
+<script>
+    {{/*  this is for dropdown  */}}
+    let dateForFilter;
+    let topicForFilter;
+    document.addEventListener('DOMContentLoaded', function() {
+        const dropdownToggle = document.getElementById('dropdownToggle');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const customDate = document.getElementById('customDate');
+        const customDatePicker = document.getElementById('customDatePicker');
+        const cancelDatePicker = document.getElementById('cancelDatePicker');
+        const applyDatePicker = document.getElementById('applyDatePicker');
+        const selectedDateInput = document.getElementById('selectedDate');
+    
+        // Set today's date as default in the picker
+        selectedDateInput.valueAsDate = new Date();
+    
+        // Toggle dropdown menu
+        dropdownToggle.addEventListener('click', function() {
+            const isOpen = dropdownMenu.style.display === 'block';
+            dropdownMenu.style.display = isOpen ? 'none' : 'block';
+            
+            // Rotate chevron icon
+            const icon = this.querySelector('i');
+            icon.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+        });
+    
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.style.display = 'none';
+                dropdownToggle.querySelector('i').style.transform = 'rotate(0deg)';
+            }
+        });
+    
+        // Handle predefined date selection
+        document.querySelectorAll('.dropdown-item').forEach(item => {
+            if (item.id !== 'customDate') {
+                item.addEventListener('click', function() {
+                    const days = parseInt(this.getAttribute('data-days'));
+                    const date = new Date();
+                    date.setDate(date.getDate() - days);
+                    
+                    dropdownToggle.querySelector('span').textContent = this.textContent;
+                    dropdownMenu.style.display = 'none';
+                    dropdownToggle.querySelector('i').style.transform = 'rotate(0deg)';
+                    
+                    console.log(`Selected date: ${formatDate(date)}`);
+                });
+            }
+        });
+    
+        // Handle custom date selection
+        customDate.addEventListener('click', function() {
+            dropdownMenu.style.display = 'none';
+            dropdownToggle.querySelector('i').style.transform = 'rotate(0deg)';
+            customDatePicker.style.display = 'flex';
+        });
+    
+        // Cancel custom date picker
+        cancelDatePicker.addEventListener('click', function() {
+            customDatePicker.style.display = 'none';
+        });
+    
+        // Apply custom date
+        applyDatePicker.addEventListener('click', function() {
+            const date = selectedDateInput.valueAsDate;
+            
+            if (date) {
+                dropdownToggle.querySelector('span').textContent = formatDate(date);
+                customDatePicker.style.display = 'none';
+                dateForFilter = formatDate(date);
+                console.log(`Selected custom date: ${formatDate(date)}`);
+            } else {
+                alert('Please select a date');
+            }
+        });
+    
+        // Helper function to format date as YYYY-MM-DD
+        function formatDate(date) {
+            const d = new Date(date);
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+    });
+</script>
 {{ end }}
