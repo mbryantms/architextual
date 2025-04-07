@@ -17,7 +17,7 @@
   @import "./components.css";
   @import "./navigation.css";
   @import "./buttons.css";
-  @import "./tufte.css";
+  /* @import "./tufte.css"; */
 }
 
 @import "search.css";
