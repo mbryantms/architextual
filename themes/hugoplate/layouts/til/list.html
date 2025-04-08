@@ -1,44 +1,29 @@
 {{ define "main" }}
+{{- $topicCount := dict -}}
+
+{{ range .RegularPages }}
+{{ with .Params.topics }}
+{{ range . }}
+{{ $count := index $topicCount . | default 0 }}
+{{ $topicCount = merge $topicCount (dict . (add $count 1)) }}
+{{ end }}
+{{ end }}
+{{ end }}
+
+
+
 <section class="section border-border border-b">
     <div class="container">
         <h2 class="mb-6">{{ .Title }}</h2>
         <p class="text-xl font-medium">{{ .Params.description }}</p>
         <div class="mt-10 flex flex-col md:flex-row gap-6 md:gap-10">
-            <h6>{{T "tags"}}:</h6>
+            <h6>{{T "topics"}}:</h6>
             <div class="flex gap-4 w-full flex-wrap">
-                {{$tags := slice
-                    (dict "name" "Algorithm" "count" "34")
-                    (dict "name" "Data Structure" "count" "55")
-                    (dict "name" "Machine Learning" "count" "66")
-                    (dict "name" "Web Development" "count" "44")
-                    (dict "name" "Database" "count" "3")
-                    (dict "name" "Computer Vision" "count" "4")
-                    (dict "name" "Artificial Intelligence" "count" "34")
-                    (dict "name" "Cloud Computing" "count" "5")
-                    (dict "name" "Cyber Security" "count" "34")
-                    (dict "name" "Networking" "count" "77")
-                    (dict "name" "DevOps" "count" "88")
-                    (dict "name" "JavaScript" "count" "54")
-                    (dict "name" "Python" "count" "34")
-                    (dict "name" "Java" "count" "35")
-                    (dict "name" "C++" "count" "34")
-                    (dict "name" "Go" "count" "6")
-                    (dict "name" "Rust" "count" "2")
-                    (dict "name" "TypeScript" "count" "314")
-                    (dict "name" "React" "count" "34")
-                    (dict "name" "Angular" "count" "3")
-                    (dict "name" "Vue.js" "count" "34")
-                    (dict "name" "Node.js" "count" "5")
-                    (dict "name" "Express" "count" "7")
-                    (dict "name" "Nest" "count" "34")
-                    (dict "name" "GraphQL" "count" "34")
-                }}
-              
-                {{ range $tags }}
+                {{ range $key, $val := $topicCount }}
                 <div
-                    class="inline-block py-2 px-4 rounded-md hover:bg-black hover:text-white border border-border transition duration-300 flex items-center gap-3">
-                    <span>{{.name}}</span>
-                    <span>{{.count}}</span>
+                    class="inline-block py-2 px-4 rounded-md hover:bg-black hover:text-white border border-border transition duration-300 flex items-center gap-3 cursor-pointer topic" data-topic="{{$key}}">
+                    <span>{{$key}}</span>
+                    <span>{{$val}}</span>
                 </div>
                 {{ end }}
             </div>
@@ -47,9 +32,60 @@
         <div class="mt-10 flex flex-col md:flex-row gap-6 md:gap-10 md:items-center">
             <h6>{{T "filter"}}:</h6>
             <div>
-                <input type="date" class="rounded-md sm:w-[430px] w-[300px]">
+                <div class="custom-dropdown">
+                    <div class="dropdown-toggle" id="dropdownToggle">
+                        <span >Select a Date</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <div class="dropdown-item" data-days="1">Last 1 Day</div>
+                        <div class="dropdown-item" data-days="7">Last 7 Days</div>
+                        <div class="dropdown-item" data-days="15">Last 15  Days</div>
+                        <div class="dropdown-item" data-days="30">Last 30 Days</div>
+                        <div class="dropdown-item" id="customDate">Custom Date</div>
+                    </div>
+                </div>
+            
+                <div class="custom-date-picker" id="customDatePicker">
+                    <div class="date-picker-content">
+                        <h3 class="text-h5 mb-4">Select a Date</h3>
+                        <input type="date" id="selectedDate" class="date-input">
+                        
+                        <div class="date-picker-actions">
+                            <button class="cancel" id="cancelDatePicker">Cancel</button>
+                            <button class="apply" id="applyDatePicker">Apply</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
+    </div>
+</section>
+
+{{/* All Til */}}
+<section class="section-sm">
+    <div class="container">
+        <h2>{{T "til"}}</h2>
+
+        <div class="grid md:grid-cols-2 mt-6 mt-5  border-t border-b border-border">
+            
+            {{ $count := 0 }}
+            {{ range $index, $page := .Pages }}
+            {{ $isLeftItem := eq (mod $count 2) 0 }}
+            {{ $addTopBorderTransparent := ge $count 2 }}
+            <div
+                class="{{if $isLeftItem}} md:border-r border-border {{else}} md:pl-6 {{end}} {{if eq $count 0}} pt-7 {{end}} {{if eq $count 1}} md:pt-7 {{end}}  pb-7">
+                <a href="{{.Permalink}}"
+                    class="text-h6 hover:font-semibold transition duration-300 group flex items-center">
+                    <span> {{.Title }}</span>
+                    <i class="fa-regular fa-arrow-right opacity-0! group-hover:opacity-100! group-hover:translate-x-4! transition duration-300 inline-block mt-1"></i>
+                </a>
+            </div>
+            {{ $count = add $count 1 }}
+            {{ end }}
+        </div>
+
     </div>
 </section>
 
@@ -57,4 +93,241 @@
 <!-- Feedback -->
 {{ partial "components/feedback" }}
 <!-- Feedback -->
+
+
+<script>
+    let today = new Date();
+    let oneMonthAgo = new Date(today.getFullYear(), today.getMonth() - 12, today.getDate());
+    console.log(oneMonthAgo)
+    let dateForFilter = formatDate(oneMonthAgo);
+    let topicForFilters = [];
+        // First, convert your Hugo template data to a JavaScript array
+    let allTILItems = []
+    {{ range .Pages }}
+    obj = {
+        title: '{{ .Title }}',
+        permalink: '{{ .Permalink }}',
+        date: '{{ .PublishDate.Format "2006-01-02" }}',
+        topics: JSON.parse('{{ .Params.topics | jsonify }}'),
+        draft: {{ .Draft }},
+    }
+    allTILItems.push(obj)
+    {{ end }}
+
+    // Store a copy of all items to reset filters
+    const originalTILItems = [...allTILItems];
+
+
+    {{/*  this is for dropdown  */}}
+    const topic = document.querySelectorAll('.topic');
+
+    topic.forEach(element => {
+        element.addEventListener('click', function() {
+            let singleTopic = this.dataset.topic;
+            if (topicForFilters.includes(singleTopic)) {
+                topicForFilters = topicForFilters.filter(item => item !== singleTopic);
+            } else {
+                topicForFilters.push(singleTopic);
+            }
+            this.classList.toggle('bg-dark');
+            this.classList.toggle('text-white');
+            filterTIL()
+        });
+    });
+
+    {{/*  this is for dropdown  */}}
+    document.addEventListener('DOMContentLoaded', function() {
+        const dropdownToggle = document.getElementById('dropdownToggle');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const customDate = document.getElementById('customDate');
+        const customDatePicker = document.getElementById('customDatePicker');
+        const cancelDatePicker = document.getElementById('cancelDatePicker');
+        const applyDatePicker = document.getElementById('applyDatePicker');
+        const selectedDateInput = document.getElementById('selectedDate');
+    
+        // Set today's date as default in the picker
+        selectedDateInput.valueAsDate = new Date();
+    
+        // Toggle dropdown menu
+        dropdownToggle.addEventListener('click', function() {
+            const isOpen = dropdownMenu.style.display === 'block';
+            dropdownMenu.style.display = isOpen ? 'none' : 'block';
+            
+            // Rotate chevron icon
+            const icon = this.querySelector('i');
+            icon.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+        });
+    
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.style.display = 'none';
+                dropdownToggle.querySelector('i').style.transform = 'rotate(0deg)';
+            }
+        });
+    
+        // Handle predefined date selection
+        document.querySelectorAll('.dropdown-item').forEach(item => {
+            if (item.id !== 'customDate') {
+                item.addEventListener('click', function() {
+                    const days = parseInt(this.getAttribute('data-days'));
+                    const date = new Date();
+                    date.setDate(date.getDate() - days);
+                    
+                    dropdownToggle.querySelector('span').textContent = this.textContent;
+                    dropdownMenu.style.display = 'none';
+                    dropdownToggle.querySelector('i').style.transform = 'rotate(0deg)';
+                    dateForFilter = formatDate(date);
+                    filterTIL()
+                });
+            }
+        });
+    
+        // Handle custom date selection
+        customDate.addEventListener('click', function() {
+            dropdownMenu.style.display = 'none';
+            dropdownToggle.querySelector('i').style.transform = 'rotate(0deg)';
+            customDatePicker.style.display = 'flex';
+        });
+    
+        // Cancel custom date picker
+        cancelDatePicker.addEventListener('click', function() {
+            customDatePicker.style.display = 'none';
+        });
+    
+        // Apply custom date
+        applyDatePicker.addEventListener('click', function() {
+            const date = selectedDateInput.valueAsDate;
+            
+            if (date) {
+                dropdownToggle.querySelector('span').textContent = formatDate(date);
+                dateForFilter = formatDate(date);
+                filterTIL()
+                customDatePicker.style.display = 'none';
+               
+            } else {
+                alert('Please select a date');
+            }
+        });
+    
+        // Helper function to format date as YYYY-MM-DD
+      
+    });
+
+
+    function formatDate(date) {
+        const d = new Date(date);
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+
+
+    function filterTIL() {
+        
+        // Apply filters
+        const filteredItems = originalTILItems.filter(item => {
+            // Date filter: Show items from the specified date forward
+            let passesDateFilter = true;
+            if (dateForFilter && dateForFilter !== '') {
+                const filterDate = new Date(dateForFilter);
+                const itemDate = new Date(item.date);
+                passesDateFilter = itemDate >= filterDate;
+            }
+            
+            // Topic filter: Item must contain ANY of the selected topics
+            // Changed from every() to some() to match ANY instead of ALL
+            let passesTopicFilter = true;
+            if (topicForFilters && topicForFilters.length > 0) {
+                passesTopicFilter = topicForFilters.some(topic => 
+                    item.topics && item.topics.includes(topic)
+                );
+            }
+            
+            // Item must pass both filters
+            return passesDateFilter && passesTopicFilter;
+        });
+        
+        console.log(filteredItems);
+        // Update the DOM with filtered results
+        updateTILDisplay(filteredItems);
+    }
+   // Function to update the DOM with filtered results
+    function updateTILDisplay(filteredItems) {
+    const tilContainer = document.querySelector('.grid');
+    
+    // Clear the container
+    tilContainer.innerHTML = '';
+    
+    // Add filtered items back to the container
+    filteredItems.forEach((item, index) => {
+        const isLeftItem = index % 2 === 0;
+        
+        const itemDiv = document.createElement('div');
+        itemDiv.className = `${isLeftItem ? 'md:border-r border-border' : 'md:pl-6'} ${index === 0 ? 'pt-7' : ''} ${index === 1 ? 'md:pt-7' : ''} pb-7`;
+        
+        const link = document.createElement('a');
+        link.href = item.permalink;
+        link.className = 'text-h6 hover:font-semibold transition duration-300 group flex items-center';
+        
+        const span = document.createElement('span');
+        span.textContent = item.title;
+        
+        const icon = document.createElement('i');
+        icon.className = 'fa-regular fa-arrow-right opacity-0! group-hover:opacity-100! group-hover:translate-x-4! transition duration-300 inline-block mt-1';
+        
+        link.appendChild(span);
+        link.appendChild(icon);
+        itemDiv.appendChild(link);
+        
+        tilContainer.appendChild(itemDiv);
+    });
+    
+    // If no results, show a message
+    if (filteredItems.length === 0) {
+        const noResultsMsg = document.createElement('div');
+        noResultsMsg.textContent = 'No TIL items match your filter criteria.';
+        noResultsMsg.className = 'col-span-2 py-4 text-center';
+        tilContainer.appendChild(noResultsMsg);
+    }
+    }
+
+  // Initialize filters (if needed)
+    function initializeFilters() {
+    // Get all unique topics for creating filter options
+    const allTopics = [...new Set(originalTILItems.flatMap(item => item.topics))];
+    
+    // Populate topic filters if you have a container for them
+    const topicFiltersContainer = document.getElementById('topicFiltersContainer');
+    if (topicFiltersContainer) {
+        allTopics.forEach(topic => {
+        const label = document.createElement('label');
+        label.className = 'inline-flex items-center mr-4 mb-2';
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.name = 'topicFilter';
+        checkbox.value = topic;
+        checkbox.className = 'mr-2';
+        checkbox.addEventListener('change', filterTIL);
+        
+        label.appendChild(checkbox);
+        label.appendChild(document.createTextNode(topic));
+        
+        topicFiltersContainer.appendChild(label);
+        });
+    }
+    
+    // Set up date filter if you have one
+    const dateFilter = document.getElementById('dateFilter');
+    if (dateFilter) {
+        dateFilter.addEventListener('change', filterTIL);
+    }
+    }
+
+// Call initialization when the page loads
+document.addEventListener('DOMContentLoaded', initializeFilters);
+</script>
 {{ end }}
