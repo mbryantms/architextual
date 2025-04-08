@@ -19,11 +19,9 @@
         <div class="mt-10 flex flex-col md:flex-row gap-6 md:gap-10">
             <h6>{{T "topics"}}:</h6>
             <div class="flex gap-4 w-full flex-wrap">
-
-
                 {{ range $key, $val := $topicCount }}
                 <div
-                    class="inline-block py-2 px-4 rounded-md hover:bg-black hover:text-white border border-border transition duration-300 flex items-center gap-3 cursor-pointer" data-topic="">
+                    class="inline-block py-2 px-4 rounded-md hover:bg-black hover:text-white border border-border transition duration-300 flex items-center gap-3 cursor-pointer topic" data-topic="{{$key}}">
                     <span>{{$key}}</span>
                     <span>{{$val}}</span>
                 </div>
@@ -40,6 +38,7 @@
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="dropdown-menu" id="dropdownMenu">
+                        <div class="dropdown-item" data-days="1">Last 1 Day</div>
                         <div class="dropdown-item" data-days="7">Last 7 Days</div>
                         <div class="dropdown-item" data-days="15">Last 15  Days</div>
                         <div class="dropdown-item" data-days="30">Last 30 Days</div>
@@ -68,7 +67,9 @@
 <section class="section-sm">
     <div class="container">
         <h2>{{T "til"}}</h2>
+
         <div class="grid md:grid-cols-2 mt-6 mt-5  border-t border-b border-border">
+            
             {{ $count := 0 }}
             {{ range $index, $page := .Pages }}
             {{ $isLeftItem := eq (mod $count 2) 0 }}
@@ -84,6 +85,7 @@
             {{ $count = add $count 1 }}
             {{ end }}
         </div>
+
     </div>
 </section>
 
@@ -94,9 +96,46 @@
 
 
 <script>
+    let today = new Date();
+    let oneMonthAgo = new Date(today.getFullYear(), today.getMonth() - 12, today.getDate());
+    console.log(oneMonthAgo)
+    let dateForFilter = formatDate(oneMonthAgo);
+    let topicForFilters = [];
+        // First, convert your Hugo template data to a JavaScript array
+    let allTILItems = []
+    {{ range .Pages }}
+    obj = {
+        title: '{{ .Title }}',
+        permalink: '{{ .Permalink }}',
+        date: '{{ .PublishDate.Format "2006-01-02" }}',
+        topics: JSON.parse('{{ .Params.topics | jsonify }}'),
+        draft: {{ .Draft }},
+    }
+    allTILItems.push(obj)
+    {{ end }}
+
+    // Store a copy of all items to reset filters
+    const originalTILItems = [...allTILItems];
+
+
     {{/*  this is for dropdown  */}}
-    let dateForFilter;
-    let topicForFilter;
+    const topic = document.querySelectorAll('.topic');
+
+    topic.forEach(element => {
+        element.addEventListener('click', function() {
+            let singleTopic = this.dataset.topic;
+            if (topicForFilters.includes(singleTopic)) {
+                topicForFilters = topicForFilters.filter(item => item !== singleTopic);
+            } else {
+                topicForFilters.push(singleTopic);
+            }
+            this.classList.toggle('bg-dark');
+            this.classList.toggle('text-white');
+            filterTIL()
+        });
+    });
+
+    {{/*  this is for dropdown  */}}
     document.addEventListener('DOMContentLoaded', function() {
         const dropdownToggle = document.getElementById('dropdownToggle');
         const dropdownMenu = document.getElementById('dropdownMenu');
@@ -138,8 +177,8 @@
                     dropdownToggle.querySelector('span').textContent = this.textContent;
                     dropdownMenu.style.display = 'none';
                     dropdownToggle.querySelector('i').style.transform = 'rotate(0deg)';
-                    
-                    console.log(`Selected date: ${formatDate(date)}`);
+                    dateForFilter = formatDate(date);
+                    filterTIL()
                 });
             }
         });
@@ -162,22 +201,133 @@
             
             if (date) {
                 dropdownToggle.querySelector('span').textContent = formatDate(date);
-                customDatePicker.style.display = 'none';
                 dateForFilter = formatDate(date);
-                console.log(`Selected custom date: ${formatDate(date)}`);
+                filterTIL()
+                customDatePicker.style.display = 'none';
+               
             } else {
                 alert('Please select a date');
             }
         });
     
         // Helper function to format date as YYYY-MM-DD
-        function formatDate(date) {
-            const d = new Date(date);
-            const year = d.getFullYear();
-            const month = String(d.getMonth() + 1).padStart(2, '0');
-            const day = String(d.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
-        }
+      
     });
+
+
+    function formatDate(date) {
+        const d = new Date(date);
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+
+
+    function filterTIL() {
+        
+        // Apply filters
+        const filteredItems = originalTILItems.filter(item => {
+            // Date filter: Show items from the specified date forward
+            let passesDateFilter = true;
+            if (dateForFilter && dateForFilter !== '') {
+                const filterDate = new Date(dateForFilter);
+                const itemDate = new Date(item.date);
+                passesDateFilter = itemDate >= filterDate;
+            }
+            
+            // Topic filter: Item must contain ANY of the selected topics
+            // Changed from every() to some() to match ANY instead of ALL
+            let passesTopicFilter = true;
+            if (topicForFilters && topicForFilters.length > 0) {
+                passesTopicFilter = topicForFilters.some(topic => 
+                    item.topics && item.topics.includes(topic)
+                );
+            }
+            
+            // Item must pass both filters
+            return passesDateFilter && passesTopicFilter;
+        });
+        
+        console.log(filteredItems);
+        // Update the DOM with filtered results
+        updateTILDisplay(filteredItems);
+    }
+   // Function to update the DOM with filtered results
+    function updateTILDisplay(filteredItems) {
+    const tilContainer = document.querySelector('.grid');
+    
+    // Clear the container
+    tilContainer.innerHTML = '';
+    
+    // Add filtered items back to the container
+    filteredItems.forEach((item, index) => {
+        const isLeftItem = index % 2 === 0;
+        
+        const itemDiv = document.createElement('div');
+        itemDiv.className = `${isLeftItem ? 'md:border-r border-border' : 'md:pl-6'} ${index === 0 ? 'pt-7' : ''} ${index === 1 ? 'md:pt-7' : ''} pb-7`;
+        
+        const link = document.createElement('a');
+        link.href = item.permalink;
+        link.className = 'text-h6 hover:font-semibold transition duration-300 group flex items-center';
+        
+        const span = document.createElement('span');
+        span.textContent = item.title;
+        
+        const icon = document.createElement('i');
+        icon.className = 'fa-regular fa-arrow-right opacity-0! group-hover:opacity-100! group-hover:translate-x-4! transition duration-300 inline-block mt-1';
+        
+        link.appendChild(span);
+        link.appendChild(icon);
+        itemDiv.appendChild(link);
+        
+        tilContainer.appendChild(itemDiv);
+    });
+    
+    // If no results, show a message
+    if (filteredItems.length === 0) {
+        const noResultsMsg = document.createElement('div');
+        noResultsMsg.textContent = 'No TIL items match your filter criteria.';
+        noResultsMsg.className = 'col-span-2 py-4 text-center';
+        tilContainer.appendChild(noResultsMsg);
+    }
+    }
+
+  // Initialize filters (if needed)
+    function initializeFilters() {
+    // Get all unique topics for creating filter options
+    const allTopics = [...new Set(originalTILItems.flatMap(item => item.topics))];
+    
+    // Populate topic filters if you have a container for them
+    const topicFiltersContainer = document.getElementById('topicFiltersContainer');
+    if (topicFiltersContainer) {
+        allTopics.forEach(topic => {
+        const label = document.createElement('label');
+        label.className = 'inline-flex items-center mr-4 mb-2';
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.name = 'topicFilter';
+        checkbox.value = topic;
+        checkbox.className = 'mr-2';
+        checkbox.addEventListener('change', filterTIL);
+        
+        label.appendChild(checkbox);
+        label.appendChild(document.createTextNode(topic));
+        
+        topicFiltersContainer.appendChild(label);
+        });
+    }
+    
+    // Set up date filter if you have one
+    const dateFilter = document.getElementById('dateFilter');
+    if (dateFilter) {
+        dateFilter.addEventListener('change', filterTIL);
+    }
+    }
+
+// Call initialization when the page loads
+document.addEventListener('DOMContentLoaded', initializeFilters);
 </script>
 {{ end }}

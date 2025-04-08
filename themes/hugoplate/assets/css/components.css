@@ -9,7 +9,7 @@
 
 /* container */
 .container {
-  @apply mx-auto xl:!max-w-[1320px] px-4;
+  @apply mx-auto xl:!max-w-[1420px] px-4;
 }
 
 /* social icons */
@@ -30,9 +30,9 @@
 .content {
   @apply prose max-w-none;
   @apply prose-headings:mb-[.3em] prose-headings:mt-[.6em] prose-headings:text-text-dark;
-  @apply prose-h1:text-h1-sm md:prose-h1:text-h1;
-  @apply prose-h2:text-h2-sm md:prose-h2:text-h2;
-  @apply prose-h3:text-h3-sm md:prose-h3:text-h3;
+  @apply prose-h1:text-h1-sm;
+  @apply prose-h2:text-h2-sm ;
+  @apply prose-h3:text-h3-sm ;
   @apply prose-img:max-w-full prose-img:rounded;
   @apply prose-hr:border-border;
   @apply prose-p:text-base prose-p:text-text;
@@ -54,14 +54,12 @@
 }
 
 .content h1,
-.content h2,
-.content h3 {
+.content h2 {
   @apply flex items-center font-bold text-gray-900;
 }
 
 .content h1::after,
-.content h2::after,
-.content h3::after {
+.content h2::after {
   content: "";
   flex-grow: 1; /* Makes the divider take the remaining space */
   height: 5px; /* Total height for both lines */
@@ -169,6 +167,7 @@
   > li {
   font-size: 10px;
 }
+
 
 .table-of-contents #TableOfContents a {
   text-decoration: none;

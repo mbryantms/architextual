@@ -34,6 +34,8 @@ draft: false
 
 Palestine has long stood as a symbol of **resilience, identity, and cultural richness**. For generations, its people have preserved their heritage amid one of the world’s most prolonged political struggles.
 
+![Plastine flag](https://media.istockphoto.com/id/2023378972/photo/palestinian-flag-the-flag-of-the-state-of-palestine-is-flying.jpg?s=612x612&w=0&k=20&c=UkDrCKFpgyrWNUXwFqpxqYLOggsAfWADpVTeufwZGH8=)
+
 ---
 
 ##  Where Is Palestine?

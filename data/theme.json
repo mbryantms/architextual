@@ -20,6 +20,6 @@
       "primary": "Lora:wght@300;400;500;600;700",
       "primary_type": "sans-serif"
     },
-    "font_size": { "base": "16", "scale": "1.22" }
+    "font_size": { "base": "16", "scale": "1.24" }
   }
 }
