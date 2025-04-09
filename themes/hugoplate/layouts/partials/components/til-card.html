@@ -46,15 +46,18 @@
                     const scrollWidth = scrollable.scrollWidth;
                     const clientWidth = scrollable.clientWidth;
 
-                    // Only animate if content is wider than container
-                    if (scrollWidth > clientWidth) {
-                        scrollable.style.transition = 'transform 1s linear';
-                        scrollable.style.transform = `translateX(-${scrollWidth - clientWidth}px)`;
+                    const distance = scrollWidth - clientWidth;
+                    const speedPerPixel = 20; // Adjust to make it faster/slower
+                    const duration = distance * speedPerPixel;
+
+                    if (distance > 0) {
+                        scrollable.style.transition = `transform ${duration}ms linear`;
+                        scrollable.style.transform = `translateX(-${distance}px)`;
                     }
                 });
 
                 card.addEventListener('mouseleave', function () {
-                    scrollable.style.transition = 'transform 0.5s';
+                    scrollable.style.transition = 'transform 500ms ease';
                     scrollable.style.transform = 'translateX(0)';
                 });
             }
