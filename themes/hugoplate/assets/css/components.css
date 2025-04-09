@@ -38,7 +38,7 @@
   @apply prose-p:text-base prose-p:text-text;
   @apply prose-blockquote:rounded-lg prose-blockquote:border prose-blockquote:border-l-[10px] prose-blockquote:border-primary prose-blockquote:bg-light prose-blockquote:px-8 prose-blockquote:py-10 prose-blockquote:text-2xl prose-blockquote:not-italic prose-blockquote:text-text-dark;
   @apply prose-pre:rounded-lg prose-pre:bg-light;
-  @apply prose-code:px-1 prose-code:text-white;
+  @apply prose-code:px-1;
   @apply prose-strong:text-text-dark;
   @apply prose-a:text-text prose-a:underline prose-a:hover:text-primary;
   @apply prose-li:text-text;
@@ -169,7 +169,7 @@
 }
 
 
-.table-of-contents #TableOfContents a {
+.custom.table-of-contents #TableOfContents a {
   text-decoration: none;
   color: inherit;
   display: block;

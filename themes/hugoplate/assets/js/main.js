@@ -16,7 +16,7 @@
 })();
 
 document.addEventListener("DOMContentLoaded", function () {
-  document.querySelectorAll("#TableOfContents li").forEach((li) => {
+  document.querySelectorAll(".table-of-contents #TableOfContents li").forEach((li) => {
     let nestedOl = li.querySelector("ol");
     let aTag = li.querySelector("a");
     aTag.classList.add("flex", "items-center", "justify-between");

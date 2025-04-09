@@ -5,7 +5,7 @@ meta_title: ""
 # meta description
 description: "This is meta description"
 # save as draft
-draft: true
+draft: false
 ---
 
 
@@ -94,6 +94,24 @@ Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam nihil enim maxime 
 - List item
 
 <hr>
+
+### Box
+{{< box  >}}
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet
+{{< /box >}}
+
+### Light Box
+{{< box class="bg-light" >}}
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet
+{{< /box >}}
+
+### Side Note
+This global solidarity is {{< side_note id="sn--solidarity" >}}a source of hope for many young Palestinians, who often feel isolated or unheard.{{</ side_note >}} The future remains uncertain — but filled with potential.
+
+### Quote
+{{< quote name="Jhonny" designation="CEO, MIRI/SIAI" >}}
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet
+{{< /quote >}}
 
 ### Notice
 
