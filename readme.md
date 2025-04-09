@@ -1,76 +1,109 @@
-## Architext
-Made with ♥ by <a href="https://zeon.studio/"> Zeon Studio</a>
+# Architext Documentation  
+_Made with ♥ by [Zeon Studio](https://zeon.studio/)_
 
+---
 
-### ⚙️ Prerequisites
+## ⚙️ Prerequisites
 
-To start using this template, you need to have some prerequisites installed on your machine.
+Before getting started with this template, ensure the following software is installed on your machine:
 
-- [Hugo Extended v0.144+](https://gohugo.io/installation/)
-- [Node v22+](https://nodejs.org/en/download/)
-- [Go v1.24+](https://go.dev/doc/install)
+- [**Hugo Extended v0.144+**](https://gohugo.io/installation/)
+- [**Node.js v22+**](https://nodejs.org/en/download/)
+- [**Go v1.24+**](https://go.dev/doc/install)
 
-### Clone the Repository
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
 
 ```bash
 git clone repo_url
-```
-
-```bash
 cd folder_name
 ```
 
-### 👉 Install Dependencies
+Replace `repo_url` and `folder_name` with the actual repository URL and folder name.
 
-Install all the dependencies using the following command.
+### 2. Install Dependencies
+
+Install all required Node packages:
 
 ```bash
 npm install
 ```
 
-### 👉 Development Command
+### 3. Run the Development Server
 
-Start the development server using the following command.
+Start the development server with:
 
 ```bash
 npm run dev
 ```
 
+Your project should now be running locally. Open your browser and go to `http://localhost:1313` to see it in action.
+
 ---
 
-## 📝 Customization
+## 🛠️ Customization Guide
 
-This template has been designed with a lot of customization options in mind. You can customize almost anything you want, including:
+This template is designed to be highly customizable. You can easily update key parts of your site using the instructions below.
 
-### 👉 Site Config
+### 📄 Site Configuration
 
-You can change the site title, base URL, language, theme, plugins, and more from the `hugo.toml` file.
+All core site settings (title, base URL, language, theme, etc.) can be updated in the `hugo.toml` file.
 
-### 👉 Site Params
+### ⚙️ Site Parameters
 
-You can customize all the parameters from the `config/_default/params.toml` file. This includes the logo, favicon, search, SEO metadata, and more.
+To customize elements like:
 
-### 👉 Colors and Fonts
+- Logo  
+- Favicon  
+- Search settings  
+- SEO metadata  
+- Footer info  
 
-You can change the colors and fonts from the `data/theme.json` file. This includes the primary color, secondary color, font family, and font size.
+Edit the `config/_default/params.toml` file.
 
-### 👉 Social Links
+### 🎨 Colors & Fonts
 
-You can change the social links from the `data/social.json` file. Add your social links here, and they will automatically be displayed on the site.
+To change theme colors and fonts:
 
-### Update Essays
+- Edit the `data/theme.json` file.
+- Customize the primary/secondary colors, font family, and font sizes as needed.
 
-You can update the essays from the `content/english/essays` directory. Add or remove essays as you like. and follow the formate of `post-1.md`
+### 🔗 Social Links
 
-### Update Til 
+To update social profiles:
 
-You can update the til from the `content/english/til` directory. Add or remove til as you like.
+- Open the `data/social.json` file.
+- Add or remove your social media URLs.  
+These links will be automatically displayed across the site where applicable.
 
-### Add categories
+---
 
-You can add categories from the `content/english/categories` directory. Add or remove categories as you like. after add category you can use it in essays. category filename must be same as category title but file name should be lower case and title you can use it lower case or upper case. but when you use catery naame in essays use it like you use in category file title.
+## ✍️ Content Management
 
-### Use of Shortcodes
-you can check the shortcodes and markdown formate in `content/english/pages/elements.md` directory.
+### 📝 Essays
+
+- Location: `content/english/essays/`  
+- Format: Follow the structure used in `post-1.md`.  
+- You can freely add or delete essay files based on your needs.
+
+### 📌 TIL (Today I Learned)
+
+- Location: `content/english/til/`  
+- Add or remove TIL entries using the same approach as essays.
+
+### 🗂️ Categories
+
+- Location: `content/english/categories/`  
+- File Naming: Use lowercase filenames that match the category title.  
+  Example: A category titled `Design` should have a file named `design.md`.  
+- In essay front matter, refer to categories using the **title case used in the category file**.
+
+### 💡 Shortcodes & Markdown Examples
+
+- Reference: `content/english/pages/elements.md`  
+- This file demonstrates how to use all available shortcodes and markdown formatting options in this theme.
 
 ---
