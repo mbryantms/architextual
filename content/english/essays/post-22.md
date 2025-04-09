@@ -5,7 +5,7 @@ description: "An analysis of the significance and impact of music in anime produ
 excerpt: "This essay explores the crucial role of music in anime, from iconic opening themes to atmospheric background scores. We examine how composers and musicians have shaped the emotional landscape of anime and created memorable soundtracks that resonate with audiences worldwide."
 publishdate: 2024-03-05T05:00:00Z
 lastmod: 2024-03-24T05:00:00Z
-tags: [Anime, Music, Soundtracks, J-Pop]
+tags: [Anime, Music, Soundtracks]
 categories: [Anime]
 status:
   value: In Progress

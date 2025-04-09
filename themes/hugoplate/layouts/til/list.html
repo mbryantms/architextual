@@ -109,7 +109,6 @@
         permalink: '{{ .Permalink }}',
         date: '{{ .PublishDate.Format "2006-01-02" }}',
         topics: JSON.parse('{{ .Params.topics | jsonify }}'),
-        draft: {{ .Draft }},
     }
     allTILItems.push(obj)
     {{ end }}
@@ -262,11 +261,35 @@
     tilContainer.innerHTML = '';
     
     // Add filtered items back to the container
+    if(filteredItems.length > 1){
+        filteredItems.forEach((item, index) => {
+            const isLeftItem = index % 2 === 0;
+            
+            const itemDiv = document.createElement('div');
+            itemDiv.className = `${isLeftItem ? 'md:border-r border-border' : 'md:pl-6'} ${index === 0 ? 'pt-7' : ''} ${index === 1 ? 'md:pt-7' : ''} pb-7`;
+            
+            const link = document.createElement('a');
+            link.href = item.permalink;
+            link.className = 'text-h6 hover:font-semibold transition duration-300 group flex items-center';
+            
+            const span = document.createElement('span');
+            span.textContent = item.title;
+            
+            const icon = document.createElement('i');
+            icon.className = 'fa-regular fa-arrow-right opacity-0! group-hover:opacity-100! group-hover:translate-x-4! transition duration-300 inline-block mt-1';
+            
+            link.appendChild(span);
+            link.appendChild(icon);
+            itemDiv.appendChild(link);
+            
+            tilContainer.appendChild(itemDiv);
+        });
+    }
+   if(filteredItems.length === 1) {
     filteredItems.forEach((item, index) => {
-        const isLeftItem = index % 2 === 0;
-        
+
         const itemDiv = document.createElement('div');
-        itemDiv.className = `${isLeftItem ? 'md:border-r border-border' : 'md:pl-6'} ${index === 0 ? 'pt-7' : ''} ${index === 1 ? 'md:pt-7' : ''} pb-7`;
+        itemDiv.className = ` ${index === 0 ? 'pt-7' : ''} ${index === 1 ? 'md:pt-7' : ''} pb-7`;
         
         const link = document.createElement('a');
         link.href = item.permalink;
@@ -284,6 +307,7 @@
         
         tilContainer.appendChild(itemDiv);
     });
+    }
     
     // If no results, show a message
     if (filteredItems.length === 0) {

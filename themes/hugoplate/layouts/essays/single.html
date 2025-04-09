@@ -148,6 +148,8 @@
     </div>
     {{ end }}
   </div>
+
+ 
 </section>
 
 <script>
@@ -215,7 +217,7 @@
         updateMeter(this.value);
       });
 
-      progressContainer.addEventListener("wheel", handleWheelEvent);
+      {{/*  progressContainer.addEventListener("wheel", handleWheelEvent);  */}}
 
       // Initialize with current value
       updateTooltip();

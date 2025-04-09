@@ -6,7 +6,7 @@ excerpt: This is the website of Gwern Branwen. I write about Al, psychology, & s
 publishdate: 2017-04-04T05:00:00Z # Replace with actual start date
 lastmod: 2024-02-04T05:00:00Z # Replace with actual end date
 tags: [tag1, tag2, tag3]
-categories: [Anime,Example] # grab title from content/english/categories/ folder
+categories: [Anime,Machine Learning] # grab title from content/english/categories/ folder
 status: 
   value: Draft # Options: Notes | Draft | In Progress | Finished
   percentage: 40

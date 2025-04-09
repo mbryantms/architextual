@@ -40,9 +40,9 @@
     <h2 class="prose-strong:font-medium!">{{ .Params.til.title | markdownify }}</h2>
  
     <div
-      class="bg-dark grid gap-[1px]  md:grid-cols-2 xl:grid-cols-3 py-[1px] mt-12 max-w-max w-[99%] overflow-hidden mx-auto">
+      class="bg-dark grid gap-[1px] grid-cols-1  md:grid-cols-2 xl:grid-cols-3 py-[1px] mt-12 sm:max-w-max sm:w-[99%] sm:overflow-hidden sm:mx-auto">
       {{ range first 6 $allTil }}
-      <div class="bg-white">
+      <div class="bg-white w-full">
         {{ partial "components/til-card" . }}
       </div>
       {{ end }}

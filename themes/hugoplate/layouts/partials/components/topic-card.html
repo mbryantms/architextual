@@ -1,6 +1,6 @@
 <div class="row">
     <div class="lg:col-4 lg:border-r lg:border-border flex items-center">
-        <a href="/categories/{{.title }}" class="p-6 h4 font-semibold">{{.title}}</a>
+        <a href="/categories/{{ .title | urlize }}" class="p-6 pb-2 h4 font-semibold">{{.title}}</a>
     </div>
     <div class="lg:col-8 ">
         <div class="p-8 flex flex-col gap-8">

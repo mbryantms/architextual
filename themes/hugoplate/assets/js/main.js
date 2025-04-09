@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
       aTag.appendChild(icon);
 
       // Hide nested list initially
-      nestedOl.style.display = "block";
+      nestedOl.style.display = "none";
 
       // Toggle functionality only when icon is clicked
       icon.addEventListener("click", function (event) {

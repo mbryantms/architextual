@@ -1,13 +1,12 @@
-
-<div class="p-6 pb-7.5 card-container">
+<div class="p-6 pb-7.5 card-container ">
     <div class="relative mb-3 bg-light w-full rounded py-2 px-5 text-sm overflow-hidden">
         <!-- Left gradient overlay -->
         <div class="absolute left-0 top-0 h-full w-8 z-10 bg-linear-to-r from-light to-transparent pointer-events-none">
         </div>
 
-        <div class="tag-scrollable flex items-center whitespace-nowrap w-full h-full">
+        <div class="tag-scrollable flex items-center sm:whitespace-nowrap w-full h-full">
             {{ $items := .Params.topics }}
-          
+
             {{ range $index, $item := $items }}
             <span class="flex-shrink-0 flex items-center">
                 {{.}}
@@ -22,13 +21,11 @@
         </div>
 
         <!-- Right gradient overlay -->
-        <div
-            class="absolute right-0 top-0 h-full w-8 z-10 bg-linear-to-l from-light to-transparent pointer-events-none">
+        <div class="absolute right-0 top-0 h-full w-8 z-10 bg-linear-to-l from-light to-transparent pointer-events-none">
         </div>
     </div>
     <h5 class="mb-4">{{.Title}}</h5>
-    <p class="mb-8">For an (ethical) scraping.project | found that my low-volume scraper was working from my laptop but
-        was being blocked by Cloudflare...</p>
+    <p class="mb-8">For an (ethical) scraping.project | found that my low-volume scraper was working from my laptop but  was being blocked by Cloudflare...</p>
     <a href="/" class="text-lg font-semibold group flex items-center">
         <span>Read More</span>
         <i class="fa-regular fa-arrow-right opacity-0! group-hover:opacity-100! group-hover:translate-x-2.5! transition duration-300"></i>
