@@ -30,9 +30,11 @@
   <div class="container">
     <div class="row gap-y-8">
       <div class="lg:col-3 md:col-4">
-        <div class="bg-light p-4 rounded-lg">
-          <div class=" table-of-contents">
-            {{.TableOfContents}}
+        <div class="md:sticky md:top-10 md:h-[calc(100vh-100px)] md:overflow-y-scroll tag-scrollable">
+          <div class="bg-light p-4 rounded-lg ">
+            <div class="table-of-contents">
+              {{.TableOfContents}}
+            </div>
           </div>
         </div>
       </div>

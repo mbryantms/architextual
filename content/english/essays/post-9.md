@@ -14,7 +14,7 @@ certainty:
   value: Unlikely
   percentage: 30
 importance:
-  value: 9
+  value: 1
   percentage: 90
 is_post_complete: false
 homepage_featured: false

@@ -48,8 +48,11 @@
             
                 <div class="custom-date-picker" id="customDatePicker">
                     <div class="date-picker-content">
-                        <h3 class="text-h5 mb-4">Select a Date</h3>
-                        <input type="date" id="selectedDate" class="date-input">
+                        <h3 class="text-h5 mb-4">Start Date</h3>
+                        <input type="date" id="startDate" class="date-input">
+                        
+                        <h3 class="text-h5 my-4">End Date</h3>
+                        <input type="date" id="enddDate" class="date-input">
                         
                         <div class="date-picker-actions">
                             <button class="cancel" id="cancelDatePicker">Cancel</button>
@@ -98,8 +101,9 @@
 <script>
     let today = new Date();
     let oneMonthAgo = new Date(today.getFullYear(), today.getMonth() - 12, today.getDate());
-    console.log(oneMonthAgo)
-    let dateForFilter = formatDate(oneMonthAgo);
+    
+    let startDateForFilter = formatDate(oneMonthAgo);
+    let endDateForFilter = formatDate(today);
     let topicForFilters = [];
         // First, convert your Hugo template data to a JavaScript array
     let allTILItems = []
@@ -142,10 +146,12 @@
         const customDatePicker = document.getElementById('customDatePicker');
         const cancelDatePicker = document.getElementById('cancelDatePicker');
         const applyDatePicker = document.getElementById('applyDatePicker');
-        const selectedDateInput = document.getElementById('selectedDate');
+        const startDateInput = document.getElementById('startDate');
+        const endDateInput = document.getElementById('enddDate');
     
         // Set today's date as default in the picker
-        selectedDateInput.valueAsDate = new Date();
+        startDateInput.valueAsDate = new Date();
+        endDateInput.valueAsDate = new Date();
     
         // Toggle dropdown menu
         dropdownToggle.addEventListener('click', function() {
@@ -176,7 +182,7 @@
                     dropdownToggle.querySelector('span').textContent = this.textContent;
                     dropdownMenu.style.display = 'none';
                     dropdownToggle.querySelector('i').style.transform = 'rotate(0deg)';
-                    dateForFilter = formatDate(date);
+                    startDateForFilter = formatDate(date);
                     filterTIL()
                 });
             }
@@ -196,11 +202,14 @@
     
         // Apply custom date
         applyDatePicker.addEventListener('click', function() {
-            const date = selectedDateInput.valueAsDate;
-            
-            if (date) {
-                dropdownToggle.querySelector('span').textContent = formatDate(date);
-                dateForFilter = formatDate(date);
+            {{/*  const date = selectedDateInput.valueAsDate;  */}}
+            const startDate = new Date(startDateInput.value);
+            const endDate = new Date(endDateInput.value);
+        
+            if (startDate && endDate) {
+                dropdownToggle.querySelector('span').textContent = `From ${startDate.toLocaleDateString()} to ${endDate.toLocaleDateString()}`;
+                startDateForFilter = formatDate(startDate);
+                endDateForFilter = formatDate(endDate);
                 filterTIL()
                 customDatePicker.style.display = 'none';
                
@@ -225,34 +234,37 @@
 
 
     function filterTIL() {
-        
         // Apply filters
         const filteredItems = originalTILItems.filter(item => {
-            // Date filter: Show items from the specified date forward
-            let passesDateFilter = true;
-            if (dateForFilter && dateForFilter !== '') {
-                const filterDate = new Date(dateForFilter);
-                const itemDate = new Date(item.date);
-                passesDateFilter = itemDate >= filterDate;
-            }
+            const itemDate = new Date(item.date);
             
+            // Date range filter
+            let passesDateFilter = true;
+            if (startDateForFilter && startDateForFilter !== '') {
+                const startDate = new Date(startDateForFilter);
+                passesDateFilter = itemDate >= startDate;
+            }
+            if (endDateForFilter && endDateForFilter !== '') {
+                const endDate = new Date(endDateForFilter);
+                passesDateFilter = passesDateFilter && itemDate <= endDate;
+            }
+    
             // Topic filter: Item must contain ANY of the selected topics
-            // Changed from every() to some() to match ANY instead of ALL
             let passesTopicFilter = true;
             if (topicForFilters && topicForFilters.length > 0) {
                 passesTopicFilter = topicForFilters.some(topic => 
                     item.topics && item.topics.includes(topic)
                 );
             }
-            
+    
             // Item must pass both filters
             return passesDateFilter && passesTopicFilter;
         });
-        
-        console.log(filteredItems);
+    
         // Update the DOM with filtered results
         updateTILDisplay(filteredItems);
     }
+    
    // Function to update the DOM with filtered results
     function updateTILDisplay(filteredItems) {
     const tilContainer = document.querySelector('.grid');

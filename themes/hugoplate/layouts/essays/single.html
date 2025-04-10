@@ -90,7 +90,7 @@
   <div class="container">
     <div class="row gap-y-8">
       <div class="lg:col-3 md:col-4 ">
-      <div class="">
+      <div class="md:sticky md:top-10 md:h-[calc(100vh-100px)] md:overflow-y-scroll tag-scrollable">
         <div class="bg-light p-4 rounded-lg sticky top-0">
           <div class=" table-of-contents">
             {{.TableOfContents}}
@@ -137,11 +137,10 @@
       <h2 class="h3 mb-12 highlight-heading">{{ T "bibliography" }}</h2>
       <div class="flex flex-col gap-8">
         {{ range . }}
-        <a href="{{ .link }}" class="text-h6 hover:font-semibold transition duration-300 group flex items-center">
-          <span>{{ .title}}</span>
-          <i
-            class="fa-regular fa-arrow-right opacity-0! group-hover:opacity-100! group-hover:translate-x-2.5! transition duration-300 inline-block mt-1"></i>
-        </a>
+        <p  class="text-h6">
+        {{ .title }}
+        <a href="{{ .link }}" class="underline hover:font-semibold">{{ .link }}</a>
+        </p>
         {{end}}
       </div>
 

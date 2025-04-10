@@ -38,7 +38,7 @@
 
   {{ $uniqueImportance := slice }}
   {{ range $essays }}
-    {{ $uniqueImportance = $uniqueImportance | append .Params.importance.value | uniq }}
+    {{ $uniqueImportance = $uniqueImportance | append (printf "%d" .Params.importance.value) | uniq | sort }}
   {{ end }}
 
   {{ $uniqueCertainty := slice }}
@@ -102,6 +102,7 @@
       <div class="row">
         {{/* sidebar */}}
         <div class="lg:col-2 hidden lg:flex flex-col" >
+          <div class="md:sticky md:top-10 md:h-[calc(100vh-100px)] md:overflow-y-scroll tag-scrollable">
           <div class="bg-light py-6 px-4 rounded-lg" id="sidebar">
             {{ range $year, $months := $grouped }}
               <a class="text-h5 font-semibold" href="#{{ $year }}"
@@ -116,7 +117,7 @@
                 {{ end }}
               </div>
             {{ end }}
-          </div>
+          </div></div>
         </div>
 
         {{/* essays */}}
