@@ -18,7 +18,7 @@ importance:
   value: 6 # Number between 1 and 10
   percentage: 60
 is_post_complete: false # Boolean
-homepage_featured: true # Boolean
+homepage_featured: false
 
 bibliography:
   - title: "Title of the Source"
