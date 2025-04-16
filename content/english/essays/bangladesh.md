@@ -12,7 +12,7 @@ status:
   percentage: 70
 certainty:
   value: Certain
-  percentage: 100
+  percentage: 40
 importance:
   value: 9
   percentage: 90
@@ -29,7 +29,7 @@ draft: false
 ---
 
 
-## Bangladesh: A Nation of Spirit and Story
+## Bangladesh: A Nation 
 
 Bangladesh, a land brimming with **vibrant culture and a history etched in resilience**, has witnessed the rise and fall of empires and the unwavering spirit of its people through centuries of change.
 
@@ -43,12 +43,7 @@ Bangladesh, a land brimming with **vibrant culture and a history etched in resil
 
 > "Bengal has been a melting pot since antiquity," notes historian {{< side_note id="sn-darian-quote" >}}Dr. Richard Eaton cites the 9th century Arab trader Sulaiman calling the region "Ruhmi" - a land of unparalleled textiles and tigers.{{< /side_note >}} "What we see today is layers of Buddhist, Hindu, and Islamic influences {{< side_note id="sn-pala-empire" >}}The Pala Empire (8th-12th century) established the first Bengali-speaking Buddhist universities, attracting scholars from Tibet to Java.{{< /side_note >}} woven through centuries."
 
-{{< box >}}
-**Key Archaeological Sites:**
-- Mahasthangarh (3rd BCE): Oldest urban center
-- Mainamati (7th-12th CE): Buddhist monastic complex
-- Sonargaon (14th CE): {{< side_note id="sn-muslin-trade" >}}A single piece of Dhaka muslin could pass through a wedding ring - this legendary fabric was traded as far as Rome and China.{{< /side_note >}}
-{{< /box >}}
+
 
 ---
 
@@ -99,7 +94,7 @@ The British East India Company's 1757 Plassey victory began {{< side_note id="sn
 - RMG sector: 4 million workers (80% women)
 
 **Ongoing Struggles:**
-- Climate refugees: {{< side_note id="sn-bhola-island" >}}Bhola Island has lost 50% landmass since 1971 - 500,000 displaced in 20 years.{{< /side_note >}}
+- Climate refugees: {{< side_note id="sn-bhola-island" >}}Bhola Island has lost 50% landmass since 1971 - 500,000 displaced in 20 years.A single piece of Dhaka muslin could pass through a wedding ring - this legendary fabric was traded as far as Rome and China.A single piece of Dhaka muslin could pass through a wedding ring - this legendary fabric was traded as far as Rome and China.{{< /side_note >}}
 - Digital divide: Rural internet penetration at 35%
 {{< /box >}}
 
@@ -109,7 +104,7 @@ The British East India Company's 1757 Plassey victory began {{< side_note id="sn
 
 > "Our {{< side_note id="sn-baul-philosophy" >}}Baul mystics sing "Manush Dhoré Boro Na" (Nothing greater than human) - a 500-year-old humanist tradition challenging religious orthodoxy.{{< /side_note >}} festivals blend Hindu harvest cycles, Muslim lunar dates, and Buddhist compassion," explains cultural anthropologist {{< side_note id="sn-zaman-interview" >}}Dr. Fayeza Zaman's fieldwork documents 132 unique regional festivals, from Chand Raat moon sightings to Nabanna rice celebrations.{{< /side_note >}}.
 
-{{< gallery dir="images/gallery" >}}
+
 
 ---
 
@@ -137,7 +132,7 @@ Since gaining independence, Bangladesh has faced numerous challenges, including 
 
 ##### Resilience and Development
 
-Despite the obstacles, Bangladesh has shown remarkable resilience and progress in areas such as **economic growth, poverty reduction, and social development** {{< side_note id="sn-resilience" >}}Innovative programs in microfinance and community health have transformed millions of lives across rural areas.{{</ side_note >}}.
+Despite the obstacles, Bangladesh has shown remarkable resilience {{< side_note id="sn-resilience" >}}Innovative programs in microfinance and community health have transformed millions of lives across rural areas.{{</ side_note >}} and progress in areas such as **economic growth, poverty reduction, and social development** .
 
 
 

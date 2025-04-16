@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll(".table-of-contents #TableOfContents li").forEach((li) => {
     let nestedOl = li.querySelector("ol");
     let aTag = li.querySelector("a");
-    aTag.classList.add("flex", "items-center", "justify-between");
+    aTag.classList.add("flex",  "justify-between");
 
     if (nestedOl && aTag) {
       // Create a collapse icon inside <a>
@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
       icon.classList.add("fa", "fa-angle-right");
       icon.style.cursor = "pointer";
       icon.style.marginLeft = "5px";
+      icon.style.marginTop = "10px";
 
       // Append the icon inside the <a> tag
       aTag.appendChild(icon);
