@@ -3,7 +3,7 @@ title: "The Evolution of Anime Art Styles: From Traditional to Digital"
 meta_title: ""
 description: "A comprehensive analysis of how anime art styles have evolved over the decades"
 excerpt: "This essay explores the transformation of anime art styles from the early days of hand-drawn animation to modern digital techniques. We examine the technological advances, artistic innovations, and cultural influences that have shaped the distinctive look of Japanese animation."
-publishdate: 2024-02-15T05:00:00Z
+publishdate: 2024-04-15T05:00:00Z
 lastmod: 2024-03-24T05:00:00Z
 tags: [Anime, Animation, Art Style, Digital Art]
 categories: [Anime]

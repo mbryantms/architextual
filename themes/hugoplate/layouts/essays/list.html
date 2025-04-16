@@ -4,7 +4,8 @@
 
   {{ range $essays }}
     {{ $year := dateFormat "2006" .Params.publishdate }}
-    {{ $monthYear := dateFormat "January 2006" .Params.publishdate }}
+    {{ $monthYear := dateFormat "2006-01 January 2006" .Params.publishdate }}
+
 
     {{ if not (isset $grouped $year) }}
       {{ $grouped = merge $grouped (dict $year dict) }}
@@ -117,7 +118,8 @@
                 {{ end }}
               </div>
             {{ end }}
-          </div></div>
+          </div>
+        </div>
         </div>
 
         {{/* essays */}}
@@ -215,11 +217,12 @@ function upateSidebar (posts){
     sidebar.innerHTML = `<p class="text-h6">No posts found</p>`
     return
   }
-  posts.forEach((item)=>{
+  posts.reverse()
+  posts.reverse().forEach((item)=>{
     sidebarHTML += `<a class="text-h5 font-semibold" href="#${item.year}">${item.year}</a>`
     sidebarHTML += `<div class="flex flex-col gap-2 my-3 pl-3">`
     item.postByMonths.forEach((month)=>{
-      sidebarHTML += `<a href="#${month.month}" class="text-text-dark">${month.month}</a>`
+      sidebarHTML += `<a href="#${month.month.slice(8)}" class="text-text-dark">${month.month.slice(8)}</a>`
     })
     sidebarHTML += `</div>`
   })
@@ -231,15 +234,16 @@ function updateEssaysContainer(posts) {
     essaysContainer.innerHTML = `<p class="text-h6">No posts found</p>`
     return
   }
-   posts.forEach((item)=>{
+   posts.reverse().forEach((item)=>{
       essaysContainerHTML += `<div class="mb-20">`
       essaysContainerHTML += `<h3 id="${item.year}" class="text-h3 font-bold mb-6">${item.year}</h3>`
-      essaysContainerHTML += `<div class="grid md:grid-cols-2 mt-6">`
+      essaysContainerHTML += `<div class="grid ${item.postByMonths.length % 2 === 0 ? 'md:grid-cols-2' : 'md:grid-cols-1'} mt-6">`
+      
       item.postByMonths.forEach((month, number)=>{
           essaysContainerHTML += `<div class="border md:border-border border-x-transparent md:p-6 py-6
                ${number % 2 === 0 ? 'md:pl-0 md:border-x-transparent' : 'md:border-r-transparent md:pr-0'}
                 ${number >= 2 ? 'border-t-transparent!' : ''}">`
-          essaysContainerHTML += `<h3 class="text-h4 font-semibold mb-4" id="${month.month}">${month.month}</h3>`
+          essaysContainerHTML += `<h3 class="text-h4 font-semibold mb-4" id="${month.month.slice(8)}">${month.month.slice(8)}</h3>`
           month.posts.forEach((post)=>{
               essaysContainerHTML += `<div class="mb-6">`
               essaysContainerHTML += ` <a href="${post.permalink}"

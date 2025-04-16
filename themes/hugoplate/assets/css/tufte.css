@@ -3,7 +3,6 @@ body {
   counter-reset: sidenote-counter;
 }
 
-
 /* Sidenotes, margin notes, figures, captions */
 .sidenote img {
   max-width: 100%;
@@ -13,14 +12,16 @@ body {
 .marginnote {
   float: right;
   clear: right;
-  margin-right: -57%;
+  margin-right: -55%;
   width: 50%;
   margin-top: 2rem;
-  margin-bottom: 0;
-  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
   line-height: 1.3;
   vertical-align: baseline;
   position: relative;
+  font-weight: 400 !important;
+  @apply xl:pr-14;
 }
 
 .sidenote-number {
@@ -29,7 +30,6 @@ body {
 
 .sidenote-number:after,
 .sidenote:before {
-  font-family: et-book-roman-old-style;
   position: relative;
   vertical-align: baseline;
 }
@@ -54,8 +54,26 @@ body {
 
 blockquote .sidenote,
 blockquote .marginnote {
-  margin-right: -82%;
-  min-width: 59%;
+  margin-right: -71%;
+  min-width: 60%;
+  text-align: left;
+}
+.box .sidenote,
+.box .marginnote {
+  margin-right: -68.4%;
+  min-width: 60%;
+  text-align: left;
+}
+.quote .sidenote,
+.quote .marginnote {
+  margin-right: -75%;
+  min-width: 60%;
+  text-align: left;
+}
+.box blockquote .sidenote,
+.box blockquote .marginnote {
+  margin-right: -75%;
+  min-width: 60%;
   text-align: left;
 }
 
@@ -68,7 +86,6 @@ table.fullwidth {
 .sidenote > code {
   font-size: 1rem;
 }
-
 
 .fullwidth {
   max-width: 90%;
@@ -107,7 +124,24 @@ label.margin-toggle:not(.sidenote-number) {
   width: 100%;
   height: 100%;
 }
-
+@media (max-width: 1279px) {
+  blockquote .sidenote,
+  blockquote .marginnote {
+    margin-right: -74%;
+  }
+  .box .sidenote,
+  .box .marginnote {
+    margin-right: -70%;
+  }
+  .quote .sidenote,
+  .quote .marginnote {
+    margin-right: -77%;
+  }
+  .box blockquote .sidenote,
+  .box blockquote .marginnote {
+    margin-right: -80%;
+  }
+}
 @media (max-width: 1050px) {
   .sidenote,
   .marginnote {

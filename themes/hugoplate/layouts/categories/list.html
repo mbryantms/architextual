@@ -25,7 +25,7 @@
       <div class="lg:col-10">
         <div  class="lg:pl-20">
           <div id="categories-container" class="grid md:grid-cols-2"> 
-            <!-- Categories and filtered posts will be displayed here -->
+           
 
           </div>
         </div>
@@ -56,7 +56,7 @@
           month: {{ .Date.Format "January"  }},
           monthYear: {{ .Date.Format "January 2006"  }},
           url: {{ .Permalink  }},
-          categories: [{{ range .Params.categories }}{{ .  }},{{ end }}]
+          categories: [{{ range .Params.categories }}{{ . }},{{ end }}]
         },
       {{ end }}
     ];
@@ -96,7 +96,7 @@
       yearHeading.appendChild(monthsContainer);
       
       // Add month buttons
-      Array.from(dateGroups[year]).sort().forEach(monthYear => {
+      Array.from(dateGroups[year]).reverse().forEach(monthYear => {
         const monthButton = document.createElement('span');
         monthButton.textContent = monthYear;
         monthButton.className = 'text-text-dark month-button cursor-pointer ';
@@ -133,7 +133,6 @@
     function renderCategoriesAndPosts(posts) {
       const categoriesContainer = document.getElementById('categories-container');
       categoriesContainer.innerHTML = '';
-      
       // Group filtered posts by category
       const filteredPostsByCategory = {};
       posts.forEach(post => {
@@ -146,28 +145,39 @@
       });
       
       // Render each category and its posts
-      Object.keys(filteredPostsByCategory).forEach((category, index) => {
+      const categoryKeys = Object.keys(filteredPostsByCategory);
+      const totalCategories = categoryKeys.length;
+      
+      // Loop through actual categories
+      categoryKeys.forEach((category, index) => {
         const categoryPosts = filteredPostsByCategory[category];
-        
+      
         // Create category section
         const categorySection = document.createElement('div');
-        categorySection.className = `category-box-${index+1} border md:border-border border-x-transparent md:p-6 py-6 ${index % 2 === 0 ? 'md:pl-0 md:border-x-transparent' : 'md:border-r-transparent md:pr-0'} ${index >= 2 ? 'border-t-transparent!' : ''}`;
+        categorySection.className = `category-box-${index + 1} border md:border-border border-x-transparent md:p-6 py-6 ${index % 2 === 0 ? 'md:pl-0 md:border-x-transparent' : 'md:border-r-transparent md:pr-0'} ${index >= 2 ? 'border-t-transparent!' : ''}`;
         categorySection.innerHTML = `
           <a href="/categories/${category.replace(/\s+/g, '-').toLowerCase()}" id="${category}" class="text-h4 mb-8 block font-semibold">
             ${category}
           </a>
           <div class="space-y-8">
-            ${categoryPosts.slice(0,4).map(post => `
+            ${categoryPosts.slice(0, 4).map(post => `
               <a href="${post.url}" class="text-h6 hover:font-semibold transition duration-300 group flex items-center">
-               <span>${post.title.substring(0, 60)}</span>
-              <i class="fa-regular fa-arrow-right opacity-0! group-hover:opacity-100! group-hover:translate-x-2.5! transition duration-300 inline-block mt-1"></i>
+                <span>${post.title.substring(0, 60)}</span>
+                <i class="fa-regular fa-arrow-right opacity-0! group-hover:opacity-100! group-hover:translate-x-2.5! transition duration-300 inline-block mt-1"></i>
               </a>
             `).join('')}
           </div>
         `;
-        
         categoriesContainer.appendChild(categorySection);
       });
+      
+      // If odd number, append an empty box to balance layout
+      if (totalCategories % 2 !== 0) {
+        const emptySection = document.createElement('div');
+        emptySection.className = `md:block hidden md:p-6 py-6 md:pr-0 md:border-r-transparent border md:border-border md:border-x-transparent border-t-transparent!`;
+        categoriesContainer.appendChild(emptySection);
+      }
+      
       
       // Show message if no posts found
       if (Object.keys(filteredPostsByCategory).length === 0) {

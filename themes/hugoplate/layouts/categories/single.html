@@ -35,7 +35,7 @@
 
   {{ $uniqueImportance := slice }}
   {{ range $essays }}
-    {{ $uniqueImportance = $uniqueImportance | append .Params.importance.value | uniq }}
+    {{ $uniqueImportance = $uniqueImportance | append .Params.importance.value | uniq | sort }}
   {{ end }}
 
   {{ $uniqueCertainty := slice }}
@@ -202,7 +202,8 @@ function upateSidebar (posts){
     sidebar.innerHTML = `<p class="text-h6">No posts found</p>`
     return
   }
-  posts.forEach((item)=>{
+   posts.reverse()
+   posts.reverse().forEach((item)=>{
     sidebarHTML += `<a class="text-h5 font-semibold" href="#${item.year}">${item.year}</a>`
     sidebarHTML += `<div class="flex flex-col gap-2 my-3 pl-3">`
     item.postByMonths.forEach((month)=>{
@@ -210,7 +211,8 @@ function upateSidebar (posts){
     })
     sidebarHTML += `</div>`
   })
-  sidebar.innerHTML = sidebarHTML}
+  sidebar.innerHTML = sidebarHTML
+}
 
 function updateEssaysContainer(posts) {
    let essaysContainerHTML = ''
@@ -218,10 +220,10 @@ function updateEssaysContainer(posts) {
     essaysContainer.innerHTML = `<p class="text-h6">No posts found</p>`
     return
   }
-   posts.forEach((item)=>{
+  posts.reverse().forEach((item)=>{
       essaysContainerHTML += `<div class="mb-20">`
       essaysContainerHTML += `<h3 id="${item.year}" class="text-h3 font-bold mb-6">${item.year}</h3>`
-      essaysContainerHTML += `<div class="grid md:grid-cols-2 mt-6">`
+      essaysContainerHTML += `<div class="grid ${item.postByMonths.length % 2 === 0 ? 'md:grid-cols-2' : 'md:grid-cols-1'} mt-6">`
       item.postByMonths.forEach((month, number)=>{
           essaysContainerHTML += `<div class="border md:border-border border-x-transparent md:p-6 py-6
                ${number % 2 === 0 ? 'md:pl-0 md:border-x-transparent' : 'md:border-r-transparent md:pr-0'}
