@@ -226,5 +226,24 @@
 
   // Run when the DOM is fully loaded
   document.addEventListener("DOMContentLoaded", initializeProgressBars);
+
+  // Get size of blockquote when in mobile device open sidenote
+  const marginToggle = document.querySelectorAll(".margin-toggle");
+  marginToggle.forEach(toggle => {
+    toggle.addEventListener("change", () => {
+      const sidenote = toggle.nextElementSibling;
+      const mainParent = toggle.closest(".box, .quote, blockquote");
+      
+      if(mainParent){
+        const sidenoteHeight = sidenote.offsetHeight;
+        const mainParentHeight = mainParent.offsetHeight;
+        if (toggle.checked) {
+          mainParent.style.height = `${mainParentHeight + sidenoteHeight}px`;
+        } else {
+          mainParent.style.height = `auto`;
+        }
+      }
+    });
+  });
 </script>
 {{ end }}

@@ -102,7 +102,7 @@ The British East India Company's 1757 Plassey victory began {{< side_note id="sn
 
 #### Cultural Tapestry
 
-> "Our {{< side_note id="sn-baul-philosophy" >}}Baul mystics sing "Manush Dhoré Boro Na" (Nothing greater than human) - a 500-year-old humanist tradition challenging religious orthodoxy.{{< /side_note >}} festivals blend Hindu harvest cycles, Muslim lunar dates, and Buddhist compassion," explains cultural anthropologist {{< side_note id="sn-zaman-interview" >}}Dr. Fayeza Zaman's fieldwork documents 132 unique regional festivals, from Chand Raat moon sightings to Nabanna rice celebrations.{{< /side_note >}}.
+> "Our Baul mystics sing "Manush Dhoré Boro Na" (Nothing greater than human) - a 500-year-old humanist tradition challenging religious orthodoxy.festivals blend Hindu harvest cycles, Muslim lunar dates, and Buddhist compassion," explains cultural anthropologist {{< side_note id="sn-zaman-interview" >}}Dr. Fayeza Zaman's fieldwork documents 132 unique regional festivals, from Chand Raat moon sightings to Nabanna rice celebrations.{{< /side_note >}}.
 
 
 
