@@ -223,7 +223,9 @@ function updateEssaysContainer(posts) {
   posts.reverse().forEach((item)=>{
       essaysContainerHTML += `<div class="mb-20">`
       essaysContainerHTML += `<h3 id="${item.year}" class="text-h3 font-bold mb-6">${item.year}</h3>`
-      essaysContainerHTML += `<div class="grid ${item.postByMonths.length % 2 === 0 ? 'md:grid-cols-2' : 'md:grid-cols-1'} mt-6">`
+      essaysContainerHTML += `<div class="grid md:grid-cols-2 mt-6">`
+
+        const totalPosts = item.postByMonths.length;
       item.postByMonths.forEach((month, number)=>{
           essaysContainerHTML += `<div class="border md:border-border border-x-transparent md:p-6 py-6
                ${number % 2 === 0 ? 'md:pl-0 md:border-x-transparent' : 'md:border-r-transparent md:pr-0'}
@@ -240,6 +242,9 @@ function updateEssaysContainer(posts) {
           })
           essaysContainerHTML += `</div>`
       })
+      if (totalPosts % 2 !== 0) {
+        essaysContainerHTML += `<div class="md:p-6 py-6 md:pr-0 md:border-r-transparent border md:border-border md:block hidden"></div>`;
+      } 
       essaysContainerHTML += `</div>`
       essaysContainerHTML += `</div>`
   })

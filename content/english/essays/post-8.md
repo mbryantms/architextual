@@ -17,7 +17,7 @@ importance:
   value: 8
   percentage: 80
 is_post_complete: false
-homepage_featured: true
+homepage_featured: false
 
 bibliography:
   - title: "Title of the Source"

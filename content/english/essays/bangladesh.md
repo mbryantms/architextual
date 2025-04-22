@@ -120,7 +120,7 @@ All historical dates follow the Gregorian calendar.
 By its 70th independence anniversary, Bangladesh aims to:
 - Eliminate extreme poverty (<3%)
 - Achieve upper-middle income status
-- Lead global {{< side_note id="sn-blue-economy" >}}The Bay of Bengal holds 200 trillion cubic feet of natural gas and vast fisheries - if managed sustainably.{{< /side_note >}} climate adaptation
+- Lead global The Bay of Bengal holds 200 trillion cubic feet of natural gas and vast fisheries - if managed sustainably.climate adaptation
 
 {{< button label="Explore Bangladesh's Future" link="/2041-vision" >}}
 

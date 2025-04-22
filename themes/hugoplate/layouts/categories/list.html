@@ -174,9 +174,9 @@
       // If odd number, append an empty box to balance layout
       if (totalCategories % 2 !== 0) {
         const emptySection = document.createElement('div');
-        emptySection.className = `md:block hidden md:p-6 py-6 md:pr-0 md:border-r-transparent border md:border-border md:border-x-transparent border-t-transparent!`;
+        emptySection.className = `md:block hidden md:p-6 py-6 md:pr-0 md:border-r-transparent border md:border-border  border-t-transparent!`;
         categoriesContainer.appendChild(emptySection);
-      }
+      } 
       
       
       // Show message if no posts found
