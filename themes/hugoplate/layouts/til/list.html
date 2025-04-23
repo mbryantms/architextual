@@ -48,13 +48,13 @@
             
                 <div class="custom-date-picker" id="customDatePicker">
                     <div class="date-picker-content">
-                        <h3 class="text-h5 mb-4">Start Date</h3>
+                        <h3 class="text-lg mb-1">Start Date</h3>
                         <input type="date" id="startDate" class="date-input">
                         
-                        <h3 class="text-h5 my-4">End Date</h3>
+                        <h3 class="text-lg mt-5  mb-1">End Date</h3>
                         <input type="date" id="enddDate" class="date-input">
                         
-                        <div class="date-picker-actions">
+                        <div class="date-picker-actions mt-6">
                             <button class="cancel" id="cancelDatePicker">Cancel</button>
                             <button class="apply" id="applyDatePicker">Apply</button>
                         </div>
@@ -80,7 +80,7 @@
             <div
                 class="{{if $isLeftItem}} md:border-r border-border {{else}} md:pl-6 {{end}} {{if eq $count 0}} pt-7 {{end}} {{if eq $count 1}} md:pt-7 {{end}}  pb-7">
                 <a href="{{.Permalink}}"
-                    class="text-h6 hover:font-semibold transition duration-300 group flex items-center">
+                    class="text-h6   transition duration-300 group flex items-center">
                     <span> {{.Title }}</span>
                     <i class="fa-regular fa-arrow-right opacity-0! group-hover:opacity-100! group-hover:translate-x-4! transition duration-300 inline-block mt-1"></i>
                 </a>
@@ -199,6 +199,13 @@
         cancelDatePicker.addEventListener('click', function() {
             customDatePicker.style.display = 'none';
         });
+        
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                customDatePicker.style.display = 'none';
+            }
+        });
+    
     
         // Apply custom date
         applyDatePicker.addEventListener('click', function() {
@@ -282,7 +289,7 @@
             
             const link = document.createElement('a');
             link.href = item.permalink;
-            link.className = 'text-h6 hover:font-semibold transition duration-300 group flex items-center';
+            link.className = 'text-h6   transition duration-300 group flex items-center';
             
             const span = document.createElement('span');
             span.textContent = item.title;
@@ -305,7 +312,7 @@
         
         const link = document.createElement('a');
         link.href = item.permalink;
-        link.className = 'text-h6 hover:font-semibold transition duration-300 group flex items-center';
+        link.className = 'text-h6   transition duration-300 group flex items-center';
         
         const span = document.createElement('span');
         span.textContent = item.title;

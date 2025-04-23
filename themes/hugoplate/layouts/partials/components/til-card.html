@@ -1,66 +1,66 @@
 <div class="p-6 pb-7.5 card-container h-full flex flex-col">
-    <div class="relative mb-3 bg-light w-full rounded py-2 px-5 text-sm overflow-hidden">
-        <!-- Left gradient overlay -->
-        <div class="absolute left-0 top-0 h-full w-8 z-10 bg-linear-to-r from-light to-transparent pointer-events-none">
-        </div>
-
-        <div class="tag-scrollable flex items-center sm:whitespace-nowrap w-full h-full">
-            {{ $items := .Params.topics }}
-
-            {{ range $index, $item := $items }}
-            <span class="flex-shrink-0 flex items-center">
-                {{.}}
-                {{ if ne $index (sub (len $items) 1) }}
-                <svg class="mx-2.5" width="6" height="6" viewBox="0 0 6 6" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="3" cy="3" r="3" fill="#1A1D21" />
-                </svg>
-                {{ end }}
-            </span>
-            {{ end }}
-        </div>
-
-        <!-- Right gradient overlay -->
-        <div class="absolute right-0 top-0 h-full w-8 z-10 bg-linear-to-l from-light to-transparent pointer-events-none">
-        </div>
+  <div class="relative mb-3 bg-light w-full rounded py-2 px-5 text-sm overflow-hidden">
+    <!-- Left gradient overlay -->
+    <div class="absolute left-0 top-0 h-full w-8 z-10 bg-linear-to-r from-light to-transparent pointer-events-none">
     </div>
-    <h3 class="mb-4 text-h5">{{.Title}}</h3>
-    <p class="mb-8">{{.Params.excerpt }}</p>
-   <div class="flex-grow flex items-end">
+
+    <div class="tag-scrollable flex items-center sm:whitespace-nowrap w-full h-full">
+      {{ $items := .Params.topics }}
+
+      {{ range $index, $item := $items }}
+      <span class="flex-shrink-0 flex items-center">
+        {{.}}
+        {{ if ne $index (sub (len $items) 1) }}
+        <svg class="mx-2.5" width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="3" cy="3" r="3" fill="#1A1D21" />
+        </svg>
+        {{ end }}
+      </span>
+      {{ end }}
+    </div>
+
+    <!-- Right gradient overlay -->
+    <div class="absolute right-0 top-0 h-full w-8 z-10 bg-linear-to-l from-light to-transparent pointer-events-none">
+    </div>
+  </div>
+  <h3 class="mb-4 text-h5">{{.Title}}</h3>
+  <p class="mb-8">{{.Params.excerpt }}</p>
+  <div class="flex-grow flex items-end">
     <a href="{{ .RelPermalink }}" class="text-lg font-semibold group flex items-center ">
-        <span>{{T "read_more"}}</span>
-        <i class="fa-regular fa-arrow-right opacity-0! group-hover:opacity-100! group-hover:translate-x-2.5! transition duration-300"></i>
+      <span>{{T "read_more"}}</span>
+      <i
+        class="fa-regular fa-arrow-right opacity-0! group-hover:opacity-100! group-hover:translate-x-2.5! transition duration-300"></i>
     </a>
-   </div>
+  </div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const cardContainers = document.querySelectorAll('.card-container');
+  document.addEventListener('DOMContentLoaded', function () {
+    const cardContainers = document.querySelectorAll('.card-container');
 
-        cardContainers.forEach(card => {
-            const scrollable = card.querySelector('.tag-scrollable');
+    cardContainers.forEach(card => {
+      const scrollable = card.querySelector('.tag-scrollable');
 
-            if (scrollable) {
-                card.addEventListener('mouseenter', function () {
-                    const scrollWidth = scrollable.scrollWidth;
-                    const clientWidth = scrollable.clientWidth;
+      if (scrollable) {
+        card.addEventListener('mouseenter', function () {
+          const scrollWidth = scrollable.scrollWidth;
+          const clientWidth = scrollable.clientWidth;
 
-                    const distance = scrollWidth - clientWidth;
-                    const speedPerPixel = 20; // Adjust to make it faster/slower
-                    const duration = distance * speedPerPixel;
+          const distance = scrollWidth - clientWidth;
+          const speedPerPixel = 20; // Adjust to make it faster/slower
+          const duration = distance * speedPerPixel;
 
-                    if (distance > 0) {
-                        scrollable.style.transition = `transform ${duration}ms linear`;
-                        scrollable.style.transform = `translateX(-${distance}px)`;
-                    }
-                });
-
-                card.addEventListener('mouseleave', function () {
-                    scrollable.style.transition = 'transform 500ms ease';
-                    scrollable.style.transform = 'translateX(0)';
-                });
-            }
+          if (distance > 0) {
+            scrollable.style.transition = `transform ${duration}ms linear`;
+            scrollable.style.transform = `translateX(-${distance}px)`;
+          }
         });
+
+        card.addEventListener('mouseleave', function () {
+          scrollable.style.transition = 'transform 500ms ease';
+          scrollable.style.transform = 'translateX(0)';
+        });
+      }
     });
+  });
 </script>

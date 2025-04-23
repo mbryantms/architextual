@@ -119,7 +119,7 @@
         {{ range . }}
         <div class="md:col-6">
           <a href="{{ .RelPermalink }}"
-            class="text-h6 hover:font-semibold transition duration-300 group flex items-center">
+            class="text-h6   transition duration-300 group flex items-center">
             <span>{{ .Title}}</span>
             <i
               class="fa-regular fa-arrow-right opacity-0! group-hover:opacity-100! group-hover:translate-x-2.5! transition duration-300 inline-block mt-1"></i>
@@ -139,7 +139,7 @@
         {{ range . }}
         <p  class="text-h6">
         {{ .title }}
-        <a href="{{ .link }}" class="underline hover:font-semibold">{{ .link }}</a>
+        <a href="{{ .link }}" class="underline  ">{{ .link }}</a>
         </p>
         {{end}}
       </div>

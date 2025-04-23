@@ -8,27 +8,7 @@ description: |
     
     NAVIGATION: For information about my site's philosophy & method, see the About page; for the website features & implementation, see the Design page; for information about myself, my use of other websites, and contact information, see the about-me page; for new pages, see the @ Changelog (@ = new), short blog posts, or new links. For an annotated version of this site index page, see the long index.
 
-
 image: "/images/avatar.png"
-social:
-  - name: github
-    icon: fa-brands fa-square-github
-    link: https://github.com
-
-  - name: twitter
-    icon: fa-brands fa-square-twitter
-    link: https://twitter.com
-
-  - name: linkedin
-    icon: fa-brands fa-linkedin
-    link: https://linkedin.com
-
-  - name: facebook
-    icon: fa-brands fa-square-facebook
-    link: https://facebook.com
-
-
-
 draft: false
 ---
 

@@ -1,6 +1,6 @@
 /* section style */
 .section {
-  @apply py-26 xl:py-32;
+  @apply py-20 xl:py-32;
 }
 
 .section-sm {
@@ -20,10 +20,10 @@
   @apply inline-block;
 }
 .social-icons li a {
-  @apply flex h-10 w-10 items-center justify-center text-center leading-9  text-xl;
+  @apply flex h-12 w-12 items-center justify-center text-center leading-9  text-3xl;
 }
 .social-icons li a svg {
-  @apply h-8 w-8;
+  @apply h-10 w-10;
 }
 
 /* content style */
@@ -100,6 +100,7 @@
 
 #TableOfContents {
   padding: 0 !important;
+  background-color: transparent !important;
 }
 
 /* table of contents */

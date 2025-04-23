@@ -73,7 +73,7 @@ Every match is a canvas where players express style and discipline — from the 
 
 ### ✍️ Voices from the Crease
 
-Writers like **C.L.R. James** used cricket to examine colonialism, identity, and power. His book, *Beyond a Boundary*, remains a landmark in sports literature. {{< side_note id="sn-cricket-literature" >}}“What do they know of cricket who only cricket know?”{{</ side_note >}}
+Writers like **C.L.R. James** used cricket to examine colonialism, identity, and power. His book, *Beyond a Boundary*, remains a landmark in sports literature. {{< sidenote id="sn-cricket-literature" >}}“What do they know of cricket who only cricket know?”{{</ sidenote >}}
 
 > *“Cricket is not only a reflection of national identity — it’s a mirror of history.”*
 

@@ -87,12 +87,13 @@
     Object.keys(dateGroups).sort((a, b) => b - a).forEach(year => {
       // Create year heading
       const yearHeading = document.createElement('div');
+      yearHeading.className = 'mb-3';
       yearHeading.innerHTML = `<h5 class="text-h5 font-semibold">${year}</h5>`;
       yearsContainer.appendChild(yearHeading);
       
       // Create container for months of this year
       const monthsContainer = document.createElement('div');
-      monthsContainer.className = 'flex flex-col gap-2 my-3 pl-3';
+      monthsContainer.className = 'flex flex-col gap-2 my-2 pl-3';
       yearHeading.appendChild(monthsContainer);
       
       // Add month buttons
@@ -161,9 +162,9 @@
           </a>
           <div class="space-y-8">
             ${categoryPosts.slice(0, 4).map(post => `
-              <a href="${post.url}" class="text-h6 hover:font-semibold transition duration-300 group flex items-center">
-                <span>${post.title.substring(0, 60)}</span>
-                <i class="fa-regular fa-arrow-right opacity-0! group-hover:opacity-100! group-hover:translate-x-2.5! transition duration-300 inline-block mt-1"></i>
+              <a href="${post.url}" class="text-h6 transition duration-300 group block">
+                ${post.title}
+                <i class="fa-regular fa-arrow-right opacity-0! group-hover:opacity-100! group-hover:translate-x-2.5! transition duration-300 inline-block mt-2"></i>
               </a>
             `).join('')}
           </div>

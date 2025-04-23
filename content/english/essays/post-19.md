@@ -60,7 +60,7 @@ The streets of **Jerusalem**, **Bethlehem**, and **Hebron** whisper stories of R
 
 The olive tree is more than a crop — it’s a living archive of Palestinian endurance. 
 
-Many trees are hundreds of years old, their roots deep in the soil of memory, {{< side_note id="sn-olive-tree-symbolism" >}}often surviving despite military bulldozers or settler sabotage.{{</ side_note >}}Even under occupation, Palestinians protect their land, language, cuisine, and traditions.
+Many trees are hundreds of years old, their roots deep in the soil of memory, {{< sidenote id="sn-olive-tree-symbolism" >}}often surviving despite military bulldozers or settler sabotage.{{</ sidenote >}}Even under occupation, Palestinians protect their land, language, cuisine, and traditions.
 
 {{< box class="bg-light" >}}
 
@@ -68,7 +68,7 @@ Many trees are hundreds of years old, their roots deep in the soil of memory, {{
 
 As digital media breaks barriers, **global support for Palestine is rising**. Protests, educational campaigns, and BDS (Boycott, Divestment, Sanctions) movements have amplified Palestinian voices.
 
-This global solidarity is {{< side_note id="sn-global-solidarity" >}}a source of hope for many young Palestinians, who often feel isolated or unheard.{{</ side_note >}}The future remains uncertain — but filled with hope. Palestinians, especially youth, are planting the seeds of change through storytelling, education, and tech innovation.
+This global solidarity is {{< sidenote id="sn-global-solidarity" >}}a source of hope for many young Palestinians, who often feel isolated or unheard.{{</ sidenote >}}The future remains uncertain — but filled with hope. Palestinians, especially youth, are planting the seeds of change through storytelling, education, and tech innovation.
 
 ###  What Lies Ahead?
 
@@ -90,7 +90,7 @@ Art, poetry, music, and graffiti are powerful tools of nonviolent resistance. Mu
 
 ###  The Power of Poetry
 
-Palestinian poet **Mahmoud Darwish** became the voice of exile and defiance. His verses {{< side_note id="sn-palestinian-poetry" >}}articulate both personal sorrow and collective resistance.{{</ side_note >}}From the First Intifada to international human rights campaigns, Palestinians continue to fight for justice through every means available — legal, social, cultural, and political.
+Palestinian poet **Mahmoud Darwish** became the voice of exile and defiance. His verses {{< sidenote id="sn-palestinian-poetry" >}}articulate both personal sorrow and collective resistance.{{</ sidenote >}}From the First Intifada to international human rights campaigns, Palestinians continue to fight for justice through every means available — legal, social, cultural, and political.
 
 > *“We suffer from an incurable disease called hope.”* — Mahmoud Darwish
 
@@ -106,7 +106,7 @@ From the First Intifada to international human rights campaigns, Palestinians co
 
 As digital media breaks barriers, **global support for Palestine is rising**. Protests, educational campaigns, and BDS (Boycott, Divestment, Sanctions) movements have amplified Palestinian voices.
 
-This global solidarity is {{< side_note id="sn--solidarity" >}}a source of hope for many young Palestinians, who often feel isolated or unheard.{{</ side_note >}}The future remains uncertain — but filled with hope. Palestinians, especially youth, are planting the seeds of change through storytelling, education, and tech innovation.
+This global solidarity is {{< sidenote id="sn--solidarity" >}}a source of hope for many young Palestinians, who often feel isolated or unheard.{{</ sidenote >}}The future remains uncertain — but filled with hope. Palestinians, especially youth, are planting the seeds of change through storytelling, education, and tech innovation.
 
 ###  What Lies Ahead?
 

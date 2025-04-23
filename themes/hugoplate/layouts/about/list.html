@@ -10,7 +10,7 @@
         {{ partial "image" (dict "Src" .Params.image "Context" .Page "Alt" .Title "Class" "mx-auto" "Size" "350x375") }}
         <div class="flex justify-center mt-6">
           <ul class="flex gap-8 text-text-dark">
-            {{ range .Params.social }}
+            {{ range site.Data.social.main }}
             <li>
               <a target="_blank" aria-label="{{ .name }}" rel="nofollow noopener" href="{{ .link | safeURL }}">
                 <i class="text-3xl {{ .icon }}"></i>

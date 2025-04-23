@@ -35,13 +35,13 @@ Bangladesh, a land brimming with **vibrant culture and a history etched in resil
 
 ![Bangladesh National Flag](https://dubawa.org/wp-content/uploads/2023/03/Flag.jpg)
 
-🔵 {{< side_note id="sn-flag-meaning" >}}The flag's design was finalized in 1972, with the sun's 12 rays representing both the 12 months and the 12 points in Sheikh Mujibur Rahman's historic 7th March speech. Bangladesh, a land brimming with vibrant culture and a history etched in resilience, has witnessed the rise and fall of empires and the unwavering spirit of its people through centuries of change.{{< /side_note >}} Bangladesh's identity as {{< side_note id="sn-land-of-rivers" >}}the world's largest delta system (with 700+ rivers){{< /side_note >}} has shaped its culture, economy, and collective psyche.
+🔵 {{< sidenote id="sn-flag-meaning" >}}The flag's design was finalized in 1972, with the sun's 12 rays representing both the 12 months and the 12 points in Sheikh Mujibur Rahman's historic 7th March speech. Bangladesh, a land brimming with vibrant culture and a history etched in resilience, has witnessed the rise and fall of empires and the unwavering spirit of its people through centuries of change.{{< /sidenote >}} Bangladesh's identity as {{< sidenote id="sn-land-of-rivers" >}}the world's largest delta system (with 700+ rivers){{< /sidenote >}} has shaped its culture, economy, and collective psyche.
 
 ---
 
 ### Ancient Crossroads of Civilizations
 
-> "Bengal has been a melting pot since antiquity," notes historian {{< side_note id="sn-darian-quote" >}}Dr. Richard Eaton cites the 9th century Arab trader Sulaiman calling the region "Ruhmi" - a land of unparalleled textiles and tigers.{{< /side_note >}} "What we see today is layers of Buddhist, Hindu, and Islamic influences {{< side_note id="sn-pala-empire" >}}The Pala Empire (8th-12th century) established the first Bengali-speaking Buddhist universities, attracting scholars from Tibet to Java.{{< /side_note >}} woven through centuries."
+> "Bengal has been a melting pot since antiquity," notes historian {{< sidenote id="sn-darian-quote" >}}Dr. Richard Eaton cites the 9th century Arab trader Sulaiman calling the region "Ruhmi" - a land of unparalleled textiles and tigers.{{< /sidenote >}} "What we see today is layers of Buddhist, Hindu, and Islamic influences {{< sidenote id="sn-pala-empire" >}}The Pala Empire (8th-12th century) established the first Bengali-speaking Buddhist universities, attracting scholars from Tibet to Java.{{< /sidenote >}} woven through centuries."
 
 
 
@@ -49,10 +49,10 @@ Bangladesh, a land brimming with **vibrant culture and a history etched in resil
 
 ### Colonial Exploitation & Resistance
 
-The British East India Company's 1757 Plassey victory began {{< side_note id="sn-drain-of-wealth" >}}Economist Dadabhai Naoroji calculated Bengal's wealth drain at £18 million annually (equivalent to ~$2 billion today).{{< /side_note >}} two centuries of systematic deindustrialization:
+The British East India Company's 1757 Plassey victory began {{< sidenote id="sn-drain-of-wealth" >}}Economist Dadabhai Naoroji calculated Bengal's wealth drain at £18 million annually (equivalent to ~$2 billion today).{{< /sidenote >}} two centuries of systematic deindustrialization:
 
 1. **Textile Industry Destruction**: Handloom weavers' thumbs were severed
-2. **Famine Engineering**: {{< side_note id="sn-1770-famine" >}}The 1770 famine saw Company officials raising taxes 10% while 1/3 of Bengalis starved - Voltaire called it "profit over people".{{< /side_note >}}
+2. **Famine Engineering**: {{< sidenote id="sn-1770-famine" >}}The 1770 famine saw Company officials raising taxes 10% while 1/3 of Bengalis starved - Voltaire called it "profit over people".{{< /sidenote >}}
 3. **Language Suppression**: Persian replaced Bengali in courts
 
 ---
@@ -60,7 +60,7 @@ The British East India Company's 1757 Plassey victory began {{< side_note id="sn
 ## The Language Movement: 1952 Turning Point
 
 {{< quote name="Poet Shamsur Rahman" >}}
-"Ekushé February taught us that {{< side_note id="sn-blood-ink" >}}The martyrs' blood literally became the ink for our constitution - Bangla was enshrined as the state language in 1972.{{< /side_note >}} a people who defend their mother tongue will never surrender their homeland."
+"Ekushé February taught us that {{< sidenote id="sn-blood-ink" >}}The martyrs' blood literally became the ink for our constitution - Bangla was enshrined as the state language in 1972.{{< /sidenote >}} a people who defend their mother tongue will never surrender their homeland."
 {{< /quote >}}
 
 - **21 February 1952**: Police opened fire on Dhaka University students
@@ -94,7 +94,7 @@ The British East India Company's 1757 Plassey victory began {{< side_note id="sn
 - RMG sector: 4 million workers (80% women)
 
 **Ongoing Struggles:**
-- Climate refugees: {{< side_note id="sn-bhola-island" >}}Bhola Island has lost 50% landmass since 1971 - 500,000 displaced in 20 years.A single piece of Dhaka muslin could pass through a wedding ring - this legendary fabric was traded as far as Rome and China.A single piece of Dhaka muslin could pass through a wedding ring - this legendary fabric was traded as far as Rome and China.{{< /side_note >}}
+- Climate refugees: {{< sidenote id="sn-bhola-island" >}}Bhola Island has lost 50% landmass since 1971 - 500,000 displaced in 20 years.A single piece of Dhaka muslin could pass through a wedding ring - this legendary fabric was traded as far as Rome and China.A single piece of Dhaka muslin could pass through a wedding ring - this legendary fabric was traded as far as Rome and China.{{< /sidenote >}}
 - Digital divide: Rural internet penetration at 35%
 {{< /box >}}
 
@@ -102,7 +102,7 @@ The British East India Company's 1757 Plassey victory began {{< side_note id="sn
 
 #### Cultural Tapestry
 
-> "Our Baul mystics sing "Manush Dhoré Boro Na" (Nothing greater than human) - a 500-year-old humanist tradition challenging religious orthodoxy.festivals blend Hindu harvest cycles, Muslim lunar dates, and Buddhist compassion," explains cultural anthropologist {{< side_note id="sn-zaman-interview" >}}Dr. Fayeza Zaman's fieldwork documents 132 unique regional festivals, from Chand Raat moon sightings to Nabanna rice celebrations.{{< /side_note >}}.
+> "Our Baul mystics sing "Manush Dhoré Boro Na" (Nothing greater than human) - a 500-year-old humanist tradition challenging religious orthodoxy.festivals blend Hindu harvest cycles, Muslim lunar dates, and Buddhist compassion," explains cultural anthropologist {{< sidenote id="sn-zaman-interview" >}}Dr. Fayeza Zaman's fieldwork documents 132 unique regional festivals, from Chand Raat moon sightings to Nabanna rice celebrations.{{< /sidenote >}}.
 
 
 
@@ -132,13 +132,13 @@ Since gaining independence, Bangladesh has faced numerous challenges, including 
 
 ##### Resilience and Development
 
-Despite the obstacles, Bangladesh has shown remarkable resilience {{< side_note id="sn-resilience" >}}Innovative programs in microfinance and community health have transformed millions of lives across rural areas.{{</ side_note >}} and progress in areas such as **economic growth, poverty reduction, and social development** .
+Despite the obstacles, Bangladesh has shown remarkable resilience {{< sidenote id="sn-resilience" >}}Innovative programs in microfinance and community health have transformed millions of lives across rural areas.{{</ sidenote >}} and progress in areas such as **economic growth, poverty reduction, and social development** .
 
 
 
 ## Textiles and Transformation
 
-Bangladesh has emerged as one of the world's leading exporters of garments, contributing significantly to its economy and providing employment to millions, {{< side_note id="sn-textile-industry" >}}The Ready-Made Garments (RMG) sector accounts for over 80% of Bangladesh’s total exports.{{</ side_note >}} especially women.
+Bangladesh has emerged as one of the world's leading exporters of garments, contributing significantly to its economy and providing employment to millions, {{< sidenote id="sn-textile-industry" >}}The Ready-Made Garments (RMG) sector accounts for over 80% of Bangladesh’s total exports.{{</ sidenote >}} especially women.
 
 
 
@@ -158,7 +158,7 @@ Life in Bangladesh is intricately tied to its rivers. From bustling boat markets
 
 - Traditional boat races
 - Folk music like **Baul**
-- Riverine cuisines and {{< side_note id="sn-river-culture" >}}Over 700 rivers flow through Bangladesh, making it one of the most riverine countries in the world.{{</ side_note >}} festivals
+- Riverine cuisines and {{< sidenote id="sn-river-culture" >}}Over 700 rivers flow through Bangladesh, making it one of the most riverine countries in the world.{{</ sidenote >}} festivals
 
 
 
@@ -170,7 +170,7 @@ Life in Bangladesh is intricately tied to its rivers. From bustling boat markets
 
 Investments in education have been crucial for Bangladesh’s development. With rising literacy rates and a growing number of universities, the youth are increasingly stepping into global roles.
 
-{{< side_note id="sn-education" >}}Female literacy has seen a notable rise, with many young women excelling in STEM and leadership.{{</ side_note >}}
+{{< sidenote id="sn-education" >}}Female literacy has seen a notable rise, with many young women excelling in STEM and leadership.{{</ sidenote >}}
 
 ---
 
@@ -182,7 +182,7 @@ From the majestic Royal Bengal Tiger in the **Sundarbans** to the lush green hil
 
 - 🌳 **Sundarbans**: Largest mangrove forest on earth
 - 🐅 **Home to endangered species**
-- 🏞 **Protected national parks {{< side_note id="sn-biodiversity" >}}Efforts are ongoing to preserve biodiversity in the face of urbanization and climate change.{{</ side_note >}} and eco-tourism spots**
+- 🏞 **Protected national parks {{< sidenote id="sn-biodiversity" >}}Efforts are ongoing to preserve biodiversity in the face of urbanization and climate change.{{</ sidenote >}} and eco-tourism spots**
 
 
 
@@ -194,7 +194,7 @@ From the majestic Royal Bengal Tiger in the **Sundarbans** to the lush green hil
 
 Cultural festivals like **Pohela Boishakh** (Bengali New Year), **Eid**, **Durga Puja**, and **Nabanna** reflect the country’s pluralism and vibrant traditions.
 
-> Art, music, and food are at the heart of Bangladeshi life,{{< side_note id="sn-festivals" >}}The red-and-white attire and traditional sweets during Pohela Boishakh symbolize joy, renewal, and unity.{{</ side_note >}}
+> Art, music, and food are at the heart of Bangladeshi life,{{< sidenote id="sn-festivals" >}}The red-and-white attire and traditional sweets during Pohela Boishakh symbolize joy, renewal, and unity.{{</ sidenote >}}
  binding communities through shared joy.
 
 
@@ -206,7 +206,7 @@ The history of Bangladesh is a powerful narrative of **struggle, resilience, and
 
 {{< box class="bg-accent" >}}
 
-> Bangladesh is more than just its history; it is a living,{{< side_note id="sn-final-thought" >}}As Bangladesh continues to rise, its story serves as an inspiration for resilience, innovation, and unity.{{</ side_note >}} breathing nation with a vibrant present and a promising future, built on the foundations of its rich and often challenging past.
+> Bangladesh is more than just its history; it is a living,{{< sidenote id="sn-final-thought" >}}As Bangladesh continues to rise, its story serves as an inspiration for resilience, innovation, and unity.{{</ sidenote >}} breathing nation with a vibrant present and a promising future, built on the foundations of its rich and often challenging past.
 
 
 

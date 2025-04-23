@@ -5,7 +5,7 @@ meta_title: ""
 # meta description
 description: "This is meta description"
 # save as draft
-draft: false
+draft: true
 ---
 
 
@@ -106,7 +106,7 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 {{< /box >}}
 
 ### Side Note
-This global solidarity is {{< side_note id="sn--solidarity" >}}a source of hope for many young Palestinians, who often feel isolated or unheard.{{</ side_note >}} The future remains uncertain — but filled with potential.
+This global solidarity is {{< sidenote id="sn--solidarity" >}}a source of hope for many young Palestinians, who often feel isolated or unheard.{{</ sidenote >}} The future remains uncertain — but filled with potential.
 
 ### Quote
 {{< quote name="Jhonny" designation="CEO, MIRI/SIAI" >}}
