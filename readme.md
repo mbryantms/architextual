@@ -107,3 +107,56 @@ These links will be automatically displayed across the site where applicable.
 - This file demonstrates how to use all available shortcodes and markdown formatting options in this theme.
 
 ---
+
+
+### 👉 Deploy Site
+
+We have provided 5 different deploy platform configurations with this template, so you can deploy easily.
+
+- [AWS Amplify](https://aws.amazon.com/amplify/)
+
+- [Netlify](https://www.netlify.com/)
+- [Vercel](https://vercel.com/)
+- [Github Actions](https://github.com/features/actions)
+- [Gitlab Ci](https://docs.gitlab.com/ee/ci/)
+
+And if you want to Host some other hosting platforms. then you can build your project, and you will get a `public` folder. that you can copy and paste on your hosting platform.
+
+> **Note:** You must change the `baseURL` in the `hugo.toml` file. Otherwise, your site will not work properly.
+
+### Guideline: Hosting Project on AWS Amplify
+> **Note:** First Upload the complete project to your own GitHub repository.
+
+**Make sure you have:**
+
+An AWS account: https://aws.amazon.com/
+
+- Log in to the AWS Management Console.
+- Navigate to AWS Amplify service.
+- Click “New app” → “Host web app”.
+- Choose Git provider (GitHub, GitLab, etc.)
+- Authorize Amplify to access your Git provider if you haven't already.
+- Select the repository and branch you want to deploy (example: main, dev, etc.)
+
+
+**After selecting the branch:**
+Amplify detects your project type automatically
+
+**Review & Deploy:**
+
+- Click "Save and Deploy".
+- Amplify will provision resources and start building your app.
+
+**After the first deployment, you'll get:**
+
+- A public URL like: https://branchname.d1abcdefg.amplifyapp.com
+- Automatic build & deploy on every git push.
+
+### Custom Domain Setup
+
+**If you have a custom domain:**
+
+- Go to the Amplify App dashboard.
+- Click Domain management → Add domain.
+- Connect your domain (AWS Route 53 or external provider like GoDaddy, Namecheap).
+- Update your DNS records if needed.
