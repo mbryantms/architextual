@@ -12,8 +12,8 @@ url = "/about/"
 weight = 2
 
 [[main]]
-name = "Til"
-url = "/til/"
+name = "Field Notes"
+url = "/fn/"
 weight = 3
 
 [[main]]
@@ -41,6 +41,6 @@ weight = 3
 
 
 [[footer]]
-name = "Til"
-url = "/til"
+name = "Field Notes"
+url = "/fn"
 weight = 3

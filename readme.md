@@ -89,10 +89,10 @@ These links will be automatically displayed across the site where applicable.
 - Format: Follow the structure used in `post-1.md`.  
 - You can freely add or delete essay files based on your needs.
 
-### 📌 TIL (Today I Learned)
+### 📌 Field Notes
 
-- Location: `content/english/til/`  
-- Add or remove TIL entries using the same approach as essays.
+- Location: `content/english/fn/`  
+- Add or remove Field Notes using the same approach as essays.
 
 ### 🗂️ Categories
 

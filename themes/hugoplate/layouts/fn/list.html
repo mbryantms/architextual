@@ -66,10 +66,10 @@
     </div>
 </section>
 
-{{/* All Til */}}
+{{/* All FN */}}
 <section class="section-sm">
     <div class="container">
-        <h2>{{T "til"}}</h2>
+        <h2>Selected Notes</h2>
 
         <div class="grid md:grid-cols-2 mt-6 mt-5  border-t border-b border-border">
             
@@ -106,7 +106,7 @@
     let endDateForFilter = formatDate(today);
     let topicForFilters = [];
         // First, convert your Hugo template data to a JavaScript array
-    let allTILItems = []
+    let allFNItems = []
     {{ range .Pages }}
     obj = {
         title: '{{ .Title }}',
@@ -114,11 +114,11 @@
         date: '{{ .PublishDate.Format "2006-01-02" }}',
         topics: JSON.parse('{{ .Params.topics | jsonify }}'),
     }
-    allTILItems.push(obj)
+    allFNItems.push(obj)
     {{ end }}
 
     // Store a copy of all items to reset filters
-    const originalTILItems = [...allTILItems];
+    const originalFNItems = [...allFNItems];
 
 
     {{/*  this is for dropdown  */}}
@@ -134,7 +134,7 @@
             }
             this.classList.toggle('bg-dark');
             this.classList.toggle('text-white');
-            filterTIL()
+            filterFN()
         });
     });
 
@@ -183,7 +183,7 @@
                     dropdownMenu.style.display = 'none';
                     dropdownToggle.querySelector('i').style.transform = 'rotate(0deg)';
                     startDateForFilter = formatDate(date);
-                    filterTIL()
+                    filterFN()
                 });
             }
         });
@@ -217,7 +217,7 @@
                 dropdownToggle.querySelector('span').textContent = `From ${startDate.toLocaleDateString()} to ${endDate.toLocaleDateString()}`;
                 startDateForFilter = formatDate(startDate);
                 endDateForFilter = formatDate(endDate);
-                filterTIL()
+                filterFN()
                 customDatePicker.style.display = 'none';
                
             } else {
@@ -240,9 +240,9 @@
 
 
 
-    function filterTIL() {
+    function filterFN() {
         // Apply filters
-        const filteredItems = originalTILItems.filter(item => {
+        const filteredItems = originalFNItems.filter(item => {
             const itemDate = new Date(item.date);
             
             // Date range filter
@@ -269,15 +269,15 @@
         });
     
         // Update the DOM with filtered results
-        updateTILDisplay(filteredItems);
+        updateFNDisplay(filteredItems);
     }
     
    // Function to update the DOM with filtered results
-    function updateTILDisplay(filteredItems) {
-    const tilContainer = document.querySelector('.grid');
+    function updateFNDisplay(filteredItems) {
+    const fnContainer = document.querySelector('.grid');
     
     // Clear the container
-    tilContainer.innerHTML = '';
+    fnContainer.innerHTML = '';
     
     // Add filtered items back to the container
     if(filteredItems.length > 1){
@@ -301,7 +301,7 @@
             link.appendChild(icon);
             itemDiv.appendChild(link);
             
-            tilContainer.appendChild(itemDiv);
+            fnContainer.appendChild(itemDiv);
         });
     }
    if(filteredItems.length === 1) {
@@ -324,23 +324,23 @@
         link.appendChild(icon);
         itemDiv.appendChild(link);
         
-        tilContainer.appendChild(itemDiv);
+        fnContainer.appendChild(itemDiv);
     });
     }
     
     // If no results, show a message
     if (filteredItems.length === 0) {
         const noResultsMsg = document.createElement('div');
-        noResultsMsg.textContent = 'No TIL items match your filter criteria.';
+        noResultsMsg.textContent = 'No Field Notes match your filter criteria.';
         noResultsMsg.className = 'col-span-2 py-4 text-center';
-        tilContainer.appendChild(noResultsMsg);
+        fnContainer.appendChild(noResultsMsg);
     }
     }
 
   // Initialize filters (if needed)
     function initializeFilters() {
     // Get all unique topics for creating filter options
-    const allTopics = [...new Set(originalTILItems.flatMap(item => item.topics))];
+    const allTopics = [...new Set(originalFNItems.flatMap(item => item.topics))];
     
     // Populate topic filters if you have a container for them
     const topicFiltersContainer = document.getElementById('topicFiltersContainer');
@@ -354,7 +354,7 @@
         checkbox.name = 'topicFilter';
         checkbox.value = topic;
         checkbox.className = 'mr-2';
-        checkbox.addEventListener('change', filterTIL);
+        checkbox.addEventListener('change', filterFN);
         
         label.appendChild(checkbox);
         label.appendChild(document.createTextNode(topic));
@@ -366,7 +366,7 @@
     // Set up date filter if you have one
     const dateFilter = document.getElementById('dateFilter');
     if (dateFilter) {
-        dateFilter.addEventListener('change', filterTIL);
+        dateFilter.addEventListener('change', filterFN);
     }
     }
 

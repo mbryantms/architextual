@@ -13,9 +13,9 @@ banner:
     label: "About Me"
     link: "/about"
 
-til:
+fn:
   enable: true
-  title: "Today I **Learned**"
+  title: "Field **Notes**"
 
 favorite_topic:
   enable: true
