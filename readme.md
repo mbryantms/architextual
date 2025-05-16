@@ -1,4 +1,4 @@
-# Architext Documentation  
+# Architextual Documentation  
 _Made with ♥ by [Zeon Studio](https://zeon.studio/)_
 
 ---

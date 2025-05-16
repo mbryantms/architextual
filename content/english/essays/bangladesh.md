@@ -1,12 +1,20 @@
 ---
 title: "🇧🇩 The Resilient Spirit of Bangladesh: A Journey Through History"
 meta_title: "Bangladesh: A Nation Forged in Struggle and Resilience"
-description: "Explore the rich history, cultural heritage, and the indomitable spirit of the Bangladeshi people, from ancient roots to its hard-won independence."
+description: Explore the rich history, cultural heritage, and the indomitable spirit of the Bangladeshi people, from ancient roots to its hard-won independence.
 excerpt: Bangladesh is a land of vibrant culture, ancient history, and a people who have overcome immense challenges. This post delves into the key moments that shaped the nation's identity and its enduring spirit.
 publishdate: 2024-04-08T05:00:00Z
-lastmod: 2025-04-06T05:00:00Z
-tags: [bangladesh, history, culture, independence, liberation war, heritage, resilience]
-categories: [History]
+lastmod: 2025-05-16T13:56:54.929Z
+tags:
+  - bangladesh
+  - history
+  - culture
+  - independence
+  - liberation war
+  - heritage
+  - resilience
+categories:
+  - History
 status:
   value: Finished
   percentage: 70
@@ -18,13 +26,11 @@ importance:
   percentage: 90
 is_post_complete: true
 homepage_featured: true
-
 bibliography:
-  - title: "A History of Bangladesh"
+  - title: A History of Bangladesh
     link: https://www.history.com/topic/bangladesh
-  - title: "The Liberation War of Bangladesh"
+  - title: The Liberation War of Bangladesh
     link: https://www.history.com/topic/liberation-war-of-bangladesh
-
 draft: false
 ---
 

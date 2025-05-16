@@ -11,7 +11,7 @@ logo_height = "80px"
 # if logo_webp set false, will not generate WEBP version of logo | default is true
 logo_webp = true
 # logo text will only show when logo is missing.
-logo_text = "Architext"
+logo_text = "Architextual"
 # navbar fixed to top
 navbar_fixed = false
 
@@ -54,8 +54,8 @@ content = "You must replace the **baseURL** in **hugo.toml** file when deploying
 # seo meta data for OpenGraph / Twitter Card
 # seo module: https://github.com/gethugothemes/hugo-modules/tree/master/seo-tools/basic-seo
 [metadata]
-keywords = ["Architext", "Hugo"]
-description = "Architext is personal blog"
+keywords = ["Architextual", "Hugo"]
+description = "Architextual is personal blog"
 author = "zeon.studio"
 twitter = "zeon_studio"
 image = "images/og-image.png"
