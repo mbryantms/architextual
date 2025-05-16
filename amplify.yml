@@ -11,6 +11,9 @@ env:
     HUGO_CACHEDIR: ${PWD}/.hugo
     NPM_CONFIG_CACHE: ${PWD}/.npm
 frontend:
+  environment:
+    variables:
+      NPM_CONFIG_PRODUCTION: "false"
   phases:
     preBuild:
       commands:
