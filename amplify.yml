@@ -1,29 +1,35 @@
 version: 1
 frontend:
+  environment:
+    variables:
+      # Make sure /usr/local/go/bin and /usr/local/bin are always on PATH
+      PATH: "/usr/local/go/bin:/usr/local/bin:$PATH"
   phases:
     preBuild:
       commands:
-        - yum install -y curl
-        - curl -LO "https://github.com/gohugoio/hugo/releases/download/v0.141.0/hugo_extended_0.141.0_Linux-64bit.tar.gz"
-        - tar -xvf hugo_extended_0.141.0_Linux-64bit.tar.gz
-        - mv hugo /usr/local/bin/
-        - rm hugo_extended_0.141.0_Linux-64bit.tar.gz
-        - echo "HUGO 0.141.0 INSTALLED"
+        # Use dnf (Amazon Linux 2023) with sudo
+        - sudo dnf install -y curl
+        - sudo dnf install -y hugo
+
+        - echo "✔️ curl & hugo installed via dnf"
+
+        # Install Go 1.23.3 from official binary
         - curl -LO "https://dl.google.com/go/go1.23.3.linux-amd64.tar.gz"
-        - tar -C /usr/local -xzf go1.23.3.linux-amd64.tar.gz
-        - export PATH=$PATH:/usr/local/go/bin
+        - sudo tar -C /usr/local -xzf go1.23.3.linux-amd64.tar.gz
         - rm go1.23.3.linux-amd64.tar.gz
-        - echo "GO 1.23.3 INSTALLED"
-        - npm install
+        - echo "✔️ Go 1.23.3 installed to /usr/local/go"
+
+        # Install node modules
+        - npm ci
     build:
       commands:
         - npm run project-setup
         - npm run build
   artifacts:
-    # IMPORTANT - Please verify your build output directory
-    baseDirectory: /public
+    # Hugo’s default output directory
+    baseDirectory: public
     files:
-      - "**/*"
+      - '**/*'
   cache:
     paths:
       - node_modules/**/*
