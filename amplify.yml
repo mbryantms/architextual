@@ -6,11 +6,10 @@ env:
     GO_VERSION: 1.24.2
     HUGO_VERSION: 0.147.1
     # Time zone
-    TZ: America/Indianapolis
+    TZ: America/Los_Angeles
     # Cache
     HUGO_CACHEDIR: ${PWD}/.hugo
     NPM_CONFIG_CACHE: ${PWD}/.npm
-    NPM_CONFIG_PRODUCTION: "false"
 frontend:
   phases:
     preBuild:
@@ -47,7 +46,7 @@ frontend:
         - git config --add core.quotepath false
     build:
       commands:
-        - hugo --gc --minify
+        - npm run build
   artifacts:
     baseDirectory: public
     files:
