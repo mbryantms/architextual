@@ -6,14 +6,12 @@ env:
     GO_VERSION: 1.24.2
     HUGO_VERSION: 0.147.1
     # Time zone
-    TZ: America/Los_Angeles
+    TZ: America/Indianapolis
     # Cache
     HUGO_CACHEDIR: ${PWD}/.hugo
     NPM_CONFIG_CACHE: ${PWD}/.npm
+    NPM_CONFIG_PRODUCTION: "false"
 frontend:
-  environment:
-    variables:
-      NPM_CONFIG_PRODUCTION: "false"
   phases:
     preBuild:
       commands:
