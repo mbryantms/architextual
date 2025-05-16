@@ -40,7 +40,8 @@ frontend:
         - sass --embedded --version
 
         # Install Node.JS dependencies
-        - "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci --prefer-offline || true"
+        # "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci --prefer-offline || true"
+        - npm install --prefer-offline --no-audit --progress=false
 
         # List top‐level dependencies
         - echo "=== npm list (top‐level) ==="
