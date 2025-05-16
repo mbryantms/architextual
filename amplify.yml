@@ -2,34 +2,36 @@ version: 1
 frontend:
   environment:
     variables:
-      # Make sure /usr/local/go/bin and /usr/local/bin are always on PATH
       PATH: "/usr/local/go/bin:/usr/local/bin:$PATH"
   phases:
     preBuild:
       commands:
-        # Use dnf (Amazon Linux 2023) with sudo
-        - sudo dnf install -y curl
+        # ─── Skip curl install ────────────────────────────────────────────────
+        # sudo dnf install -y curl
+
+        # Install Hugo from the AL2023 repos
         - sudo dnf install -y hugo
+        - echo "✔️ Hugo installed via dnf"
 
-        - echo "✔️ curl & hugo installed via dnf"
-
-        # Install Go 1.23.3 from official binary
+        # Install Go 1.23.3
         - curl -LO "https://dl.google.com/go/go1.23.3.linux-amd64.tar.gz"
         - sudo tar -C /usr/local -xzf go1.23.3.linux-amd64.tar.gz
         - rm go1.23.3.linux-amd64.tar.gz
-        - echo "✔️ Go 1.23.3 installed to /usr/local/go"
+        - echo "✔️ Go 1.23.3 installed"
 
-        # Install node modules
+        # Install JS dependencies
         - npm ci
+
     build:
       commands:
         - npm run project-setup
         - npm run build
+
   artifacts:
-    # Hugo’s default output directory
     baseDirectory: public
     files:
       - '**/*'
+
   cache:
     paths:
       - node_modules/**/*
